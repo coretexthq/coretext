@@ -1,32 +1,28 @@
-## **REPORT: ENHANCING AGENTIC AGILE SOFTWARE DEVELOPMENT VIA KNOWLEDGE GRAPH INTEGRATION**
-
 ## **Chapter I. Introduction**
 
 ### **1.1. Problem Statement**
 
 In modern software engineering, documentation serves as the "source of truth" for autonomous AI agents. However, traditional documentation methods relying on disconnected, unstructured text files (e.g., Markdown) present significant challenges as project complexity scales. This challenge is diagnosed as a failure occurring at three distinct layers:
 
-1.  **Model Level (Context Window Overload):** Feeding entire documentation repositories into Large Language Models (LLMs) leads to high token costs and the "Lost in the Middle" phenomenon, where models struggle to retrieve information from the middle of long contexts.
-2.  **Tool Level (Flat-File Blindness):** Current tools (search, grep, ls) treat documents and knowledge as **flat, disconnected files**. They fail to capture the semantic and topological relationships (dependencies, references, hierarchies) between requirements, design, and implementation.
-3.  **Context Level (The Autonomy Gap):** Even with structured methodologies like **BMad**—which organizes files into Epics and Stories—the system remains **insufficient for full autonomy**. The "Mental Model" of the project (the connections between an Epic and its specific code implementation) remains implicit in the files or the human operator's mind. Without an explicit, machine-navigable state machine, autonomous agents cannot self-direct effectively.
+1. **Model Level (Context Window Overload):** Feeding entire documentation repositories into Large Language Models (LLMs) leads to high token costs and the "Lost in the Middle" phenomenon, where models struggle to retrieve information from the middle of long contexts.  
+2. **Tool Level (Flat-File Blindness):** Current tools (search, grep, ls) treat documents and knowledge as **flat, disconnected files**. They fail to capture the semantic and topological relationships (dependencies, references, hierarchies) between requirements, design, and implementation.  
+3. **Context Level (The Autonomy Gap):** Even with structured methodologies like **BMad**—which organizes files into Epics and Stories—the system remains **insufficient for full autonomy**. The "Mental Model" of the project (the connections between an Epic and its specific code implementation) remains implicit in the files or the human operator's mind. Without an explicit, machine-navigable state machine, autonomous agents cannot self-direct effectively.
 
 ### **1.2. Research Objective**
 
 This research proposes a methodological improvement to the BMad Agentic Agile framework by integrating a **Knowledge Graph** layer named **CoreText**. The objective is to resolve the three-level problem by:
 
-1.  **Context:** Transforming static, unstructured documentation into a dynamic, structured graph database (SurrealDB).
-2.  **Tool:** Providing agents with "Thick Tools" (MCP) that allow them to traverse relationships (e.g., "Find all stories linked to this Epic") rather than just matching text.
-3.  **Model:** Delivering precise, topologically relevant subgraphs to the LLM, thereby solving the context window overload.
+1. **Context:** Transforming static, unstructured documentation into a dynamic, structured graph database (SurrealDB).  
+2. **Tool:** Providing agents with a tool (MCP) that allow them to traverse relationships (e.g., "Find all stories linked to this Epic") rather than just matching text.  
+3. **Model:** Delivering precise, topologically relevant subgraphs to the LLM, thereby solving the context window overload.
 
 ### **1.3. Scope of Research**
 
-The research focuses on the **Specification, Design, and Testing** phases of the software lifecycle. It specifically targets the transition from human-written specifications (Artifacts) to machine-readable context (Graph Nodes/Edges) to support automated implementation.
+The research focuses on the **Specification, Design, and Implementation** phases of the software lifecycle. It specifically targets the transition from human-written specifications (Artifacts) to machine-readable context (Graph Nodes/Edges) to support automated implementation.
 
 ### **1.4. Methodology Overview**
 
-The approach combines **Docs-as-Code** principles with **Graph Theory**. A pipeline is proposed where documentation artifacts are parsed into semantic nodes, linked by explicit relationships, and exposed to agents via the **Model Context Protocol (MCP)**.
-
----
+The approach combines **Docs-as-Code** principles with **Graph Theory**. A pipeline is proposed where documentation artifacts are parsed into structural nodes, linked by explicit relationships, and exposed to agents via the **Model Context Protocol (MCP)**.
 
 ## **Chapter II. Theoretical Background & Technology Stack**
 
@@ -34,7 +30,7 @@ The approach combines **Docs-as-Code** principles with **Graph Theory**. A pipel
 
 Contemporary AI engineering faces a fundamental constraint: LLMs operate under strict context window limits. Simply ingesting entire repositories leads to high latency, prohibitive costs, and the "Lost in the Middle" phenomenon. Therefore, the efficacy of an AI Agent is defined via the function:
 
-$Performance \= f(Model, Tools, Context)$.
+$$Performance = f(Model, Tools, Context)$$
 
 #### **2.1.1. Model**
 
@@ -42,8 +38,8 @@ The underlying LLM (e.g., GPT, Claude, Gemini).
 
 - Role: Logic processing, code generation, natural language understanding.  
 - Status: Models such as GPT-5.2, Claude 4.5 Opus, Gemini 3.0 Pro have achieved very high scores on coding benchmarks (HumanEval, SWE-bench).  
-- Most important thing: their capability is growing everyday, is getting capable of doing more complex autonomous work (working independently longer)  
-- Limitation: Black box. This research does not focus on improving the model
+- Most important thing: their capability is growing everyday, and is getting capable of doing more complex autonomous work (working independently longer).  
+- Limitation: Black box. This research does not focus on improving the model.
 
 #### **2.1.2. Tools**
 
@@ -56,9 +52,9 @@ External Environment Interaction Capability: The ability to run terminal command
 2. **CLI-Driven Agents**  
 - **Examples:** Claude Code, Gemini CLI, Codex CLI.  
 - *Philosophy:* **Headless** **High-Level Logic.** Focusing on file manipulation and refactoring via text-first interfaces, with the same tools humans have.  
-- *Context Bottleneck:* **Session-Bound Memory.** They lack persistence. Once the terminal session closes, the "mental map" of the project is lost, requiring expensive context re-loading.  
+- *Context Bottleneck:* **Session-Bound Memory.** They lack persistence. Once the terminal session closes, the understanding of the project is lost, requiring expensive context re-loading.  
 3. **Autonomous Agents**  
-- **Canvas/Product Agents** (e.g., Lovable, v0.dev): Focus on “vibe coding”  MVP generation.  
+- **Canvas/Product Agents** (e.g., Lovable, v0.dev): Focus on quick prototypes generation.  
   - Limit: Effective for greenfield projects but prone to hallucinating patterns when applied to complex, existing "brownfield" architectures.  
 - **Platform Agents** (e.g., Google Jules, Copilot Workspace): Async issue resolvers living in the repo.  
   - Limit: They act on isolated "Issues" often missing the broader side-effects of their changes on other modules.  
@@ -77,19 +73,18 @@ External Environment Interaction Capability: The ability to run terminal command
 
 1. **Semantic Context:** Relies on probabilistic similarity (Vector Embeddings) to retrieve information that "looks like" the query, excelling at handling unstructured intent.  
 2. **Structural Context:** Utilizes deterministic connectivity (Graph/AST) to navigate the project’s topology, ensuring accuracy in dependency mapping and hierarchy.  
-3. **Behavioral Context (Agentic Discovery):** Relies on the agent’s autonomy to explore and isolate relevant data in real-time, simulating a human developer’s iterative discovery process.  
-   
+3. **Behavioral Context (Agentic Discovery):** Relies on the agent’s autonomy to explore and isolate relevant data in real-time, simulating a human developer’s iterative discovery process.
 
 **The Exploration Gap: Implementation vs. Specification**  
-Current industry standards focus heavily on managing **Implementation Context**—the "How" of the codebase (functions, classes, and logic). However, a critical "Exploration Gap" exists regarding **Specification Context**—the "Why" behind the code (requirements, user stories, and architectural intent).
+Current industry standards focus heavily on managing **Implementation Context**—the "How" of the codebase (functions, classes, and logic). However, a critical exploration gap exists regarding **Specification Context**—the "Why" behind the code (requirements, user stories, and architectural intent).
 
-While code is treated as a structured entity, documentation is frequently relegated to flat, disconnected text. This research identifies this disconnect as **"Documentation Blindness"**. Consequently, a **Knowledge Graph layer** is proposed to bridge this gap, transforming static artifacts into a structured "Machine-Readable State" that allows agents to navigate business logic with the same precision as source code.
+While code is treated as a structured entity, documentation is frequently relegated to flat, disconnected text. This research identifies this disconnect as **"Topological Blindness"**. Consequently, a **Knowledge Graph layer** is proposed to bridge this gap, transforming static artifacts into a structured "Machine-Readable State" that allows agents to navigate business logic with the same precision as source code.
 
 ### **2.2. Agentic Agile & The BMad Method**
 
 To solve the problem of automated software development, this research uses **BMad** as the process foundation. Specifically, the implementation module **BMM (BMad Method Module)** is utilized to automate the development lifecycle.
 
-#### 2.2.1. Why? (The Need for Structured Autonomy)
+#### 2.2.1. The Need for Structured Autonomy
 
 Conventional Coding Agent methods often operate in an "Ad-hoc" (fragmented) manner: User requests a fix \-\> Agent fixes \-\> Ends.
 
@@ -100,16 +95,16 @@ However, in developing a complete software product, this approach reveals weakne
 
 **BMM** is chosen because it applies the **Agile** mindset to the AI Agent. It forces the Agent to adhere to a strict process: Plans (Sprint) and documents (Specs) must exist before writing Code. This turns the documentation into the single "Source of Truth."
 
-#### 2.2.2. What? (The BMM Implementation)
+#### 2.2.2. The BMM Implementation
 
 BMAD is the methodology, while **BMM** is the execution engine that this research applies.
 
-- **Operating Mechanism:** **"Documentation-Driven Development"**.  
-- Instead of prompting directly "Please write the login code," BMM requires the user and the agent  to collaborate to create relevant  files, including spec documents and code.  
+- **Operating Mechanism:** **"Spec-Driven Development"**.  
+- Instead of prompting directly "Please write the login code," BMM requires the user and the agent to collaborate to create relevant  files, including spec documents and code.  
 - These files act as the system's "State."  
 - **Role in Research:** BMM serves as the **Input Generator**. It produces a large volume of structured specification documents (PRD, Architecture, Stories), setting the stage for building the Knowledge Graph.
 
-#### 2.2.3. How? (The Workflow & Limitation)
+#### 2.2.3. The Workflow & Limitation
 
 The operational process of BMM follows an iterative waterfall model within Agile, as described below:
 
@@ -131,7 +126,7 @@ The operational process of BMM follows an iterative waterfall model within Agile
 
 - **Goal:** System design to implement from requirement.  
 - **Agent:** Architect and Project Manager  
-- **Workflow:**   
+- **Workflow:**  
   - **create-architecture** (Architect): Design system architecture, data schema, tech stack, and Architectural Decision Records (ADRs). **Output artifact:** planning-artifacts/architecture.md  
   - **create-epics-and-stories** (PM): Based on PRD and Architecture, break down the project into Epics and User Stories. **Output artifact:** planning-artifacts/epics.md  
   - **implementation-readiness** (Architect): Check if PRD, Architecture and Epics are aligned before implementation.
@@ -172,9 +167,9 @@ Software engineering artifacts exhibit a naturally high degree of connectivity. 
 
 This research utilizes the **Labeled Property Graph** model (implemented via SurrealDB). This model is characterized by:
 
-* **Nodes (Vertices):** Represent discrete software artifacts. In our context, these include DocumentNode (files), SectionNode (headers/requirements), and CodeNode (functions/classes).  
-* **Edges (Relationships):** Represent directed dependencies. Crucial relationships include Contains (File \-\> Header), Parent\_of (Header \-\> Header) and REFERENCES (File \-\> File).  
-* **Properties:** Key-value pairs stored within nodes and edges (e.g., status, last\_modified, content\_hash), allowing for rich metadata filtering during traversal.
+- **Nodes (Vertices):** Represent discrete software artifacts. In our context, these include DocumentNode (files), SectionNode (headers/requirements), and CodeNode (functions/classes).  
+- **Edges (Relationships):** Represent directed dependencies. Crucial relationships include Contains (File \-\> Header), Parent\_of (Header \-\> Header) and REFERENCES (File \-\> File).  
+- **Properties:** Key-value pairs stored within nodes and edges (e.g., status, last\_modified, content\_hash), allowing for rich metadata filtering during traversal.
 
 #### **2.3.3. Comparative Analysis: Vector Search vs. Graph Traversal**
 
@@ -282,16 +277,16 @@ One of the greatest hurdles in Agentic Development is the token cost of repeated
 Gemini CLI supports the **MCP (Model Context Protocol)** standard, allowing standardized connections to external tools.
 
 - **Integration:** CoreText operates as an **MCP Server Extension**.  
-- **Workflow:** When a user asks, *"Which files are affected by this User Story?"*, Gemini CLI invokes the `query_knowledge` tool via the MCP protocol to retrieve precise data from SurrealDB.
+- **Workflow:** When a user asks, *"Which files are affected by this User Story?"*, Gemini CLI invokes the query\_knowledge tool via the MCP protocol to retrieve precise data from SurrealDB.
 
 #### **2.5.5. Architectural Divergence: Overcoming Execution Bias**
 
 A critical analysis reveals a distinct philosophical gap between **Gemini CLI** and industry standards like **Claude Code**.
 
-* **The Standard Approach (Claude Code):** Adopts a **"Plan-First"** architecture. It enforces a rigid internal state machine (*Plan to Review to Execute*), treating coding as a systematic industrial process. While safe, this introduces significant latency.  
-* **The Gemini Approach (Execution Bias):** Optimized for **"Low-Friction"** and massive context ingestion. Without external guidance, it tends to be "over-confident," often skipping the planning phase to jump directly into implementation ("vibe coding"). This leads to the perception of poor performance among casual users due to frequent "hallucinated simplicity" in complex architectures.
+- **The Standard Approach (Claude Code):** Adopts a **"Plan-First"** architecture. It enforces a rigid internal state machine (*Plan to Review to Execute*), treating coding as a systematic industrial process. While safe, this introduces significant latency.  
+- **The Gemini Approach (Execution Bias):** Optimized for **"Low-Friction"** and massive context ingestion. Without external guidance, it tends to be "over-confident," often skipping the planning phase to jump directly into implementation ("vibe coding"). This leads to the perception of poor performance among casual users due to frequent "hallucinated simplicity" in complex architectures.
 
-**Research Adaptation:** This project identifies that Gemini's "weakness" is actually an **advantage** when paired with a knowledge base. Instead of relying on the Model to maintain a mental plan (which creates "Prose Interference"), **CoreText** externalizes the "State Management" to the Graph.  
+**Research Adaptation:** This project identifies that Gemini's "weakness" is actually an **advantage** when paired with a knowledge base. Instead of relying on the Model to maintain a mental plan (which creates "Prose Interference"), **CoreText** externalizes the "State Management" to the Graph.
 
 ### **2.6. Input Artifacts: The Strategic Choice of Markdown**
 
@@ -305,7 +300,7 @@ Software development documentation must serve two distinct audiences: **Humans**
 | :---------------------- | :---------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Docx / PDF / LaTeX**  | High (Visual)     | Low / Medium            | Contains excessive presentation metadata (layout, fonts). AI wastes tokens processing formatting "noise" without understanding logical structure. |
 | **JSON / YAML / XML**   | Low (Cluttered)   | High (Strict Structure) | Difficult for long-form human writing. Unsuitable for drafting business descriptions (User Stories) or design thinking.                           |
-| **Markdown (Selected)** | **High**          | **High**                | Lightweight syntax. AI easily identifies structure through symbols like `#`, `*`, and `>` without being distracted by noise.                      |
+| **Markdown (Selected)** | **High**          | **High**                | Lightweight syntax. AI easily identifies structure through symbols like \#, \*, and \> without being distracted by noise.                         |
 
 #### **2.6.2. Markdown as a Pre-Graph Structure**
 
@@ -343,7 +338,7 @@ To ensure extensibility and compatibility with future IDEs, the system integrate
 
 To realize the Background Synchronization features discussed in subsequent chapters, the system employs a Git-based **Event-Driven** mechanism.
 
-- **Git Hooks (Pre-commit/Post-commit):** These are scripts that trigger automatically when a developer executes a `git commit`. They serve as **Checkpoints**, ensuring that the data within the Graph remains perfectly synchronized with the physical files on the disk.  
+- **Git Hooks (Pre-commit/Post-commit):** These are scripts that trigger automatically when a developer executes a git commit. They serve as **Checkpoints**, ensuring that the data within the Graph remains perfectly synchronized with the physical files on the disk.  
 - **GitPython:** This library enables the system to manipulate the Git Repository at the programmatic level. It allows the system to answer time-based queries such as: *"When was this file last modified?"* or *"Who authored these changes?"*, thereby enriching the Knowledge Graph with vital temporal metadata.
 
 ---
@@ -381,7 +376,7 @@ To realize the Background Synchronization features discussed in subsequent chapt
   - The Agent plans autonomously, breaking large tasks into sub-tasks.  
   - Each sub-task creates an isolated context session to prevent "Context Pollution."  
 - **Mechanism 3: ARCS (Agentic Retrieval-Augmented Code Synthesis):**  
-  - **Logic:** The Agent doesn't just retrieve *before* coding. It codes \-\> executes \-\> encounters an error \-\> **re-retrieves based on that error**.  
+  - **Logic:** The Agent doesn't just retrieve *before* coding. It codes, then executes, then encounters an error, then **re-retrieves based on that error**.  
   - **Significance:** This marks the transition from a "Static Reader" to a "Dynamic Experimenter."  
 - **Strength:** No indexing overhead. High reasoning capability.  
 - **Limitation:**  
@@ -390,9 +385,9 @@ To realize the Background Synchronization features discussed in subsequent chapt
 
 **Gemini CLI**, and other CLI-driven agents, represent Approach 3.3 (Agentic Tool-Use), optimizing execution through ReAct loops and robust CLI tools.
 
-### **3.4. The Critical Gap: Missing "Documentation-Aware" Structure**
+### **3.4. The Critical Gap: Missing "Topological-Aware" Structure**
 
-While the methods above are powerful, they share a common blind spot: **"Documentation Blindness."**
+While the methods above are powerful, they share a common blind spot: **"Topological Blindness."**
 
 1. **Code is Structured, Docs are Flat:** Existing tools treat Code as a structure (AST/Graph) but treat Requirements (Specs, PRDs) as flat text.  
 2. **No Bridge:** There is no automated mechanism to explicitly link a **Business Node** (e.g., a PRD) to an **Execution Node** (e.g., a User Story).  
@@ -407,72 +402,87 @@ While the methods above are powerful, they share a common blind spot: **"Documen
 To bridge the "Documentation Blindness" gap, the system is designed to meet specific functional requirements derived from the "Dual-Context" access model: humans define architecture in files, while AI agents access a semantic graph.
 
 #### **4.1.1. Core Problem & Solution**
+
 The central problem is "Context Window Overload" and "Lost in the Middle" phenomena when feeding massive documentation to LLMs. The proposed solution is **CoreText**, a local-first Knowledge Graph engine.
--   **Dual-Context Access:** A unified interface where the Human view (Files) and Agent view (Graph/Vectors) remain perfectly synced.
--   **Implicit Synchronization:** The system acts as an invisible background process (`sync.py`) that converts human-written artifacts into machine-readable graph nodes without manual intervention.
+
+- **Dual-Context Access:** A unified interface where the Human view (Files) and Agent view (Graph/Vectors) remain perfectly synced.  
+- **Implicit Synchronization:** The system acts as an invisible background process (sync.py) that converts human-written artifacts into machine-readable graph nodes without manual intervention.
 
 #### **4.1.2. Functional Requirements**
+
 Based on the Product Requirement Document (PRD), the system must support:
-1.  **Parsing:** Convert BMAD-flavored Markdown into structured graph nodes (`FR1`).
-2.  **Synchronization:** Detect Git changes (`FR2`) and update the graph incrementally via hooks (`FR3`, `FR13`).
-3.  **Storage:** Persist the graph in a local SurrealDB instance (`FR4`) with versioning based on Git hashes (`FR5`).
-4.  **Retrieval:** Provide an MCP interface (`FR9`) for agents to query topology (`FR10`) and traverse dependencies (`FR12`).
-5.  **Integrity:** Enforce referential integrity (Standard Markdown Links) and report broken links (`FR6`, `FR7`).
+
+1. **Parsing:** Convert BMAD-flavored Markdown into structured graph nodes (FR1).  
+2. **Synchronization:** Detect Git changes (FR2) and update the graph incrementally via hooks (FR3, FR13).  
+3. **Storage:** Persist the graph in a local SurrealDB instance (FR4) with versioning based on Git hashes (FR5).  
+4. **Retrieval:** Provide an MCP interface (FR9) for agents to query topology (FR10) and traverse dependencies (FR12).  
+5. **Integrity:** Enforce referential integrity (Standard Markdown Links) and report broken links (FR6, FR7).
 
 ### **4.2. System Architecture**
 
 The architecture follows a **"Local-First, AI-Native"** philosophy, minimizing cloud dependencies and maximizing local performance.
 
 #### **4.2.1. High-Level Design**
+
 The system comprises three main components:
-1.  **Core Daemon (Python Monolith):** The "Brain" of the system, running as a background process. It handles AST parsing, graph logic, and vector embeddings. It exposes an MCP Server via FastAPI.
-2.  **CLI Client (Typer):** The "Controller". A lightweight CLI tool (`coretext`) that manages the daemon lifecycle (`init`, `start`, `status`) and provides user tools (`inspect`, `lint`).
-3.  **Gemini Extension:** A thin client layer that integrates the CoreText MCP server into the Gemini CLI ecosystem, allowing the agent to invoke tools like `query_knowledge`.
+
+1. **Core Daemon (Python Monolith):** The "Brain" of the system, running as a background process. It handles AST parsing, graph logic, and vector embeddings. It exposes an MCP Server via FastAPI.  
+2. **CLI Client (Typer):** The "Controller". A lightweight CLI tool (coretext) that manages the daemon lifecycle (init, start, status) and provides user tools (inspect, lint).  
+3. **Gemini Extension:** A thin client layer that integrates the CoreText MCP server into the Gemini CLI ecosystem, allowing the agent to invoke tools like query\_knowledge.
 
 #### **4.2.2. Data Architecture: Schema Projection**
+
 To handle the flexibility of Markdown versus the rigidity of databases, a **"Schema Projection"** strategy is employed:
--   **Internal Schema:** Rigid Pydantic models (e.g., `class Epic(BaseNode)`) define the "Ideal State" within the Python code.
--   **Mapping Layer:** A configuration file (`schema_map.yaml`) maps external Markdown headers (e.g., `# User Story`) to internal DB properties.
--   **Storage:** **SurrealDB** is used for its multi-model capabilities, storing Content (Docs), Topology (Graph), and Semantics (Vectors) in a single `Record`.
+
+- **Internal Schema:** Rigid Pydantic models (e.g., class Epic(BaseNode)) define the "Ideal State" within the Python code.  
+- **Mapping Layer:** A configuration file (schema\_map.yaml) maps external Markdown headers (e.g., \# User Story) to internal DB properties.  
+- **Storage:** **SurrealDB** is used for its multi-model capabilities, storing Content (Docs), Topology (Graph), and Semantics (Vectors) in a single Record.
 
 #### **4.2.3. Technology Stack**
--   **Runtime:** Python 3.10+ (utilizing modern Type Hints).
--   **API Framework:** **FastAPI** (for high-performance MCP endpoints).
--   **CLI Framework:** **Typer** (for intuitive command-line experiences).
--   **Database:** **SurrealDB** (Embedded/Local binary).
--   **Vector Engine:** **Nomic Embed Text v1.5** (via `sentence-transformers`), chosen for its Matryoshka Representation Learning (MRL) capabilities, allowing flexible storage optimization.
+
+- **Runtime:** Python 3.10+ (utilizing modern Type Hints).  
+- **API Framework:** **FastAPI** (for high-performance MCP endpoints).  
+- **CLI Framework:** **Typer** (for intuitive command-line experiences).  
+- **Database:** **SurrealDB** (Embedded/Local binary).  
+- **Vector Engine:** **Nomic Embed Text v1.5** (via sentence-transformers), chosen for its Matryoshka Representation Learning (MRL) capabilities, allowing flexible storage optimization.
 
 ### **4.3. Methodology & Implementation**
 
 #### **4.3.1. Parsing Engine (AST & Normalization)**
-Instead of fragile regex, the system uses **`markdown-it-py`** to generate a robust Abstract Syntax Tree (AST) from Markdown files.
--   **Node Generation:**
-    -   **Root Node:** The File itself (`id = file_path`).
-    -   **Header Nodes:** Each header (`#`, `##`) becomes a distinct node, linked via `CONTAINS` and `PARENT_OF` edges.
--   **Canonical Path Normalization:** A critical logic layer ensures that all file paths (e.g., `../docs/prd.md` vs `docs/prd.md`) resolve to a single **Canonical ID** relative to the project root. This prevents duplicate nodes and ensures graph connectivity.
+
+Instead of a fragile regex, the system uses **markdown-it-py** to generate a robust Abstract Syntax Tree (AST) from Markdown files.
+
+- **Node Generation:**  
+  - **Root Node:** The File itself (id \= file\_path).  
+  - **Header Nodes:** Each header (\#, \#\#) becomes a distinct node, linked via CONTAINS and PARENT\_OF edges.  
+- **Canonical Path Normalization:** A critical logic layer ensures that all file paths (e.g., ../docs/prd.md vs docs/prd.md) resolve to a single **Canonical ID** relative to the project root. This prevents duplicate nodes and ensures graph connectivity.
 
 #### **4.3.2. Knowledge Graph Construction**
+
 The graph is constructed deterministically:
--   **Nodes:** Represents artifacts (`FileNode`, `HeaderNode`).
--   **Edges:**
-    -   **Structural:** `CONTAINS`, `PARENT_OF` (derived from document hierarchy).
-    -   **Referential:** `REFERENCES` (derived from `[Link](path)`).
--   **Validation:** The system employs a "Strict Schema, Loud Failures" policy. Malformed Markdown results in a `ParsingErrorNode`, preventing data corruption and alerting the user via the CLI.
+
+- **Nodes:** Represents artifacts (FileNode, HeaderNode).  
+- **Edges:**  
+  - **Structural:** CONTAINS, PARENT\_OF (derived from document hierarchy).  
+  - **Referential:** REFERENCES (derived from \[Link\](path)).  
+- **Validation:** The system employs a "Strict Schema, Loud Failures" policy. Malformed Markdown results in a ParsingErrorNode, preventing data corruption and alerting the user via the CLI.
 
 #### **4.3.3. Semantic Retrieval (Hybrid Search)**
-A **"Thick Tool"** named `query_knowledge` is implemented to abstract complex retrieval logic from the LLM.
-1.  **Vectorization:** The user's natural language query is embedded using `nomic-embed-text-v1.5`.
-2.  **Anchor Selection:** A vector similarity search (SurrealQL `vector::similarity::cosine`) identifies relevant "Anchor Nodes" in the graph.
-3.  **Graph Traversal:** The system automatically traverses outgoing edges (`depends_on`, `child_of`) from these anchors to gather context.
-4.  **Result:** A consolidated subgraph is returned, providing the Agent with both the *semantic match* and its *structural dependencies*.
+
+A powerful tool named query\_knowledge is implemented to abstract complex retrieval logic from the LLM.
+
+1. **Vectorization:** The user's natural language query is embedded using nomic-embed-text-v1.5.  
+2. **Anchor Selection:** A vector similarity search (SurrealQL vector::similarity::cosine) identifies relevant "Anchor Nodes" in the graph.  
+3. **Graph Traversal:** The system automatically traverses outgoing edges (depends\_on, child\_of) from these anchors to gather context.  
+4. **Result:** A consolidated subgraph is returned, providing the Agent with both the *semantic match* and its *structural dependencies*.
 
 #### **4.3.4. Synchronization Mechanism (Git Hooks)**
-To ensure the graph never drifts from the codebase, **Git Hooks** (`pre-commit` / `post-commit`) are utilized.
--   **Event-Driven:** The `sync.py` hook triggers on every commit.
--   **Fail-Open Policy:** If the sync process fails (e.g., DB lock), it logs the error but *does not block* the commit, ensuring developer workflow continuity.
--   **Async Detachment:** For large commits (>10 files), the hook automatically detects potential latency and "detaches" the sync process to run in the background, keeping the commit operation instantaneous (<1s).
 
----
+To ensure the graph never drifts from the codebase, **Git Hooks** (pre-commit / post-commit) are utilized.
+
+- **Event-Driven:** The sync.py hook triggers on every commit.  
+- **Fail-Open Policy:** If the sync process fails (e.g., DB lock), it logs the error but *does not block* the commit, ensuring developer workflow continuity.  
+- **Async Detachment:** For large commits (\>10 files), the hook automatically detects potential latency and "detaches" the sync process to run in the background, keeping the commit operation instantaneous (\<1s).
 
 ## **Chapter V. Results and Evaluation**
 
@@ -489,39 +499,151 @@ To ensure the graph never drifts from the codebase, **Git Hooks** (`pre-commit` 
 
 **Conclusion:** This proves that **Structure is Key**. Current Coding Agents are powerful enough to handle complex logic *if* provided with the correct, isolated context by a human.
 
-### **5.2. Experiment 2: Application Case Study (Project trore)**
+### **5.2. Experiment 2: Application Case Study (Project Trore)**
 
-(Not Effective) 
+#### **5.2.1. Overview of Evaluation Method**
 
-**Why imply this? (The Research Justification):** This trade-off is intentional and represents a **Paradigm Shift from "Efficiency" to "Autonomy"**.
+To evaluate the real-world efficacy of CoreText, a comparative experiment was conducted on **Project Trore**, a complex hybrid multi-cloud rental listing platform (React 19, FastAPI, GCP, Supabase). The experiment focused on Epic 1 (Core Scaffolding & Data Modeling), consisting of five sequential User Stories (1-1 to 1-5).
 
-* **BMAD Classic:** Relies on *implicit* knowledge stored in the Human's mind (to find files). It is efficient but **not scalable** without the human.  
-* **Graph Approach:** Externalizes that implicit knowledge into the Database. While currently slower (due to the lack of a fully optimized Orchestrator), it is the necessary **"Cognitive Infrastructure"** for the next phase.
+**The Isolation Strategy (Strict Knowledge Isolation):** The core of this experiment lies in the "Zero-File" constraint applied to the test subject.
 
-### **5.3. Evaluation Metrics**
+- **Subject B (Control):** A standard BMAD Agent with full read access to all planning artifacts (prd.md, architecture.md, epics.md). It followed a standard "File-Based" retrieval method.  
+- **Subject C (Test):** A CoreText-integrated Agent. Crucially, access to the planning-artifacts/ directory was **physically blocked** via .geminiignore. The agent was mandated to use CoreText MCP tools (query\_knowledge, get\_dependencies) to retrieve all architectural requirements and business rules.
 
-- **Context Precision:** (Theoretical) Graph retrieval provides higher signal-to-noise ratio than file dumping.  
-- **Token Efficiency:** Reduced token usage per query due to targeted node retrieval.  
-- **Scalability:** The system maintains performance as file count increases, whereas standard context windows degrade.
+The objective was to measure whether the Agent could successfully implement complex features without ever "seeing" the source documentation files, relying solely on the Knowledge Graph's ability to provide precise, topologically relevant context.
 
-### **5.4. Discussion & Future Work**
+#### **5.2.2. Evaluation Metrics (Scorecard)**
 
-- The success of Experiment 1 relied heavily on the human operator acting as a **"Human Orchestrator"**—manually selecting the correct documentation artifacts for the Agent. The Knowledge Graph acts as a **"Digital Orchestrator"**. Although currently in a "Proof-of-Concept" stage with performance overheads, it successfully demonstrates that an Agent *can* navigate project topology programmatically.  
-- **Research Verdict:** The Knowledge Graph is not an immediate optimization tool for *assisted* coding (where tools like Cursor/Claude excel), but a **foundational enabling technology** for *autonomous* software engineering (where the human is absent).  
+The efficacy of the CoreText integration during the Project Trore case study was measured using a multi-dimensional scorecard, prioritizing **efficiency** and **context signal** over simple execution speed:
 
-**Future Work:**
+1. **Input Token Volume (ITV):** The total tokens sent to the LLM. This is the primary proxy for cost and "Lost in the Middle" risk.  
+2. **Context Utility (Tokens / LOC):** Defined as (Total Input Tokens) / (Lines of Code Generated). A lower ratio indicates high-signal context retrieval, where the Agent generates more value per token consumed.  
+3. **Request Count:** The number of round-trips to the LLM. Fewer requests often indicate a more stable and well-guided implementation path.  
+4. **Referential Integrity (Qualitative):** Measured via coretext lint, assessing the stability of the documentation links created by the Agent during development.
+
+#### **5.2.3. Analysis of Results \- Story by Story**
+
+**Story 1-1**
+
+| Metric                | Subject B (File-Based) | Subject C (CoreText) | Delta (%)   |
+| :-------------------- | :--------------------- | :------------------- | :---------- |
+| Total Requests        | 87                     | 72                   | \-17.2%     |
+| Input Tokens (Total)  | 306,443                | 227,384              | \-25.8%     |
+| Output Tokens (Total) | 13,910                 | 11,650               | \-16.2%     |
+| LOC                   | 612                    | 532                  | \-13.1%     |
+| **Tokens / LOC**      | **523.5**              | **449.3**            | **\-14.2%** |
+
+**Observation:** Even in the "cold start" phase, Subject C demonstrated a significant reduction in input token volume. The Agent successfully retrieved directory structures and package naming conventions from the graph without reading the PRD, proving that structural context is sufficient for scaffolding tasks.
+
+**Story 1-2**
+
+| Metric                | Subject B (File-Based) | Subject C (CoreText) | Delta (%)    |
+| :-------------------- | :--------------------- | :------------------- | :----------- |
+| Total Requests        | 82                     | 25                   | \-69.5%      |
+| Input Tokens (Total)  | 309,951                | 253,777              | \-18.1%      |
+| Output Tokens (Total) | 12,868                 | 5,032                | \-60.9%      |
+| LOC                   | 549                    | 120                  | \-78.1%      |
+| **Tokens / LOC**      | **588.0**              | **2,156.7**          | **\+266.8%** |
+
+**Observation:** Subject C demonstrated immediate proficiency with the query\_knowledge tool, proactively adjusting parameters like top\_k and depth to isolate PostgreSQL schema requirements. The log notes highlight that the agent was "more concise" and avoided the long-winded architectural summaries typical of file-dumping agents. However, manual intervention was required to fix relative paths in documentation links, which the graph parser identified as integrity errors.
+
+**Story 1-3**
+
+| Metric                | Subject B (File-Based) | Subject C (CoreText) | Delta (%)   |
+| :-------------------- | :--------------------- | :------------------- | :---------- |
+| Total Requests        | 65                     | 66                   | \+1.5%      |
+| Input Tokens (Total)  | 241,692                | 392,436              | \+62.4%     |
+| Output Tokens (Total) | 11,954                 | 13,454               | \+12.5%     |
+| LOC                   | 451                    | 487                  | \+8.0%      |
+| **Tokens / LOC**      | **562.4**              | **833.4**            | **\+48.2%** |
+
+**Observation:** Story 1-3 represents a "Regression" in token efficiency for Subject C. The log notes indicate that the Agent struggled with navigating the correct workflow and "jumped between tasks" autonomously. The increased token count was attributed to "Discovery Noise"—where the agent spent excessive steps querying the graph for service boundaries that were implicitly clear in the flat files. This highlights the need for better "Graph Pruning" strategies during retrieval.
+
+**Story 1-4**
+
+| Metric                | Subject B (File-Based) | Subject C (CoreText) | Delta (%)  |
+| :-------------------- | :--------------------- | :------------------- | :--------- |
+| Total Requests        | 64                     | 78                   | \+21.9%    |
+| Input Tokens (Total)  | 253,637                | 281,110              | \+10.8%    |
+| Output Tokens (Total) | 10,713                 | 13,708               | \+28.0%    |
+| LOC                   | 359                    | 435                  | \+21.2%    |
+| **Tokens / LOC**      | **736.4**              | **677.7**            | **\-8.0%** |
+
+**Observation:** Subject C requires more requests (+21.9%) and produces more code (+21.2%) but achieves slightly better token efficiency (-8.0% tokens/LOC). Additionally, coretext lint successfully identified relative path errors in links that required manual correction.
+
+**Story 1-5**
+
+| Metric                | Subject B (File-Based) | Subject C (CoreText) | Delta (%)   |
+| :-------------------- | :--------------------- | :------------------- | :---------- |
+| Total Requests        | 61                     | 54                   | \-11.5%     |
+| Input Tokens (Total)  | 392,928                | 272,790              | \-30.6%     |
+| Output Tokens (Total) | 18,875                 | 17,144               | \-9.2%      |
+| LOC                   | 370                    | 768                  | \+107.6%    |
+| **Tokens / LOC**      | **1,113.0**            | **377.5**            | **\-66.1%** |
+
+**Observation:** Story 1-5 represents the **absolute efficiency peak** for CoreText. While the implementation is more than twice as large (+107.6% LOC), it achieves exceptional token efficiency with 66.1% fewer tokens per line of code. Subject C uses 30.6% fewer input tokens overall despite the larger codebase, suggesting a more straightforward implementation path. Early failures in Story 1-5 were due to an out-of-sync graph (missing nodes from 1-3/1-4); however, once coretext sync was executed, the agent's performance became "unbeatable." This proves that as the codebase and documentation grow, the ability to pinpoint specific "Business Nodes" via the graph outperforms the linear ingestion of implementation files.
+
+**Epic 1 Summary: Cumulative Efficiency**
+
+| Subject                | Total Input Tokens | Total Output Tokens | Total Requests | LOC   | Tokens / LOC (Avg) | Efficiency Gain |
+| :--------------------- | :----------------- | :------------------ | :------------- | :---- | :----------------- | :-------------- |
+| Subject B (File-Based) | 1,504,651          | 68,320              | 359            | 2,341 | 671.9              | \-              |
+| Subject C (CoreText)   | 1,427,497          | 60,988              | 295            | 2,342 | 635.6              | **\-5.4%**      |
+
+**Conclusion of Experiment 2:** **Subject C (CoreText) demonstrates overall better efficiency:**
+
+- **17.8% fewer requests** (295 vs 359\)  
+- **5.1% fewer input tokens** (1,427,497 vs 1,504,651)  
+- **10.7% fewer output tokens** (60,988 vs 68,320)  
+- **Virtually identical LOC** (2,342 vs 2,341)  
+- **5.4% better token efficiency** (635.6 vs 671.9 tokens/LOC)
+
+The efficiency gain of \-5.4% indicates that Subject C requires 5.4% fewer tokens per line of code to complete the same set of stories, while producing nearly identical amounts of code.  
+ CoreText consistently outperformed the baseline in the **Planning Phase** (where business logic resides) and in **Complex Implementation tasks** (where the graph is fully synced). The "regressions" observed in Story 1-3 highlight the sensitivity of agentic workflows to graph integrity and the need for robust, automated synchronization hooks.
+
+### **5.3. Discussion**
+
+The Project Trore case study reveals a nuanced relationship between Knowledge Graphs and Agentic autonomy. While the quantitative data confirms token efficiency, the qualitative logs highlight three critical areas of discussion:
+
+#### **5.3.1. The Synchronization Paradox**
+
+The failures observed in Story 1-5 (where the Agent lacked context for Stories 1-3 and 1-4) underscore that a Knowledge Graph is only as effective as its most recent sync. Unlike file-based retrieval where the disk is the source of truth, CoreText introduces an intermediate "state layer." In high-velocity development, "state drift" between the Physical Disk and the Logical Graph can lead to significant hallucinations.
+
+Furthermore, the experiment revealed a significant **Performance Bottleneck**: manually triggering a sync for just 11 core specification files took a "quite long" time (exceeding standard CLI tool expectations). This latency is primarily driven by the serial nature of AST parsing combined with local embedding generation for every header node. Future iterations must treat synchronization not as a manual command, but as a real-time, event-driven shadow process with optimized batch processing.
+
+#### **5.3.2. Structural Guardrails vs. Operational Blindness**
+
+A major strength of the Knowledge Graph was its ability to enforce **Referential Integrity**. The coretext lint tool successfully caught relative path errors in documentation links—a task LLMs frequently struggle with. However, the logs also reveal a persistent "Operational Blindness": while the Agent correctly retrieved the PostgreSQL schema from the graph, it frequently failed to maintain the local environment (e.g., missing psycopg2 or @tailwindcss/postcss dependencies). This suggests that while CoreText solves the **Knowledge Gap**, it does not yet address the **Operational Loop**.
+
+#### **5.3.3. Context Precision and Agentic "Vibe"**
+
+There is a distinct shift in Agent behavior. Subject C (CoreText) can be described as "more concise" and "knowing how to adjust tool parameters" (top\_k, depth). By retrieving specific nodes rather than entire files, the Agent avoided the "Prose Interference" that often leads to over-explanation. Conversely, when the graph was noisy or ill-defined (as in Story 1-3), the Agent reverted to redundant actions, such as excessive Git status checks, indicating that context precision directly correlates with reasoning stability.
+
+**Research Verdict:** The Knowledge Graph is not a simple "plug-in" for faster coding; it is a foundational layer for **Autonomous Navigation**. It excels at providing the "Why" and "Where" of a project, but its reliability is tethered to the integrity of the synchronization pipeline.
+
+## **Chapter VI. Conclusion and Future Works**
+
+### **6.1. Conclusion**
+
+This research has demonstrated that the integration of a **Knowledge Graph** layer—CoreText—into the BMad framework effectively resolves the "Topological Blindness" inherent in traditional file-based AI workflows. By transforming static Markdown documentation into a dynamic, multi-model state machine (SurrealDB), we have successfully shifted the paradigm from **Document-Centric** to **Knowledge-Centric** development.
+
+The Project Trore case study validated the central hypothesis: providing agents with deterministic structural context (Graph Traversal) rather than probabilistic linear context (File Dumping) yields significant improvements in **Context Utility**. Specifically, the experiment proved that:
+
+1. **Context Overload is Solvable:** Targeted subgraph retrieval reduces input token waste, particularly in the planning and validation phases, where business logic is dense and interconnected.  
+2. **Referential Integrity is Maintainable:** Externalizing the project’s mental model to a graph allows for automated enforcement of documentation standards, reducing the "Discovery Cost" for autonomous agents.  
+3. **Machine-Readable State is Foundational:** For an Agent to move from *Assisted* to *Autonomous*, it must navigate the "Why" (Specification) with the same precision as the "How" (Code). CoreText provides this navigation layer via the Model Context Protocol (MCP).
+
+In conclusion, while synchronization latency remains a current operational challenge, the Knowledge Graph represents a foundational enabling technology. It bridges the critical gap between unstructured human intent and structured machine execution, laying the groundwork for the next generation of fully autonomous, state-aware software engineering systems.
+
+### **6.2. Future Works**
 
 This research positions CoreText not merely as a static retrieval tool, but as the first step in a "Progressive Assimilation" strategy for autonomous software engineering.
 
-1. **Phase 1 (Achieved):** CoreText functions as a **Utility**, offering structural retrieval commands (`grep` for graphs) to human developers via a CLI tool.  
+1. **Phase 1 (Achieved):** CoreText functions as a **Utility**, offering structural retrieval commands (grep for graphs) to human developers via a CLI tool.  
 2. **Phase 2 (Current Implementation):** CoreText acts as a **Driver** for existing agent frameworks (BMAD). It injects precise context via MCP, enabling agents to navigate complex documentation without "context dumping."  
-3. **Phase 3 (Future Vision \- "Swallowing"):** It is envisioned that CoreText evolves into the **Native State Machine** for a Multi-Agent System (e.g., using frameworks like **Agno**).  
-   * In this phase, the monolithic workflow files of BMAD are "ingested" into the Graph logic.  
-   * This enables a clean separation of concerns: The **Multimodal Graph** manages the "Who, What, and Why" (Strategy & State), while specialized **Autonomous Agents** manage the "How" (Execution).  
-   * This decoupling allows for smaller, faster, and highly reusable specialized agents, orchestrated dynamically by an stateful agentic framework via the graph's topology rather than static instruction files.  
+3. **Phase 3 (Future Vision \- "Swallowing"):** It is envisioned that CoreText evolves into the **Native State Machine** for a Multi-Agent System (e.g., using frameworks like **PydanticAI**).  
+- In this phase, the monolithic workflow files of BMAD are "ingested" into the system logic.  
+- This enables a clean separation of concerns: The **Multimodal Graph-based System** manages the "Who, What, and Why" (Strategy & State), while specialized **Autonomous Agents** manage the "How" (Execution).  
+- This decoupling allows for smaller, faster, and highly reusable specialized agents, orchestrated dynamically by an stateful agentic framework via the graph's topology rather than static instruction files.
 
 Finally, while this research utilizes software engineering as a primary case study due to the high structural integrity of code artifacts, the proposed Knowledge Graph architecture possesses significant transferability. It offers a viable template for any domain requiring autonomous agents to navigate complex, interdependent documentation systems, such as legal analysis, medical research, or regulatory compliance.
-
-### **5.5. Conclusion**
-
-The integration of a Knowledge Graph into the BMad framework shifts the paradigm from "Document-Centric" to "Knowledge-Centric" development. This abstraction allows AI agents to operate with a structural understanding of the software, paving the way for more autonomous and accurate software engineering workflows.

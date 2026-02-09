@@ -1,0 +1,23 @@
+Subject,Story ID,Workflow,Requests (G3 Pro),Input Tokens (G3 Pro),Output Tokens (G3 Pro),Code Changes +,Code Changes -
+b,1-1,create-story,5,31276,2375,136,2
+b,1-1,dev-story,82,275167,11535,580,102
+c,1-1,create-story,13,45236,2489,115,2
+c,1-1,dev-story,59,182148,9161,449,30
+b,1-2,create-story,11,73811,1870,99,1
+b,1-2,dev-story,71,236140,10998,514,63
+c,1-2,create-story,16,40950,1990,105,1
+c,1-2,dev-story,9,212827,3042,35,19
+b,1-3,create-story,7,40823,1848,91,1
+c,1-3,create-story,7,66984,2347,105,1
+b,1-3,dev-story,58,200869,10106,386,25
+c,1-3,dev-story,59,325452,11107,419,36
+b,1-4,create-story,11,62368,2005,102,1
+c,1-4,create-story,9,25837,1506,86,1
+b,1-4,dev-story,53,191269,8708,279,21
+c,1-4,dev-story,69,255273,12202,402,52
+b,1-5,create-story,5,42814,1856,97,1
+c,1-5,create-story,7,41946,1929,99,1
+b,1-5,dev-story,56,350114,17019,367,93
+c,1-5,dev-story,47,230844,15215,782,112
+b,,,,,,,
+c,,,,,,,
