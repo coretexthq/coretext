@@ -19,3 +19,7 @@ _coretext/
 
 
 .turbo
+
+/chat_history
+
+/report

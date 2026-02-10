@@ -79,7 +79,7 @@ Sections that **move** (not rewrite — just relocate):
 - §2.1 AI-Driven Software Development — General landscape paragraph (2–3 paragraphs introducing the concept of coding agents)
 - §2.2 The Anatomy of a Coding Agent — Keep the Model/Tools/Context framework from current §2.1, but trim the tool category list (currently too long and reads like a blog post). Focus on the *framework*, not product reviews.
 - §2.3 Agentic Agile & The BMad Method — Keep §2.2 content but **rewrite** the description of each phase more concisely. The advisor says: "Simply describe how an AI-driven development process works." Add a **figure** showing the BMad workflow phases. Remove "Party Mode" and "Quick Dev" details (irrelevant to thesis).
-- §2.4 Knowledge Graph Theory — Keep §2.3 content (Property Graph Model, Vector vs Graph comparison, GraphRAG). **Add back the missing §2.3.2** (likely should be "Graph Traversal Algorithms" or "Subgraph Retrieval").
+- §2.4 Knowledge Graph Theory — Keep §2.3 content (Property Graph Model, Vector vs Graph comparison, GraphRAG).
 - §2.5 Related Work — Absorb current Ch III (§3.1–3.3). Restructure as a proper literature review comparing approach categories, not product reviews.
 - §2.6 The Research Gap — Absorb current §3.4 ("The Critical Gap"). This becomes the bridge to Chapter 3.
 
@@ -202,7 +202,14 @@ We are now in **Session N: [title]**.
 The current report is at docs/report.md.
 The relevant source artifacts for this session are: [list files].
 Your task: [copy the specific session's Actions list].
-Constraints: Academic tone, formal language, no slang. Add [ref] placeholders for citations. Describe figures in text (e.g., "Figure N shows...") even if the image isn't created yet.
+Constraints:
+1. **Tone & Style:** Academic tone, formal language, no slang. Describe figures in text (e.g., "Figure N shows...") even if the image isn't created yet. Add [ref] placeholders for citations.
+2. **Coherence & Unity:** Maintain a seamless narrative flow. Ensure logical transitions between sections to support the continuous development of core arguments. **Strictly enforce terminological consistency**, using agreed-upon keywords throughout to bind the report together.
+3. **Iterative Workflow:** Perform edits strictly subsection by subsection.
+	- *Step 1:* Focus on the current subsection (e.g., 1.1).
+	- *Step 2:* Propose edits/drafts for that specific part.
+	- *Step 3:* **Stop and wait.** Discuss with the user and only apply edits after explicit approval.
+	- *Step 4:* Move to the next subsection (e.g., 1.2) only when instructed.
 ```
 
 ---
