@@ -23,3 +23,5 @@ _coretext/
 /chat_history
 
 /report
+
+.DS_Store
