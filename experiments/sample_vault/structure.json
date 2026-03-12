@@ -1,0 +1,54 @@
+{
+  "commits": [
+    { "hash": "a1b2c3d4", "message": "feat: initialize project goals and strategy" },
+    { "hash": "e5f6g7h8", "message": "docs: add granular action plan" }
+  ],
+  "nodes": [
+    {
+      "id": "node_001",
+      "name": "Goal",
+      "file": "Goal.md",
+      "sections": [
+        { "id": "sec_001_1", "heading": "High-Level Objective" },
+        { "id": "sec_001_2", "heading": "Specific Requirements" }
+      ],
+      "origin_commit": "a1b2c3d4"
+    },
+    {
+      "id": "node_002",
+      "name": "Strategy",
+      "file": "Strategy.md",
+      "sections": [
+        { "id": "sec_002_1", "heading": "Data Model" },
+        { "id": "sec_002_2", "heading": "Interface Design" }
+      ],
+      "origin_commit": "a1b2c3d4"
+    },
+    {
+      "id": "node_003",
+      "name": "Action Plan",
+      "file": "Action_Plan.md",
+      "sections": [
+        { "id": "sec_003_1", "heading": "Setup Phase" },
+        { "id": "sec_003_2", "heading": "Integration Phase" }
+      ],
+      "origin_commit": "e5f6g7h8"
+    }
+  ],
+  "edges": [
+    {
+      "source": "sec_001_1",
+      "target": "sec_002_1",
+      "relationship_type": "INFORMS_DESIGN",
+      "description": "The 'High-Level Objective' dictates the 'Data Model' requirements.",
+      "commit": "a1b2c3d4"
+    },
+    {
+      "source": "sec_002_1",
+      "target": "sec_003_1",
+      "relationship_type": "IMPLEMENTS_IN_STEP",
+      "description": "The 'Data Model' strategy is executed in the 'Setup Phase'.",
+      "commit": "e5f6g7h8"
+    }
+  ]
+}
