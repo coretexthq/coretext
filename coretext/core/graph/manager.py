@@ -693,50 +693,31 @@ class GraphManager:
         if not edge_tables:
             return 0
 
-        # Construct query for each table
-        # We check out.updated_at/in.updated_at to detect "ghost edges" (links to non-existent records)
-        # SurrealDB returns NONE for 'out.updated_at' if 'out' points to a deleted record.
-        queries = []
-        print(f"DEBUG: Edge tables to prune: {edge_tables}")
-        for table in edge_tables:
-            # Use backticks for 'in' as it is a reserved word in SurrealQL
-            # We use a subquery to check if the target record actually exists
-            queries.append(f"DELETE {table} WHERE (SELECT VALUE id FROM out) = [] OR (SELECT VALUE id FROM `in`) = [];")
-
         # Execute
+        # Optimization: Use a single multi-statement query to DELETE dangling edges
+        # This avoids N+1 queries (one per table) and multiple roundtrips for DELETE.
+        delete_queries = []
         for table in edge_tables:
-            # We first SELECT the IDs of dangling edges
-            # In SurrealDB 2.0, accessing .id on a RecordID field returns NONE if the record doesn't exist.
-            select_query = f"SELECT VALUE id FROM {table} WHERE out.id == NONE OR `in`.id == NONE;"
-            
-            # results should be a list containing one item (the list of IDs)
-            results = await self.db.query(select_query)
+            delete_queries.append(f"DELETE {table} WHERE out.id == NONE OR `in`.id == NONE;")
 
-            if isinstance(results, list) and len(results) > 0:
-                # Handle various formats:
-                # 1. [ {status:OK, result:[...]} ]
-                # 2. [ [...], [...] ] (list of statement results)
-                # 3. [ rid1, rid2, ... ] (flattened single statement result)
+        if not delete_queries:
+            return 0
+            
+        multi_query = "\n".join(delete_queries)
+        results = await self.db.query(multi_query)
+
+        # results is a list of results, one for each DELETE statement.
+        # Each DELETE statement returns the list of deleted records.
+        if isinstance(results, list):
+            for res in results:
+                items = []
+                if isinstance(res, dict) and res.get('status') == 'OK':
+                    items = res.get('result', [])
+                elif isinstance(res, list):
+                    items = res
                 
-                from surrealdb.data.types.record_id import RecordID
-                
-                ids_to_delete = []
-                first_item = results[0]
-                
-                if isinstance(first_item, dict) and 'result' in first_item:
-                    ids_to_delete = first_item.get('result', [])
-                elif isinstance(first_item, list):
-                    ids_to_delete = first_item
-                elif isinstance(first_item, (RecordID, str)):
-                    # Flat list of records/IDs
-                    ids_to_delete = results
-                
-                if isinstance(ids_to_delete, list):
-                    for rid in ids_to_delete:
-                        # Convert RecordID to string if needed
-                        rid_str = str(rid) if isinstance(rid, RecordID) else rid
-                        await self.db.delete(rid_str)
-                        total_deleted += 1
+                if isinstance(items, list):
+                    total_deleted += len(items)
         
         return total_deleted
 
