@@ -698,7 +698,7 @@ class GraphManager:
         # This avoids N+1 queries (one per table) and multiple roundtrips for DELETE.
         delete_queries = []
         for table in edge_tables:
-            delete_queries.append(f"DELETE {table} WHERE out.id == NONE OR `in`.id == NONE;")
+            delete_queries.append(f"DELETE {table} WHERE out.id IS NONE OR `in`.id IS NONE RETURN VALUE id;")
 
         if not delete_queries:
             return 0
@@ -707,15 +707,21 @@ class GraphManager:
         results = await self.db.query(multi_query)
 
         # results is a list of results, one for each DELETE statement.
-        # Each DELETE statement returns the list of deleted records.
+        # Each DELETE statement returns a flat list of deleted record IDs (due to RETURN VALUE id).
         if isinstance(results, list):
             for res in results:
                 items = []
-                if isinstance(res, dict) and res.get('status') == 'OK':
-                    items = res.get('result', [])
+                if isinstance(res, dict):
+                    status = res.get('status')
+                    if status == 'ERR':
+                        raise RuntimeError(f"Error pruning dangling edges: {res}")
+                    if status == 'OK':
+                        items = res.get('result', [])
                 elif isinstance(res, list):
                     items = res
-                
+                elif isinstance(res, str):
+                    raise RuntimeError(f"Error pruning dangling edges: {res}")
+
                 if isinstance(items, list):
                     total_deleted += len(items)
         
