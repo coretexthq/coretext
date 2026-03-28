@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock, patch
 from pathlib import Path
-from coretext.core.sync.git_utils import get_staged_files, get_last_commit_files, get_staged_content, get_head_content, get_current_commit_hash
+from coretext.core.sync.git_utils import get_staged_files, get_last_commit_files, get_all_tracked_files, get_staged_content, get_head_content, get_current_commit_hash
 
 @patch("coretext.core.sync.git_utils.Repo")
 def test_get_staged_files(mock_repo_cls):
@@ -35,6 +35,34 @@ def test_get_last_commit_files_initial_commit(mock_repo_cls):
     
     assert "readme.md" in files
     mock_repo.git.show.assert_called_with("--name-only", "--format=", "HEAD")
+
+@patch("coretext.core.sync.git_utils.Repo")
+def test_get_all_tracked_files_no_extensions(mock_repo_cls):
+    mock_repo = mock_repo_cls.return_value
+    mock_repo.git.ls_files.return_value = "doc1.md\nsrc/code.py\nREADME.txt"
+
+    files = get_all_tracked_files(Path("."))
+
+    assert files == ["doc1.md", "src/code.py", "README.txt"]
+    mock_repo.git.ls_files.assert_called_once()
+
+@patch("coretext.core.sync.git_utils.Repo")
+def test_get_all_tracked_files_with_extensions(mock_repo_cls):
+    mock_repo = mock_repo_cls.return_value
+    mock_repo.git.ls_files.return_value = "doc1.md\nsrc/code.py\nREADME.txt\ndoc2.md"
+
+    files = get_all_tracked_files(Path("."), extensions=[".md", ".txt"])
+
+    assert files == ["doc1.md", "README.txt", "doc2.md"]
+    mock_repo.git.ls_files.assert_called_once()
+
+@patch("coretext.core.sync.git_utils.Repo")
+def test_get_all_tracked_files_exception(mock_repo_cls):
+    mock_repo_cls.side_effect = Exception("Invalid repository")
+
+    files = get_all_tracked_files(Path("."))
+
+    assert files == []
 
 @patch("coretext.core.sync.git_utils.Repo")
 def test_get_staged_content(mock_repo_cls):
