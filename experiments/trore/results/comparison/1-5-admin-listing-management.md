@@ -1,25 +1,3 @@
-# Story Artifact Alignment Comparison Template
-
-> **Purpose:** Compare how well implementation story artifacts from different experiments align with the original planning specifications.
->
-> **Specs Baseline:**
-> - [architecture.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/architecture.md)
-> - [epics.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/epics.md)
-> - [prd.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/prd.md)
-> - [ux-design-specification.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/ux-design-specification.md)
-
----
-
-## Output Files
-
-**Output directory:** `experiments/trore/results/comparison/`
-
-**Naming convention:** `{story-id}-{story-slug}.md`
-
----
-
-## Per-Story Comparison Table
-
 ### Story 1-5: Admin Listing Management
 
 **Artifacts Compared:**

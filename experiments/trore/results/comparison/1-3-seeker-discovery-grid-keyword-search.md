@@ -1,30 +1,3 @@
-# Story Artifact Alignment Comparison
-
-> **Purpose:** Compare how well implementation story artifacts from different experiments align with the original planning specifications.
->
-> **Specs Baseline:**
-> - [architecture.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/architecture.md)
-> - [epics.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/epics.md)
-> - [prd.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/prd.md)
-> - [ux-design-specification.md](file:///Users/mac/Git/coretext/experiments/trore/_bmad-output/planning-artifacts/ux-design-specification.md)
-
----
-
-## Rating Scale
-
-| Score | Label | Meaning |
-|:-----:|:------|:--------|
-| 5 | **Full** | Completely aligned — spec requirement addressed verbatim or faithfully |
-| 4 | **Strong** | Addressed with minor deviations or omissions |
-| 3 | **Partial** | Key aspects present but notable gaps or reinterpretations |
-| 2 | **Weak** | Mentioned but substantially deviated or incomplete |
-| 1 | **Missing** | Not addressed at all |
-| N/A | **Not Applicable** | Requirement not relevant to this story |
-
----
-
-## Per-Story Comparison Table
-
 ### Story 1-3: Seeker Discovery Grid & Keyword Search
 
 **Artifacts Compared:**
