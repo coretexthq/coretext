@@ -1,6 +1,13 @@
 ## **BÁO CÁO NGÀY 08/04/2026**
 
-
+1. Kế hoạch tuần 
+   - Trong 2 ngày triển khai đầy đủ 1 quy trình dùng LLM theo framework  (superpowers) để tạo ra 1 sản phẩm phần mềm ở bước cuối, gồm mã nguồn, sản phẩm đã biên dịch và có thể chạy được và các document trung gian
+   - Trong 3 ngày tiếp theo triển khai 1 quy trình tương tự bổ sung đồ thị tri thức và ra sản phẩm tương tự như trong bước trên để so sánh
+   - Trong x ngày triển khai benchmark để thực hiện so sánh
+      - số token sử dụng (định lượng)
+      - số user requirement được thỏa mãn (định tính)
+      - slopcodebench
+   - Deadline: 18/04/2026
 
 
 ## **BIÊN BẢN NGÀY 09/03/2026**

@@ -1,6 +1,4 @@
-# Coretext D-SDD Flowchart
 
-This diagram visualizes the overall architecture and lifecycle of the new Deterministic State-Driven Development (D-SDD) process within Coretext, comparable to standard project management workflow diagrams.
 
 ```mermaid
 flowchart TB
