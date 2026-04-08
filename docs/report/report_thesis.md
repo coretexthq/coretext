@@ -1,7 +1,6 @@
-## **BÁO CÁO NGÀY 18/03/2026**
+## **BÁO CÁO NGÀY 08/04/2026**
 
-1. Tìm dự án mẫu
-* Không có dự án nào đủ chất lượng để dùng thử
+
 
 
 ## **BIÊN BẢN NGÀY 09/03/2026**

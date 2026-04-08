@@ -2,7 +2,7 @@
 
 - [ ] **Architecture:** Synthesize historical BMAD artifacts into `ARCHITECTURE.md`.
 - [ ] **Testing:** Define project-specific physics in `docs/testing.md`.
-- [ ] **Benchmarks:** Re-evaluate quantitative and qualitative reporting.
+- [ ] **Benchmarks:** Re-evaluate quantitative and qualitative reporting. Adopt **SlopCodeBench** for testing D-SDD. Use the first task in a sequence as the "intent/greenfield", and subsequent tasks to evaluate Coretext v2's ability to resist architectural rot and enforce constraints via `knowledge/*.md` injections and the Planner-Executor-Reviewer triad. Drop ProjDevBench and `trore`.
 - [ ] **Engine:** Implement SQLite JIT injection logic for `experience.json`.
 - [ ] **Visualization:** Build a graph UI for `experience.json` (abstract JSON for humans).
 - [ ] **AST Enforcement:** Research/implement AST patch mechanisms instead of raw text output.
