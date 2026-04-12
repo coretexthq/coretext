@@ -22,7 +22,7 @@ To ensure absolute scientific validity, both the Control and Treatment groups mu
 
 ### Shared Constraints (The "Fairness" Rules)
 
-1.  **Identical Starting State:** Both experiments begin with an empty Git repository containing only boilerplate code (e.g., an empty Vite/React app) and a root `ARCHITECTURE.md` file pre-seeded with the Global Invariants from `checkpoints.md`.
+1.  **Identical Starting State:** Both experiments begin with an empty Git repository containing only boilerplate code (an empty React app) and a root `ARCHITECTURE.md` file pre-seeded with the Global Invariants from `checkpoints.md`.
 2.  **Identical Iteration Lifecycle (The 3-Phase Wipe):** To prevent the Control group from suffering an artificial disadvantage due to longer single-session context bloat, both frameworks must undergo three hard context wipes per milestone:
     *   **Session A (Planning Phase):** Agent receives the `User Requirement` and drafts the plan. *Context wiped.*
     *   **Session B (Execution Phase):** Agent writes the code to implement the plan. *Context wiped.*
@@ -38,8 +38,13 @@ To ensure absolute scientific validity, both the Control and Treatment groups mu
 Before executing Milestone 1 for either group, the human operator must establish the exact baseline environment. This isolates the frameworks from scaffolding noise and ensures both groups start from the exact same commit.
 
 1.  **The `experiments` Base Branch:**
-    *   Ensure your repository has a base branch named `experiments` (branched from `main`).
-    *   This branch must already contain the empty `trore` Vite/React boilerplate app and the root `ARCHITECTURE.md` pre-seeded with the 3 Global Invariants.
+    *   Ensure your repository has a base branch named `experiments` (branched from `transition-to-sdd`).
+    *   This branch must already contain the empty `trore` React boilerplate app 
+        ```bash
+        npm create vite@latest trore -- --template react
+        cd trore && npm install
+        ```
+    *   The root `ARCHITECTURE.md` is pre-seeded with the 3 Global Invariants.
 2.  **Initialize Isolated Worktrees:**
     *   Using `git worktree` is the recommended best practice for this benchmark. It provides two physically isolated directories, preventing accidental cross-contamination of generated files, ignored files, or `node_modules`.
     *   Create two new branches linked to isolated worktrees based on the `experiments` branch:
