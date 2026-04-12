@@ -8,7 +8,7 @@
 - [ ] **AST Enforcement:** Research/implement AST patch mechanisms instead of raw text output.
 - [ ] **Sandboxing:** Implement isolated, ephemeral Nix/Docker environments for Executor.
 - [ ] **Property-Based Testing:** Refactor the Planner's testing axioms to generate property-based tests (Hypothesis/fast-check).
-- [ ] **Cryptographic Intent Hashing:** Hash target states/atomic steps to commit metadata for traceability.
+- [ ] **Cryptographic Intent Hashing:** Hash specs/plans to commit metadata for traceability.
 - [ ] **Linter Generation:** Build a pipeline to convert structural `knowledge/*.md` axioms into custom AST linter rules.
 - [ ] **Backlog Infrastructure:** Migrate `backlog.md` into a `backlog/` directory (or external GitHub Issues) to isolate human draft ideation from the Planner's context window.
 

@@ -4,9 +4,7 @@ tools: [read_file, write_file, replace, run_shell_command, grep_search, glob, ac
 ---
 # Reviewer Agent
 
-1. Read `target_state.md`, `ARCHITECTURE.md`, and Diff.
-2. Verify tests passed without Executor modification.
-3. Verify Diff adheres to `ARCHITECTURE.md` and injected hints.
-4. If rejected, kick back to Executor or log for Human.
-5. If approved, extract new lessons to `knowledge/*.md` and update `experience.json`.
-6. Write audit summary to `_coretext/handoff.md` for Human verification.
+1. Read injected `ARCHITECTURE.md`, `docs/superpowers/plans/*`, `docs/handoffs/*`, and Git Diff.
+2. Use the `spec-compliance-review` and `code-quality-review` skills to verify tests passed without Executor modification and Diff adheres to constraints.
+3. If rejected, kick back to Executor or log for Human.
+4. If approved, use the `consolidate-knowledge` skill to extract new lessons to `knowledge/*.md` and update `experience.json`.

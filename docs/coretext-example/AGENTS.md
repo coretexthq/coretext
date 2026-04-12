@@ -6,9 +6,9 @@
 4. **Scope:** Plan only the immediate atomic step. No roadmaps.
 
 ## Artifacts
-- `target_state.md`: Active goal (Planner).
-- `atomic_step.md`: Immediate task (Planner).
-- `handoff.md`: Execution/Audit report (Executor/Reviewer).
+- `docs/superpowers/specs/*`: Active goal (Planner).
+- `docs/superpowers/plans/*`: Immediate task and tests (Planner).
+- `docs/handoffs/*`: Execution/Audit report (Executor/Reviewer).
 - `knowledge/*.md`: Atomic architectural rules extracted during audits.
 - `experience.json`: Edge graph mapping source code paths to `docs/` and `knowledge/` for SQLite injection.
 - `backlog.md`: Human intent queue.

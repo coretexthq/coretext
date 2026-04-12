@@ -26,14 +26,12 @@ flowchart TB
         direction TB
         H_Backlog([Human Intent / backlog.md]):::human
         A_Planner([planner]):::agent
-        A_Target[target_state.md]:::artifact
-        A_Step[atomic_step.md]:::artifact
-        A_Test[Failing Tests]:::artifact
+        A_Spec[docs/superpowers/specs/*]:::artifact
+        A_Plan[docs/superpowers/plans/*]:::artifact
 
         H_Backlog --> A_Planner
-        A_Planner --> A_Target
-        A_Planner --> A_Step
-        A_Planner --> A_Test
+        A_Planner --> A_Spec
+        A_Planner --> A_Plan
     end
 
     %% --- PHASE 2: EXECUTION ---
@@ -41,7 +39,7 @@ flowchart TB
         direction TB
         A_Executor([executor]):::agent
         A_Code[Application Code]:::artifact
-        A_Handoff_Exec[handoff.md: Exec Report]:::artifact
+        A_Handoff_Exec[docs/handoffs/*]:::artifact
         Check_Exec{Execution<br/>Status?}:::decision
 
         A_Executor --> A_Code
@@ -66,7 +64,7 @@ flowchart TB
         Check_Audit{Tests Passed &<br/>Rules Respected?}:::decision
         A_Knowledge[knowledge/*.md]:::artifact
         A_ExpUpdate[experience.json update]:::artifact
-        A_Handoff_Final[handoff.md: Final Audit]:::artifact
+        A_Handoff_Final[docs/handoffs/* Audit Update]:::artifact
 
         A_Reviewer --> Check_Audit
         Check_Audit -- Yes --> A_Knowledge
@@ -101,9 +99,8 @@ flowchart TB
     Sys_DB -. Passive Hints .-> A_Executor
     Sys_DB -. Constraints .-> A_Reviewer
     
-    A_Target --> A_Executor
-    A_Step --> A_Executor
-    A_Test --> A_Executor
+    A_Spec --> A_Executor
+    A_Plan --> A_Executor
     
     Check_Exec -- "Paradox / Impossible" --> H_Verify
     Check_Exec -- "Success (Code Written)" --> Sys_Linter

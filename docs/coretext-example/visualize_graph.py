@@ -23,10 +23,13 @@ def generate_mermaid(json_path):
         if path.startswith(".gemini/agents/"): return "agents"
         if path.startswith(".agents/skills/"): return "skills"
         if path.startswith("docs/archive/"): return "archive"
+        if path.startswith("docs/superpowers/plans/"): return "docs"
+        if path.startswith("docs/superpowers/specs/"): return "docs"
+        if path.startswith("docs/handoffs/"): return "docs"
         if path.startswith("docs/"): return "docs"
         if path.startswith("knowledge/"): return "knowledge"
         if path.startswith("templates/"): return "templates"
-        if path.startswith("_coretext/"): return "coretext"
+        if path.startswith("experience.json"): return "coretext"
         if path.startswith("src/"): return "src"
         if path.startswith("tests/"): return "tests"
         return "docs"
@@ -48,7 +51,7 @@ def generate_mermaid(json_path):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    json_path = script_dir / "_coretext" / "experience.json"
+    json_path = script_dir / "experience.json"
     output_path = script_dir / "graph.md"
 
     if not json_path.exists():

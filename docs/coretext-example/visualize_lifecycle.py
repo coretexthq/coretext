@@ -11,30 +11,30 @@ def generate_mermaid(json_path):
     operational_edges = [
         (".gemini/agents/planner.md", "docs/ARCHITECTURE.md", "read"),
         (".gemini/agents/planner.md", "tests/unit/test_auth.py", "modify"),
-        (".gemini/agents/planner.md", "_coretext/target_state.md", "modify"),
-        (".gemini/agents/planner.md", "_coretext/atomic_step.md", "modify"),
-        (".gemini/agents/executor.md", "_coretext/target_state.md", "read"),
-        (".gemini/agents/executor.md", "_coretext/atomic_step.md", "read"),
+        (".gemini/agents/planner.md", "docs/superpowers/specs/target_state.md", "modify"),
+        (".gemini/agents/planner.md", "docs/superpowers/plans/atomic_step.md", "modify"),
+        (".gemini/agents/executor.md", "docs/superpowers/specs/target_state.md", "read"),
+        (".gemini/agents/executor.md", "docs/superpowers/plans/atomic_step.md", "read"),
         (".gemini/agents/executor.md", "tests/unit/test_auth.py", "read"),
         (".gemini/agents/executor.md", "src/api/auth.py", "modify"),
-        (".gemini/agents/executor.md", "_coretext/handoff.md", "modify"),
-        (".gemini/agents/reviewer.md", "_coretext/target_state.md", "read"),
-        (".gemini/agents/reviewer.md", "_coretext/atomic_step.md", "read"),
+        (".gemini/agents/executor.md", "docs/handoffs/handoff.md", "modify"),
+        (".gemini/agents/reviewer.md", "docs/superpowers/specs/target_state.md", "read"),
+        (".gemini/agents/reviewer.md", "docs/superpowers/plans/atomic_step.md", "read"),
         (".gemini/agents/reviewer.md", "tests/unit/test_auth.py", "read"),
         (".gemini/agents/reviewer.md", "src/api/auth.py", "read"),
-        (".gemini/agents/reviewer.md", "_coretext/handoff.md", "read"),
+        (".gemini/agents/reviewer.md", "docs/handoffs/handoff.md", "read"),
         (".gemini/agents/reviewer.md", "knowledge/bcrypt_rounds.md", "modify"),
         (".gemini/agents/reviewer.md", "docs/ARCHITECTURE.md", "modify"),
         (".gemini/agents/reviewer.md", "changelog.md", "modify"),
-        (".gemini/agents/reviewer.md", "_coretext/experience.json", "modify"),
+        (".gemini/agents/reviewer.md", "experience.json", "modify"),
     ]
 
     # Map nodes to subgraphs for grouping
     subgraphs = {
-        "Planning_Phase": [".gemini/agents/planner.md", "_coretext/target_state.md", "_coretext/atomic_step.md", "tests/unit/test_auth.py"],
-        "Execution_Phase": [".gemini/agents/executor.md", "src/api/auth.py", "_coretext/handoff.md"],
-        "Review_Audit_Phase": [".gemini/agents/reviewer.md", "knowledge/bcrypt_rounds.md", "_coretext/experience.json", "changelog.md", "docs/archive/handoff_001.md", "docs/archive/target_state_001.md"],
-        "Global_Reference": ["docs/ARCHITECTURE.md", "docs/testing.md", ".agents/skills/test-driven-development/SKILL.md", "templates/knowledge_template.md", "templates/target_state_template.md", "templates/atomic_step_template.md"]
+        "Planning_Phase": [".gemini/agents/planner.md", "docs/superpowers/specs/target_state.md", "docs/superpowers/plans/atomic_step.md", "tests/unit/test_auth.py"],
+        "Execution_Phase": [".gemini/agents/executor.md", "src/api/auth.py", "docs/handoffs/handoff.md"],
+        "Review_Audit_Phase": [".gemini/agents/reviewer.md", "knowledge/bcrypt_rounds.md", "experience.json", "changelog.md", "docs/archive/handoff_001.md", "docs/archive/spec_001.md"],
+        "Global_Reference": ["docs/ARCHITECTURE.md", "docs/testing.md", ".agents/skills/test-driven-development/SKILL.md", "templates/knowledge_template.md"]
     }
 
     cat_colors = {
@@ -52,10 +52,13 @@ def generate_mermaid(json_path):
         if path.startswith(".gemini/agents/"): return "agents"
         if path.startswith(".agents/skills/"): return "skills"
         if path.startswith("docs/archive/"): return "archive"
+        if path.startswith("docs/superpowers/plans/"): return "docs"
+        if path.startswith("docs/superpowers/specs/"): return "docs"
+        if path.startswith("docs/handoffs/"): return "docs"
         if path.startswith("docs/"): return "docs"
         if path.startswith("knowledge/"): return "knowledge"
         if path.startswith("templates/"): return "templates"
-        if path.startswith("_coretext/"): return "coretext"
+        if path.startswith("experience.json"): return "coretext"
         if path.startswith("src/"): return "src"
         if path.startswith("tests/"): return "tests"
         return "docs"
@@ -99,7 +102,7 @@ def generate_mermaid(json_path):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    json_path = script_dir / "_coretext" / "experience.json"
+    json_path = script_dir / "experience.json"
     output_path = script_dir / "lifecycle.md"
 
     if not json_path.exists():

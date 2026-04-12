@@ -19,23 +19,19 @@ graph TD
     _gemini_agents_reviewer_md[".gemini/agents/reviewer.md"] -->|docs| docs_ARCHITECTURE_md["docs/ARCHITECTURE.md"]
     src_api_auth_py["src/api/auth.py"] -->|knowledge| knowledge_bcrypt_rounds_md["knowledge/bcrypt_rounds.md"]
     _gemini_agents_reviewer_md[".gemini/agents/reviewer.md"] -->|templates| templates_knowledge_template_md["templates/knowledge_template.md"]
-    _gemini_agents_planner_md[".gemini/agents/planner.md"] -->|templates| templates_target_state_template_md["templates/target_state_template.md"]
-    _gemini_agents_planner_md[".gemini/agents/planner.md"] -->|templates| templates_atomic_step_template_md["templates/atomic_step_template.md"]
     knowledge_bcrypt_rounds_md["knowledge/bcrypt_rounds.md"] -->|archive| docs_archive_handoff_001_md["docs/archive/handoff_001.md"]
-    docs_archive_handoff_001_md["docs/archive/handoff_001.md"] -->|archive| docs_archive_target_state_001_md["docs/archive/target_state_001.md"]
+    docs_archive_handoff_001_md["docs/archive/handoff_001.md"] -->|archive| docs_archive_spec_001_md["docs/archive/spec_001.md"]
     tests_unit_test_auth_py["tests/unit/test_auth.py"] -->|skills| _agents_skills_test_driven_development_SKILL_md[".agents/skills/test-driven-development/SKILL.md"]
-    class _agents_skills_test_driven_development_SKILL_md skills
-    class docs_testing_md docs
-    class docs_ARCHITECTURE_md docs
-    class templates_atomic_step_template_md templates
-    class docs_archive_handoff_001_md archive
-    class tests_unit_test_auth_py tests
-    class _gemini_agents_planner_md agents
     class knowledge_bcrypt_rounds_md knowledge
-    class templates_knowledge_template_md templates
-    class templates_target_state_template_md templates
-    class _gemini_agents_executor_md agents
-    class docs_archive_target_state_001_md archive
     class _gemini_agents_reviewer_md agents
+    class tests_unit_test_auth_py tests
+    class _gemini_agents_executor_md agents
+    class docs_ARCHITECTURE_md docs
+    class _gemini_agents_planner_md agents
+    class docs_testing_md docs
+    class templates_knowledge_template_md templates
+    class docs_archive_spec_001_md archive
+    class _agents_skills_test_driven_development_SKILL_md skills
     class src_api_auth_py src
+    class docs_archive_handoff_001_md archive
 ```

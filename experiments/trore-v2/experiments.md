@@ -105,7 +105,7 @@ The core variable in this experiment is **how context is managed across isolated
 
 ### Diagram A: Control Group (Superpowers Alone)
 
-In the Control Group, context transfer relies entirely on the generalist agent's initiative to search the filesystem and its ability to organically retrieve and hold that information in context.
+In the Control Group, context transfer relies entirely on the LLM's initiative to search the filesystem and its organic memory to adhere to constraints across sessions.
 
 ```mermaid
 flowchart TB
@@ -120,39 +120,39 @@ flowchart TB
         subgraph SessionA ["Session A: Planning (Cold Boot)"]
             direction TB
             InputA([User Requirement])
-            ContextA["Organic Exploration<br/>(Agent must proactively search docs/)"]:::difference
+            ContextA["Organic Exploration<br/>(Agent must proactively search for ARCHITECTURE.md)"]:::difference
             Skill_Brainstorm([brainstorming]):::skill
-            Skill_WritePlan([writing-plans]):::skill
+            Skill_Plan([writing-plans]):::skill
             
             InputA --> ContextA
             ContextA --> Skill_Brainstorm
-            Skill_Brainstorm --> Skill_WritePlan
+            Skill_Brainstorm --> Skill_Plan
             
             Art_Spec[docs/superpowers/specs/*]:::artifact
             Art_Plan[docs/superpowers/plans/*]:::artifact
             
             Skill_Brainstorm --> Art_Spec
-            Skill_WritePlan --> Art_Plan
+            Skill_Plan --> Art_Plan
         end
 
         subgraph SessionB ["Session B: Execution (Cold Boot)"]
             direction TB
-            ContextB["Organic Retrieval<br/>(Agent reads specific plan file)"]:::difference
+            ContextB["Organic Retrieval<br/>(Agent must proactively read specific plan file)"]:::difference
             Skill_TDD([test-driven-development]):::skill
             Art_Code[Application Code & Tests]:::artifact
             
-            Art_Plan -. "Read by" .-> ContextB
+            Art_Plan -. "Searches & Reads" .-> ContextB
             ContextB --> Skill_TDD
             Skill_TDD --> Art_Code
         end
 
         subgraph SessionC ["Session C: Review (Cold Boot)"]
             direction TB
-            ContextC["Organic Memory<br/>(Agent must recall/search Global Invariants)"]:::difference
-            Skill_Review([requesting-code-review / spec-compliance-review]):::skill
+            ContextC["Organic Memory<br/>(Agent relies on Git Diff & memory of constraints)"]:::difference
+            Skill_Review([spec-compliance-review<br/>code-quality-review]):::skill
             Art_Commit[Git Commit]:::artifact
             
-            Art_Code -. "Diff" .-> ContextC
+            Art_Code -. "Reads Diff" .-> ContextC
             ContextC --> Skill_Review
             Skill_Review --> Art_Commit
         end
@@ -164,12 +164,13 @@ flowchart TB
 
 ### Diagram B: Treatment Group (Superpowers + Coretext v2)
 
-In the Treatment Group, the Coretext "Kernel" handles context mechanically. The agent relies entirely on structured instructions forcefully prepended to its context window at boot time.
+In the Treatment Group, Coretext acts as a **"Symbiotic Wrapper."** It uses the *exact same* Superpowers skills for development but uses its Kernel to force-feed context and adds specific skills for state transfer (`handoff` and `knowledge`).
 
 ```mermaid
 flowchart TB
     classDef session fill:#e8eaf6,stroke:#1a237e,stroke-width:2px;
     classDef skill fill:#e3f2fd,stroke:#0277bd,stroke-width:2px;
+    classDef coretext_skill fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px;
     classDef artifact fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,stroke-dasharray: 5 5;
     classDef difference fill:#a5d6a7,stroke:#1b5e20,stroke-width:3px;
     classDef inject fill:#eceff1,stroke:#37474f,stroke-width:2px,stroke-dasharray: 5 5;
@@ -177,56 +178,66 @@ flowchart TB
     subgraph Milestone ["Milestone N (Treatment Group: Coretext + Superpowers)"]
         direction TB
 
-        subgraph Inject ["Coretext Kernel Injection"]
+        subgraph Inject ["Coretext Kernel (Mechanical State)"]
             direction LR
             K_Arch[ARCHITECTURE.md]:::artifact
             K_Hint[knowledge/*.md]:::artifact
+            K_Exp[experience.json]:::artifact
         end
 
         subgraph SessionA ["Session A: planner.md (Cold Boot)"]
             direction TB
             InputA([User Requirement])
-            ContextA["Mechanical Injection<br/>(Kernel prepends Arch & Knowledge)"]:::difference
-            Skill_WritePlan([writing-plans]):::skill
+            ContextA["Forced Injection<br/>(Kernel prepends ARCHITECTURE)"]:::difference
+            Skill_Brainstorm([brainstorming]):::skill
+            Skill_Plan([writing-plans]):::skill
             
             InputA --> ContextA
-            ContextA --> Skill_WritePlan
+            ContextA --> Skill_Brainstorm
+            Skill_Brainstorm --> Skill_Plan
             
-            Art_Target[target_state.md]:::artifact
-            Art_Step[atomic_step.md + F2P Tests]:::artifact
+            Art_Spec[docs/superpowers/specs/*]:::artifact
+            Art_Plan[docs/superpowers/plans/*]:::artifact
             
-            Skill_WritePlan --> Art_Target
-            Skill_WritePlan --> Art_Step
+            Skill_Brainstorm --> Art_Spec
+            Skill_Plan --> Art_Plan
         end
 
         subgraph SessionB ["Session B: executor.md (Cold Boot)"]
             direction TB
-            ContextB["Mechanical Injection<br/>(Kernel prepends Step & Knowledge)"]:::difference
+            ContextB["Forced Injection<br/>(Kernel prepends Plan & Knowledge)"]:::difference
             Skill_TDD([test-driven-development]):::skill
-            Skill_Debug([systematic-debugging]):::skill
+            Skill_Handoff([NEW: writing-handoff]):::coretext_skill
             Art_Code[Application Code passing Tests]:::artifact
+            Art_Handoff[docs/handoffs/*]:::artifact
             
-            Art_Step -. "Injected" .-> ContextB
+            Art_Plan -. "Kernel reads" .-> ContextB
             ContextB --> Skill_TDD
-            ContextB --> Skill_Debug
             Skill_TDD --> Art_Code
-            Skill_Debug --> Art_Code
+            Art_Code --> Skill_Handoff
+            Skill_Handoff --> Art_Handoff
         end
 
         subgraph SessionC ["Session C: reviewer.md (Cold Boot)"]
             direction TB
-            ContextC["Mechanical Audit<br/>(Kernel strictly compares Diff vs Arch)"]:::difference
-            Art_UpdateKnowledge[Updated knowledge/*.md]:::artifact
-            Art_Commit[Git Commit]:::artifact
+            ContextC["Forced Injection<br/>(Kernel prepends Arch, Plan, Handoff, Diff)"]:::difference
+            Skill_Review([spec-compliance-review<br/>code-quality-review]):::skill
+            Skill_Knowledge([NEW: consolidate-knowledge]):::coretext_skill
             
-            Art_Code -. "Diff" .-> ContextC
-            ContextC --> Art_Commit
-            ContextC --> Art_UpdateKnowledge
+            Art_Commit[Git Commit]:::artifact
+            Art_UpdateKnowledge[Updated knowledge/* & experience.json]:::artifact
+            
+            Art_Code -. "Kernel reads Diff" .-> ContextC
+            Art_Handoff -. "Kernel reads" .-> ContextC
+            ContextC --> Skill_Review
+            Skill_Review --> Art_Commit
+            Art_Commit --> Skill_Knowledge
+            Skill_Knowledge --> Art_UpdateKnowledge
         end
         
-        Inject -. "Force feeds" .-> ContextA
-        Inject -. "Force feeds" .-> ContextB
-        Inject -. "Force feeds" .-> ContextC
+        Inject -. "Prepends" .-> ContextA
+        Inject -. "Prepends" .-> ContextB
+        Inject -. "Prepends" .-> ContextC
         
         SessionA --> SessionB
         SessionB --> SessionC

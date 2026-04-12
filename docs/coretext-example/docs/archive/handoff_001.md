@@ -8,7 +8,7 @@
 ## 2. Reviewer Audit
 **Status:** APPROVED
 
-- **Semantic:** Target state met? Yes
+- **Semantic:** Spec met? Yes
 - **Technical:** Tests passed without modification? Yes
 - **Architecture:** Constraints respected? Yes
 

@@ -1,4 +1,4 @@
-# Target State 001
+# Spec 001
 
 **Issue:** Initial authentication implementation
 

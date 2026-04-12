@@ -1,6 +1,6 @@
 # [Short Title]
 
-**Trigger:** [Target State reference]
+**Trigger:** [Goal/Spec reference]
 
 ## Context
 [What was attempted]

@@ -32,29 +32,24 @@
       "type": "templates"
     },
     {
-      "source": ".gemini/agents/planner.md",
-      "target": "templates/target_state_template.md",
-      "type": "templates"
-    },
-    {
-      "source": ".gemini/agents/planner.md",
-      "target": "templates/atomic_step_template.md",
-      "type": "templates"
-    },
-    {
       "source": "knowledge/bcrypt_rounds.md",
       "target": "docs/archive/handoff_001.md",
       "type": "archive"
     },
     {
       "source": "docs/archive/handoff_001.md",
-      "target": "docs/archive/target_state_001.md",
+      "target": "docs/archive/spec_001.md",
       "type": "archive"
     },
     {
       "source": "tests/unit/test_auth.py",
       "target": ".agents/skills/test-driven-development/SKILL.md",
       "type": "skills"
+    },
+    {
+      "source": "src/components/Grid.jsx",
+      "target": "knowledge/react_state_rules.md",
+      "type": "knowledge"
     }
   ]
 }
