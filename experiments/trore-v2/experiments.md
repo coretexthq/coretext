@@ -33,6 +33,26 @@ To ensure absolute scientific validity, both the Control and Treatment groups mu
 
 ---
 
+## 2.5 Step 0: The Universal Epoch
+
+Before executing Milestone 1 for either group, the human operator must establish the exact baseline environment. This isolates the frameworks from scaffolding noise and ensures both groups start from the exact same commit.
+
+1.  **The `experiments` Base Branch:**
+    *   Ensure your repository has a base branch named `experiments` (branched from `main`).
+    *   This branch must already contain the empty `trore` Vite/React boilerplate app and the root `ARCHITECTURE.md` pre-seeded with the 3 Global Invariants.
+2.  **Initialize Isolated Worktrees:**
+    *   Using `git worktree` is the recommended best practice for this benchmark. It provides two physically isolated directories, preventing accidental cross-contamination of generated files, ignored files, or `node_modules`.
+    *   Create two new branches linked to isolated worktrees based on the `experiments` branch:
+        ```bash
+        git worktree add ../.worktrees/coretext--exp-d -b coretext--exp-d experiments
+        git worktree add ../.worktrees/coretext--exp-e -b coretext--exp-e experiments
+        ```
+    *   `coretext--exp-d` will serve as the directory for the **Control Group (Superpowers)**.
+    *   `coretext--exp-e` will serve as the directory for the **Treatment Group (Coretext v2)**.
+    *   `cd` into the respective worktree directories before beginning Milestone 1 Session A.
+
+---
+
 ## 3. Control Group: Superpowers Alone
 
 **Philosophy:** Relying on massive prompt injection, long-form document reading, and the LLM's internal attention mechanism to maintain architectural discipline.
