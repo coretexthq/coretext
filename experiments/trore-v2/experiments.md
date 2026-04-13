@@ -39,11 +39,13 @@ Before executing Milestone 1 for either group, the human operator must establish
 
 1.  **The `experiments` Base Branch:**
     *   Ensure your repository has a base branch named `experiments` (branched from `transition-to-sdd`).
-    *   This branch must already contain the empty `trore` React boilerplate app 
+    *   This branch must already contain the empty `trore` React boilerplate app with a pre-configured testing environment.
         ```bash
         npm create react@latest trore -- --template react
         cd trore && npm install
+        npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom
         ```
+    *   *Note: Ensure `vitest` is configured (e.g., adding a `"test": "vitest"` script to `package.json` and basic setup in `vite.config.js`) so that agents can immediately run `npm run test` without struggling with scaffolding.*
     *   The root `ARCHITECTURE.md` is pre-seeded with the 3 Global Invariants.
 2.  **Initialize Isolated Worktrees:**
     *   Using `git worktree` is the recommended best practice for this benchmark. It provides two physically isolated directories, preventing accidental cross-contamination of generated files, ignored files, or `node_modules`.
