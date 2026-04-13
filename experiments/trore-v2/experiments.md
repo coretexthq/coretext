@@ -41,7 +41,7 @@ Before executing Milestone 1 for either group, the human operator must establish
     *   Ensure your repository has a base branch named `experiments` (branched from `transition-to-sdd`).
     *   This branch must already contain the empty `trore` React boilerplate app 
         ```bash
-        npm create vite@latest trore -- --template react
+        npm create react@latest trore -- --template react
         cd trore && npm install
         ```
     *   The root `ARCHITECTURE.md` is pre-seeded with the 3 Global Invariants.
