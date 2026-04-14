@@ -3,8 +3,12 @@
 - [ ] **Architecture:** Synthesize historical BMAD artifacts into `ARCHITECTURE.md`.
 - [ ] **Testing:** Define project-specific physics in `docs/testing.md`.
 - [ ] **Benchmarks:** Re-evaluate quantitative and qualitative reporting. Adopt **SlopCodeBench** for testing D-SDD. Use the first task in a sequence as the "intent/greenfield", and subsequent tasks to evaluate Coretext v2's ability to resist architectural rot and enforce constraints via `knowledge/*.md` injections and the Planner-Executor-Reviewer triad. Drop ProjDevBench and `trore`.
-- [ ] **Engine:** Implement SQLite JIT injection logic for `experience.json`.
-- [ ] **Visualization:** Build a graph UI for `experience.json` (abstract JSON for humans).
+- [ ] **Engine (Coretext v2 Maturity):** 
+  - [x] Implement basic SQLite JIT injection logic (`experience_engine.py`, `inject_context.py`).
+  - [ ] **Glob-Matching:** Upgrade SQL queries in `experience_engine.py` to support glob patterns (e.g., `src/api/*.js` -> `knowledge/api_rules.md`) to fix the "Exact-Match Fallacy".
+  - [ ] **Diff-Based Injection:** Update `inject_context.py` (or Reviewer hook) to inject knowledge based on `git diff --name-only` so the Reviewer gets context for modified files.
+  - [ ] **Path Integrity Linter:** Write a lightweight script (`lint_experience.py`) to verify all `source` and `target` paths in `experience.json` exist on disk, replicating v1's "Loud Failures" without AST complexity.
+- [x] **Visualization:** Build a graph UI for `experience.json` (abstract JSON for humans). Implemented via `visualize_graph.py`.
 - [ ] **AST Enforcement:** Research/implement AST patch mechanisms instead of raw text output.
 - [ ] **Sandboxing:** Implement isolated, ephemeral Nix/Docker environments for Executor.
 - [ ] **Property-Based Testing:** Refactor the Planner's testing axioms to generate property-based tests (Hypothesis/fast-check).

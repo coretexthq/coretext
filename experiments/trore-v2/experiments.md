@@ -70,7 +70,7 @@ Before executing Milestone 1 for either group, the human operator must establish
 1.  **Phase 1: Planning (Session A)**
     *   Boot a fresh Gemini CLI session.
     *   Input: `User Requirement` for Milestone *N*.
-    *   Action: Instruct the agent: `"Use the brainstorming and writing-plans skills to design and plan this feature."` The agent is expected to organically explore the filesystem to discover `ARCHITECTURE.md` and past context.
+    *   Action: Instruct the agent: `"Use the brainstorming and writing-plans skills to design and plan this feature. **CRITICAL OVERRIDE: Do not ask any clarifying questions, do not offer the visual companion, and do not wait for user approval. Make reasonable assumptions for any ambiguities and immediately write the spec and the implementation plan.**"` The agent is expected to organically explore the filesystem to discover `ARCHITECTURE.md` and past context.
     *   *Session terminates.*
 2.  **Phase 2: Execution (Session B)**
     *   Boot a fresh Gemini CLI session.
@@ -96,12 +96,12 @@ Before executing Milestone 1 for either group, the human operator must establish
 
 1.  **Phase 1: Planner (Session A)**
     *   Boot Coretext `.gemini/agents/planner.md`.
-    *   Input: Global Invariants + Milestone *N* + existing `ARCHITECTURE.md`.
-    *   Action: Planner uses Superpowers' `writing-plans` skill to generate `atomic_step.md` and writes the exact Failing Tests (F2P).
+    *   Input: Global Invariants + Milestone *N* + existing `ARCHITECTURE.md` + **CRITICAL OVERRIDE** (Do not ask clarifying questions, do not offer visual companion, do not wait for approval. Make reasonable assumptions and immediately write the spec and plan).
+    *   Action: Planner uses Superpowers' `brainstorming` and `writing-plans` skills to generate `docs/superpowers/specs/*` and `docs/superpowers/plans/*`, writing the exact Failing Tests (F2P).
     *   *Session terminates.*
 2.  **Phase 2: Executor (Session B)**
     *   Boot Coretext `.gemini/agents/executor.md`.
-    *   Input: `atomic_step.md` + passive SQLite injected `knowledge/*.md`.
+    *   Input: `docs/superpowers/plans/*` + passive SQLite injected `knowledge/*.md`.
     *   Action: Executor uses Superpowers' `test-driven-development` and `systematic-debugging` skills. It is physically trapped; it must make the Planner's tests pass.
     *   *Session terminates.*
 3.  **Phase 3: Reviewer (Session C)**
