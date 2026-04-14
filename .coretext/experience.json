@@ -23,16 +23,16 @@
     },
     {
       "source": "src/api/auth.py",
-      "target": "knowledge/bcrypt_rounds.md",
+      "target": "docs/knowledge/bcrypt_rounds.md",
       "type": "knowledge"
     },
     {
       "source": ".gemini/agents/reviewer.md",
-      "target": "templates/knowledge_template.md",
+      "target": "docs/templates/knowledge_template.md",
       "type": "templates"
     },
     {
-      "source": "knowledge/bcrypt_rounds.md",
+      "source": "docs/knowledge/bcrypt_rounds.md",
       "target": "docs/archive/handoff_001.md",
       "type": "archive"
     },
@@ -48,7 +48,7 @@
     },
     {
       "source": "src/components/Grid.jsx",
-      "target": "knowledge/react_state_rules.md",
+      "target": "docs/knowledge/react_state_rules.md",
       "type": "knowledge"
     }
   ]

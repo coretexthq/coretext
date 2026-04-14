@@ -70,17 +70,17 @@ Before executing Milestone 1 for either group, the human operator must establish
 1.  **Phase 1: Planning (Session A)**
     *   Boot a fresh Gemini CLI session.
     *   Input: `User Requirement` for Milestone *N*.
-    *   Action: Instruct the agent: `"Use the brainstorming and writing-plans skills to design and plan this feature. **CRITICAL OVERRIDE: Do not ask any clarifying questions, do not offer the visual companion, and do not wait for user approval. Make reasonable assumptions for any ambiguities and immediately write the spec and the implementation plan.**"` The agent is expected to organically explore the filesystem to discover `ARCHITECTURE.md` and past context.
+    *   Action: Instruct the agent: `"Use the brainstorming and writing-plans skills to design and plan this feature. **CRITICAL OVERRIDE:** Do not ask any clarifying questions, do not offer the visual companion, and do not wait for user approval. **You MUST explore the project structure and read existing architecture docs first.** Make reasonable assumptions for any ambiguities and immediately write the spec and the implementation plan."` The agent is expected to organically explore the filesystem to discover `ARCHITECTURE.md` and past context.
     *   *Session terminates.*
 2.  **Phase 2: Execution (Session B)**
     *   Boot a fresh Gemini CLI session.
     *   Input: No context provided.
-    *   Action: Instruct the agent: `"Read the latest plan in docs/superpowers/plans/. Use the test-driven-development skill to execute the tasks outlined in the plan."`
+    *   Action: Instruct the agent: `"Read the latest plan in docs/superpowers/plans/. Use the test-driven-development skill to execute the tasks outlined in the plan. Do not ask for clarifying questions; make reasonable assumptions to pass the tests."`
     *   *Session terminates.*
 3.  **Phase 3: Review (Session C)**
     *   Boot a fresh Gemini CLI session.
     *   Input: No context provided.
-    *   Action: Instruct the agent: `"Use the requesting-code-review skill to review the uncommitted changes in the working tree against the original plan and the project's architecture."`
+    *   Action: Instruct the agent: `"Use the requesting-code-review skill to review the uncommitted changes in the working tree. Compare the changes against the original plan and **you MUST organically locate and read the project's root architecture file** to ensure no global constraints were violated."`
     *   *Session terminates.*
 
 **Expected Failure Mode:** By Milestone 3 or 4, the agent will experience *Constraint Amnesia*. During Phase 1 or 2, it will fail to proactively search for `ARCHITECTURE.md` or fail to read its own previous long-form plan documents deeply enough, resulting in a "Must-Not Violate" Interaction Smell.
@@ -147,7 +147,7 @@ flowchart TB
         subgraph SessionA ["Session A: Planning (Cold Boot)"]
             direction TB
             InputA([User Requirement])
-            ContextA["Organic Exploration<br/>(Agent must proactively search for ARCHITECTURE.md)"]:::difference
+            ContextA["Forced Organic Exploration<br/>(Prompted to explore & read ARCHITECTURE.md)"]:::difference
             Skill_Brainstorm([brainstorming]):::skill
             Skill_Plan([writing-plans]):::skill
             
@@ -175,8 +175,8 @@ flowchart TB
 
         subgraph SessionC ["Session C: Review (Cold Boot)"]
             direction TB
-            ContextC["Organic Memory<br/>(Agent relies on Git Diff & memory of constraints)"]:::difference
-            Skill_Review([spec-compliance-review<br/>code-quality-review]):::skill
+            ContextC["Forced Organic Retrieval<br/>(Prompted to read Diff & ARCHITECTURE.md)"]:::difference
+            Skill_Review([requesting-code-review]):::skill
             Art_Commit[Git Commit]:::artifact
             
             Art_Code -. "Reads Diff" .-> ContextC
@@ -234,7 +234,7 @@ flowchart TB
             direction TB
             ContextB["Forced Injection<br/>(Kernel prepends Plan & Knowledge)"]:::difference
             Skill_TDD([test-driven-development]):::skill
-            Skill_Handoff([NEW: writing-handoff]):::coretext_skill
+            Skill_Handoff([requesting-code-review<br/>(Generates Handoff)]):::skill
             Art_Code[Application Code passing Tests]:::artifact
             Art_Handoff[docs/handoffs/*]:::artifact
             
@@ -248,7 +248,7 @@ flowchart TB
         subgraph SessionC ["Session C: reviewer.md (Cold Boot)"]
             direction TB
             ContextC["Forced Injection<br/>(Kernel prepends Arch, Plan, Handoff, Diff)"]:::difference
-            Skill_Review([spec-compliance-review<br/>code-quality-review]):::skill
+            Skill_Review([code-reviewer.md instructions]):::coretext_skill
             Skill_Knowledge([NEW: consolidate-knowledge]):::coretext_skill
             
             Art_Commit[Git Commit]:::artifact

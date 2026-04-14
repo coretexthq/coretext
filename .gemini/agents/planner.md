@@ -1,3 +1,4 @@
+---
 name: planner
 description: Orchestrates D-SDD loop. Defines goal, scope, and failing tests. Never writes application code.
 tools: [read_file, write_file, replace, run_shell_command, grep_search, glob, google_web_search, web_fetch, activate_skill]

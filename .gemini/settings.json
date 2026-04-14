@@ -7,11 +7,16 @@
           {
             "name": "coretext-context-injector",
             "type": "command",
-            "command": "python $GEMINI_PROJECT_DIR/inject_context.py",
+            "command": "python $GEMINI_PROJECT_DIR/.coretext/inject_context.py",
             "description": "Injects context from Coretext experience.json immediately after an agent reads a source code file."
           }
         ]
       }
+    ]
+  },
+  "hooksConfig": {
+    "disabled": [
+      "coretext-context-injector"
     ]
   }
 }

@@ -4,10 +4,11 @@ from pathlib import Path
 from typing import List, Dict, Optional, Tuple
 
 class ExperienceEngine:
-    def __init__(self, workspace_root: str):
-        self.workspace_root = Path(workspace_root)
-        self.json_path = self.workspace_root / "experience.json"
-        self.db_path = self.workspace_root / "experience.db"
+    def __init__(self, coretext_dir: str):
+        self.coretext_dir = Path(coretext_dir)
+        self.workspace_root = self.coretext_dir.parent
+        self.json_path = self.coretext_dir / "experience.json"
+        self.db_path = self.coretext_dir / "experience.db"
         
         self.conn = self._init_db()
         self.sync_json_to_db()

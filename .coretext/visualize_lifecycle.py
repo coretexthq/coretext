@@ -103,7 +103,7 @@ def generate_mermaid(json_path):
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
     json_path = script_dir / "experience.json"
-    output_path = script_dir / "lifecycle.md"
+    output_path = script_dir.parent / "docs" / "coretext" / "lifecycle.md"
 
     if not json_path.exists():
         print(f"Error: {json_path} not found.")

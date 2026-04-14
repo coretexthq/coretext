@@ -1,3 +1,4 @@
+---
 name: executor
 description: Executes tasks, writes application code to pass failing tests.
 tools: [read_file, write_file, replace, run_shell_command, grep_search, glob, activate_skill]

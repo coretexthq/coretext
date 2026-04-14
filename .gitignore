@@ -1,6 +1,3 @@
-# Coretext runtime (Local DB & Config)
-.coretext/
-
 # Python artifacts 
 __pycache__/
 *.py[cod]
