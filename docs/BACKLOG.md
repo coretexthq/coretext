@@ -1,14 +1,26 @@
 # Backlog
 
-- [ ] **Architecture:** Synthesize historical BMAD artifacts into `ARCHITECTURE.md`.
+## Now
+
+- [ ] **Architecture:** Write a new `ARCHITECTURE.md`.
 - [ ] **Testing:** Define project-specific physics in `docs/testing.md`.
-- [ ] **Benchmarks:** Re-evaluate quantitative and qualitative reporting. Adopt **SlopCodeBench** for testing D-SDD. Use the first task in a sequence as the "intent/greenfield", and subsequent tasks to evaluate Coretext v2's ability to resist architectural rot and enforce constraints via `knowledge/*.md` injections and the Planner-Executor-Reviewer triad. Drop ProjDevBench and `trore`.
-- [ ] **Engine (Coretext v2 Maturity):** 
-  - [x] Implement basic SQLite JIT injection logic (`experience_engine.py`, `inject_context.py`).
-  - [ ] **Glob-Matching:** Upgrade SQL queries in `experience_engine.py` to support glob patterns (e.g., `src/api/*.js` -> `knowledge/api_rules.md`) to fix the "Exact-Match Fallacy".
-  - [ ] **Diff-Based Injection:** Update `inject_context.py` (or Reviewer hook) to inject knowledge based on `git diff --name-only` so the Reviewer gets context for modified files.
-  - [ ] **Path Integrity Linter:** Write a lightweight script (`lint_experience.py`) to verify all `source` and `target` paths in `experience.json` exist on disk, replicating v1's "Loud Failures" without AST complexity.
-- [x] **Visualization:** Build a graph UI for `experience.json` (abstract JSON for humans). Implemented via `visualize_graph.py`.
+- [ ] **Engine (Coretext v2 JSONL Pivot):** 
+  - [ ] **Migrate to JSONL Event Sourcing:** Strip out SQLite dependencies. Rewrite `experience_engine.py` to use a pure Python append-only event log (`experience.jsonl`).
+  - [ ] **Glob-Matching Routing:** Implement `fnmatch` logic in Python to resolve `source` globs against file paths, replacing the SQLite exact-match queries.
+  - [ ] **Diff-Based Injection:** Update `inject_context.py` to inject knowledge based on `git diff --name-only` so the Reviewer gets context for modified files.
+  - [ ] **Schema & Path Linter:** Write a script (`lint_experience.py`) to run as a pre-commit hook. It must parse the JSONL file, validate each line against `experience_schema.json`, and ensure all `target` paths actually exist on disk (Fail-Open on missing).
+- [ ] **Visualization:** Update `visualize_graph.py` to project state from the new `experience.jsonl` event log instead of the old JSON array.
+- [ ] **Rename:** rename files to standard files, update relevant files accordingly:   
+    1. BACKLOG.md (The Queue): The raw human intent. Unprocessed issues waiting to be picked up by the Planner. 
+    2. ARCHITECTURE.md (The Kernel): The global, immutable laws of the project. Force-fed into every agent session.
+    3. rules/*.md (The Page Table): Atomic, highly specific constraints (e.g., rules/react_state.md). They only exist to be injected when a relevant file is touched.
+    4. coretext.jsonl (The MMU / Event Log): The mechanical routing ledger that binds the source code to the rules/.
+    5. docs/ (The Standard Library): Static, objective truth. Swagger API definitions, database schemas, third-party interface contracts. 
+
+---
+
+## Later
+
 - [ ] **AST Enforcement:** Research/implement AST patch mechanisms instead of raw text output.
 - [ ] **Sandboxing:** Implement isolated, ephemeral Nix/Docker environments for Executor.
 - [ ] **Property-Based Testing:** Refactor the Planner's testing axioms to generate property-based tests (Hypothesis/fast-check).
@@ -26,7 +38,7 @@
 1. **`ARCHITECTURE.md` (Generative Blueprint):** 
    - The map. It tells the agent what to do *right* initially (e.g., Folder structures, naming conventions). Prevents the "Cold Start" problem.
 2. **`knowledge/*.md` (The Evolving Frontier / Case Law):** 
-   - Atomic lessons extracted by the Reviewer. Passively injected via SQLite (`experience.json`). Tells the Executor how to avoid previously encountered traps.
+   - Atomic lessons extracted by the Reviewer. Passively injected via JSONL Event Log (`experience.jsonl`). Tells the Executor how to avoid previously encountered traps.
 3. **Custom Linters (Restrictive Enforcement):** 
    - The electric fence. Invisible to the LLM's context window. Sits in the CI pipeline to physically block structural violations instantly (e.g., "Module A cannot import Module B"). Zero token cost.
 

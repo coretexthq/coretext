@@ -23,7 +23,7 @@ def generate_mermaid(json_path):
         (".gemini/agents/reviewer.md", "tests/unit/test_auth.py", "read"),
         (".gemini/agents/reviewer.md", "src/api/auth.py", "read"),
         (".gemini/agents/reviewer.md", "docs/handoffs/handoff.md", "read"),
-        (".gemini/agents/reviewer.md", "knowledge/bcrypt_rounds.md", "modify"),
+        (".gemini/agents/reviewer.md", "docs/knowledge/bcrypt_rounds.md", "modify"),
         (".gemini/agents/reviewer.md", "docs/ARCHITECTURE.md", "modify"),
         (".gemini/agents/reviewer.md", "changelog.md", "modify"),
         (".gemini/agents/reviewer.md", "experience.json", "modify"),
@@ -33,8 +33,8 @@ def generate_mermaid(json_path):
     subgraphs = {
         "Planning_Phase": [".gemini/agents/planner.md", "docs/superpowers/specs/target_state.md", "docs/superpowers/plans/atomic_step.md", "tests/unit/test_auth.py"],
         "Execution_Phase": [".gemini/agents/executor.md", "src/api/auth.py", "docs/handoffs/handoff.md"],
-        "Review_Audit_Phase": [".gemini/agents/reviewer.md", "knowledge/bcrypt_rounds.md", "experience.json", "changelog.md", "docs/archive/handoff_001.md", "docs/archive/spec_001.md"],
-        "Global_Reference": ["docs/ARCHITECTURE.md", "docs/testing.md", ".agents/skills/test-driven-development/SKILL.md", "templates/knowledge_template.md"]
+        "Review_Audit_Phase": [".gemini/agents/reviewer.md", "docs/knowledge/bcrypt_rounds.md", "experience.json", "changelog.md", "docs/archive/handoff_001.md", "docs/archive/spec_001.md"],
+        "Global_Reference": ["docs/ARCHITECTURE.md", "docs/testing.md", ".agents/skills/test-driven-development/SKILL.md", "docs/templates/knowledge_template.md"]
     }
 
     cat_colors = {
@@ -55,9 +55,9 @@ def generate_mermaid(json_path):
         if path.startswith("docs/superpowers/plans/"): return "docs"
         if path.startswith("docs/superpowers/specs/"): return "docs"
         if path.startswith("docs/handoffs/"): return "docs"
+        if path.startswith("docs/knowledge/"): return "knowledge"
+        if path.startswith("docs/templates/"): return "templates"
         if path.startswith("docs/"): return "docs"
-        if path.startswith("knowledge/"): return "knowledge"
-        if path.startswith("templates/"): return "templates"
         if path.startswith("experience.json"): return "coretext"
         if path.startswith("src/"): return "src"
         if path.startswith("tests/"): return "tests"
