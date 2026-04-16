@@ -1,7 +1,5 @@
 # Experimental Design: Superpowers vs. Superpowers + Coretext v2 (D-SDD)
 
-**Objective:** To empirically prove that while prompt-based frameworks (Superpowers) excel at initial code generation, they inevitably succumb to structural erosion and constraint amnesia over long-horizon tasks. We hypothesize that embedding Superpowers within Coretext v2's Deterministic State-Driven Development (D-SDD) "Operating System" will mathematically halt this degradation by enforcing mechanical architectural boundaries and explicit state transfers between cold-booted agent sessions.
-
 ---
 
 ## 1. Theoretical Foundations (The 5 Benchmarks)
@@ -23,13 +21,15 @@ To ensure absolute scientific validity, both the Control and Treatment groups mu
 ### Shared Constraints (The "Fairness" Rules)
 
 1.  **Identical Starting State:** Both experiments begin with an empty Git repository containing only boilerplate code (an empty React app) and a root `ARCHITECTURE.md` file pre-seeded with the Global Invariants from `checkpoints.md`.
-2.  **Identical Iteration Lifecycle (The 3-Phase Wipe):** To prevent the Control group from suffering an artificial disadvantage due to longer single-session context bloat, both frameworks must undergo three hard context wipes per milestone:
-    *   **Session A (Planning Phase):** Agent receives the `User Requirement` and drafts the plan. *Context wiped.*
-    *   **Session B (Execution Phase):** Agent writes the code to implement the plan. *Context wiped.*
-    *   **Session C (Review Phase):** Agent reviews the git diff against the Global Invariants. *Context wiped.*
+2.  **Identical Iteration Lifecycle (The Iterative Task Loop):** To prevent the Control group from suffering an artificial disadvantage due to longer single-session context bloat, both frameworks must undergo hard context wipes per milestone and per task:
+    *   **Phase 1: Planning (Session A):** Agent receives the `User Requirement` and drafts the plan. *Context wiped.*
+    *   **Phase 2: Task Execution (Session B):** Agent writes the code to implement ONE task from the plan and generates a review request. *Context wiped.*
+    *   **Phase 3: Task Review (Session C):** Agent reviews the git diff against the review request and Global Invariants. *Context wiped.*
+    *   *The Execution <-> Review loop repeats for each task until the plan is complete.*
 3.  **Identical Underlying LLM and Harness:** Both groups must use the exact same LLM model `Gemini 3.1 Pro Preview` and the exact same terminal harness `Gemini CLI` to rule out base-model and harness variance
-4.  **Zero Human Intervention (Post-Kickoff):** The human operator acts strictly as a dumb proxy. The operator may only copy outputs to the next session or run standard CLI commands (like `npm run test` or `git commit`) as explicitly requested by the agent. No manual fixing of code, hinting, or correcting hallucinated paths.
-5.  **Unmodified Framework Primitives:** The core Superpowers skills (`brainstorming`, `writing-plans`, etc.) must remain completely vanilla and unmodified. Coretext is allowed to *wrap* them or force-feed context before invoking them, but it cannot rewrite the underlying skill definitions to cheat.
+4.  **Identical Prompting (No specialized Agents):** Both groups are orchestrated using the **exact same prompts** during Sessions A, B, and C. 
+5.  **Zero Human Intervention (Post-Kickoff):** The human operator acts strictly as a dumb proxy. The operator may only copy outputs to the next session or run standard CLI commands (like `npm run test` or `git commit`) as explicitly requested by the agent. No manual fixing of code, hinting, or correcting hallucinated paths.
+6.  **Unmodified Framework Primitives:** The core Superpowers skills (`brainstorming`, `writing-plans`, etc.) must remain completely vanilla and unmodified. Coretext is allowed to *wrap* them or force-feed context before invoking them, but it cannot rewrite the underlying skill definitions to cheat.
 
 ---
 
@@ -65,23 +65,24 @@ Before executing Milestone 1 for either group, the human operator must establish
 **Philosophy:** Relying on massive prompt injection, long-form document reading, and the LLM's internal attention mechanism to maintain architectural discipline.
 
 **Workflow per Milestone (Orchestrated Manually):**
-*The human operator physically breaks the milestone into discrete, cold-booted agent processes to perfectly match the phases of the Treatment group.*
+*The human operator physically breaks the milestone into discrete, cold-booted agent processes matching the Iterative Task Loop.*
 
 1.  **Phase 1: Planning (Session A)**
     *   Boot a fresh Gemini CLI session.
     *   Input: `User Requirement` for Milestone *N*.
-    *   Action: Instruct the agent: `"Use the brainstorming and writing-plans skills to design and plan this feature. **CRITICAL OVERRIDE:** Do not ask any clarifying questions, do not offer the visual companion, and do not wait for user approval. **You MUST explore the project structure and read existing architecture docs first.** Make reasonable assumptions for any ambiguities and immediately write the spec and the implementation plan."` The agent is expected to organically explore the filesystem to discover `ARCHITECTURE.md` and past context.
+    *   Action: Instruct the agent: `"Use the brainstorming and writing-plans skills to design and plan this feature. **CRITICAL OVERRIDE:** Do not ask any clarifying questions, do not offer the visual companion, and do not wait for user approval. **You MUST explore the project structure and read existing architecture docs first.** Make reasonable assumptions for any ambiguities and immediately write the spec and the implementation plan."` The agent is expected to explore the filesystem to discover `ARCHITECTURE.md` and past context.
     *   *Session terminates.*
-2.  **Phase 2: Execution (Session B)**
+2.  **Phase 2: Task Execution (Session B)**
     *   Boot a fresh Gemini CLI session.
     *   Input: No context provided.
-    *   Action: Instruct the agent: `"Read the latest plan in docs/superpowers/plans/. Use the test-driven-development skill to execute the tasks outlined in the plan. Do not ask for clarifying questions; make reasonable assumptions to pass the tests."`
-    *   *Session terminates.*
-3.  **Phase 3: Review (Session C)**
+    *   Action: Instruct the agent: `"Read the latest plan in docs/superpowers/plans/. Use the executing-plans skill to step through this document. For each task, use test-driven-development to make the tests pass. If you encounter any failures, you must use systematic-debugging to find the root cause. When the task is complete, you must use verification-before-completion to prove the tests pass, and finally use the requesting-code-review skill to generate a handoff document in docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md and HALT."`
+    *   *Session terminates. Wait for Session C.*
+3.  **Phase 3: Task Review (Session C)**
     *   Boot a fresh Gemini CLI session.
     *   Input: No context provided.
-    *   Action: Instruct the agent: `"Use the requesting-code-review skill to review the uncommitted changes in the working tree. Compare the changes against the original plan and **you MUST organically locate and read the project's root architecture file** to ensure no global constraints were violated."`
+    *   Action: Instruct the agent: `"Use the code-reviewer skill to review the uncommitted changes in the working tree. **You MUST locate and read the project's root architecture file and the review request in docs/superpowers/reviews/** to ensure no global constraints were violated. Output your feedback."`
     *   *Session terminates.*
+    *   *If rejected, return to Session B with the feedback. If approved, Session B moves to the next task in the plan.*
 
 **Expected Failure Mode:** By Milestone 3 or 4, the agent will experience *Constraint Amnesia*. During Phase 1 or 2, it will fail to proactively search for `ARCHITECTURE.md` or fail to read its own previous long-form plan documents deeply enough, resulting in a "Must-Not Violate" Interaction Smell.
 
@@ -89,28 +90,29 @@ Before executing Milestone 1 for either group, the human operator must establish
 
 ## 4. Treatment Group: Superpowers + Coretext v2 (D-SDD)
 
-**Philosophy:** Treating Superpowers as ephemeral "User-Space" execution skills, governed by Coretext v2 as the strict "Kernel" enforcing state transfer and review.
+**Philosophy:** Treating Superpowers as ephemeral "User-Space" execution skills, governed by Coretext v2 as the strict "Kernel" enforcing state transfer and review. To prove the efficacy of the Kernel, the prompts are **identical** to the Control group, minus the forced instructions to locate files.
 
-**Workflow per Milestone (Orchestrated by Coretext):**
-*Coretext v2 physically breaks the milestone into discrete, cold-booted agent processes.*
+**Workflow per Milestone (Orchestrated by Coretext Kernel):**
+*Coretext v2 physically breaks the milestone into discrete, cold-booted agent processes, injecting the exact required state transparently.*
 
-1.  **Phase 1: Planner (Session A)**
-    *   Boot Coretext `.gemini/agents/planner.md`.
-    *   Input: Global Invariants + Milestone *N* + existing `ARCHITECTURE.md` + **CRITICAL OVERRIDE** (Do not ask clarifying questions, do not offer visual companion, do not wait for approval. Make reasonable assumptions and immediately write the spec and plan).
-    *   Action: Planner uses Superpowers' `brainstorming` and `writing-plans` skills to generate `docs/superpowers/specs/*` and `docs/superpowers/plans/*`, writing the exact Failing Tests (F2P).
+1.  **Phase 1: Planning (Session A)**
+    *   Boot a standard Gemini CLI session.
+    *   Input: `User Requirement` for Milestone *N* + **CRITICAL OVERRIDE** (Do not ask clarifying questions... Make reasonable assumptions and immediately write the spec and plan).
+    *   Action: *(Kernel has passively prepended `ARCHITECTURE.md` to context).* Agent uses Superpowers' `brainstorming` and `writing-plans` skills to generate `docs/superpowers/specs/*` and `docs/superpowers/plans/*`.
     *   *Session terminates.*
-2.  **Phase 2: Executor (Session B)**
-    *   Boot Coretext `.gemini/agents/executor.md`.
-    *   Input: `docs/superpowers/plans/*` + passive SQLite injected `knowledge/*.md`.
-    *   Action: Executor uses Superpowers' `test-driven-development` and `systematic-debugging` skills. It is physically trapped; it must make the Planner's tests pass.
+2.  **Phase 2: Task Execution (Session B)**
+    *   Boot a standard Gemini CLI session.
+    *   Input: `"Use the executing-plans skill to step through the plan. For each task, use test-driven-development to make the tests pass. If you encounter any failures, you must use systematic-debugging to find the root cause. When the task is complete, you must use verification-before-completion to prove the tests pass, and finally use the requesting-code-review skill to generate a handoff document in docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md and HALT."`
+    *   Action: *(Kernel has passively prepended `docs/superpowers/plans/*` and `docs/rules/*.md`).* Agent physically trapped; it must make the Planner's tests pass and generate the handoff artifact.
+    *   *Session terminates. Wait for Session C.*
+3.  **Phase 3: Task Review (Session C)**
+    *   Boot a standard Gemini CLI session.
+    *   Input: `"Use the code-reviewer skill to review the uncommitted changes in the working tree. Output your feedback. If the milestone is fully complete and approved, you MUST use the consolidate-rules skill to extract architectural lessons."`
+    *   Action: *(Kernel has passively prepended `ARCHITECTURE.md`, the Diff, and `docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md`).* Audits the code. If Superpowers used `useState`, the Reviewer mechanically rejects the commit. If approved, it extracts lessons to `docs/rules/`.
     *   *Session terminates.*
-3.  **Phase 3: Reviewer (Session C)**
-    *   Boot Coretext `.gemini/agents/reviewer.md`.
-    *   Input: Git Diff + `ARCHITECTURE.md` (containing the URL-State Only rule).
-    *   Action: Audits the code. If Superpowers used `useState`, the Reviewer mechanically rejects the commit. If approved, it extracts lessons to `knowledge/` and updates `experience.json`.
-    *   *Session terminates.*
+    *   *If rejected, Kernel boots Session B with the feedback. If approved, Session B moves to the next task in the plan.*
 
-**Expected Success Mode:** Because the Reviewer boots completely cold and reads *only* the Diff and the Architecture rules, it is immune to context exhaustion. It will mechanically block the Structural Erosion that Superpowers attempts to introduce in Milestone 3 and 5.
+**Expected Success Mode:** Because the Reviewer boots completely cold and reads *only* the Diff and the Architecture rules provided transparently by the Kernel, it is immune to context exhaustion. It will mechanically block the Structural Erosion that Superpowers attempts to introduce in Milestone 3 and 5.
 
 ---
 
@@ -128,11 +130,11 @@ After both frameworks complete (or fail) the 5 milestones, we will evaluate the 
 
 ## 6. Context Management Comparison Diagrams
 
-The core variable in this experiment is **how context is managed across isolated sessions**. Both the Control and Treatment groups execute identically structured 3-session milestones to maintain scientific validity, differing only in their state transfer mechanisms.
+The core variable in this experiment is **how context is managed across isolated sessions**. Both groups execute identically prompted workflows to maintain scientific validity, differing only in the presence of Coretext's transparent state injection.
 
 ### Diagram A: Control Group (Superpowers Alone)
 
-In the Control Group, context transfer relies entirely on the LLM's initiative to search the filesystem and its organic memory to adhere to constraints across sessions.
+In the Control Group, context transfer relies entirely on the LLM's initiative to search the filesystem and its memory to adhere to constraints across sessions.
 
 ```mermaid
 flowchart TB
@@ -146,52 +148,52 @@ flowchart TB
 
         subgraph SessionA ["Session A: Planning (Cold Boot)"]
             direction TB
-            InputA([User Requirement])
-            ContextA["Forced Organic Exploration<br/>(Prompted to explore & read ARCHITECTURE.md)"]:::difference
+            InputA([Prompt: Forced Exploration]):::difference
             Skill_Brainstorm([brainstorming]):::skill
             Skill_Plan([writing-plans]):::skill
             
-            InputA --> ContextA
-            ContextA --> Skill_Brainstorm
+            InputA --> Skill_Brainstorm
             Skill_Brainstorm --> Skill_Plan
             
             Art_Spec[docs/superpowers/specs/*]:::artifact
             Art_Plan[docs/superpowers/plans/*]:::artifact
-            
-            Skill_Brainstorm --> Art_Spec
-            Skill_Plan --> Art_Plan
         end
 
-        subgraph SessionB ["Session B: Execution (Cold Boot)"]
+        subgraph SessionB ["Session B: Task Execution (Cold Boot)"]
             direction TB
-            ContextB["Organic Retrieval<br/>(Agent must proactively read specific plan file)"]:::difference
-            Skill_TDD([test-driven-development]):::skill
-            Art_Code[Application Code & Tests]:::artifact
+            InputB([Prompt: Retrieval]):::difference
+            Skill_Exec([executing-plans]):::skill
+            Skill_ReqReview([requesting-code-review]):::skill
+            Art_Code[Code & Tests]:::artifact
+            Art_Handoff[docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md]:::artifact
             
-            Art_Plan -. "Searches & Reads" .-> ContextB
-            ContextB --> Skill_TDD
-            Skill_TDD --> Art_Code
+            Art_Plan -. "Agent manually searches" .-> InputB
+            InputB --> Skill_Exec
+            Skill_Exec --> Art_Code
+            Art_Code --> Skill_ReqReview
+            Skill_ReqReview --> Art_Handoff
         end
 
-        subgraph SessionC ["Session C: Review (Cold Boot)"]
+        subgraph SessionC ["Session C: Task Review (Cold Boot)"]
             direction TB
-            ContextC["Forced Organic Retrieval<br/>(Prompted to read Diff & ARCHITECTURE.md)"]:::difference
-            Skill_Review([requesting-code-review]):::skill
-            Art_Commit[Git Commit]:::artifact
+            InputC([Prompt: Forced Retrieval]):::difference
+            Skill_Review([code-reviewer]):::skill
+            Art_Feedback[docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-feedback.md]:::artifact
             
-            Art_Code -. "Reads Diff" .-> ContextC
-            ContextC --> Skill_Review
-            Skill_Review --> Art_Commit
+            Art_Handoff -. "Agent manually reads" .-> InputC
+            InputC --> Skill_Review
+            Skill_Review --> Art_Feedback
         end
         
         SessionA --> SessionB
-        SessionB --> SessionC
+        SessionB -->|Generates Request| SessionC
+        SessionC -->|Feedback| SessionB
     end
 ```
 
 ### Diagram B: Treatment Group (Superpowers + Coretext v2)
 
-In the Treatment Group, Coretext acts as a **"Symbiotic Wrapper."** It uses the *exact same* Superpowers skills for development but uses its Kernel to force-feed context and adds specific skills for state transfer (`handoff` and `knowledge`).
+In the Treatment Group, the agent receives the exact same prompts (without the forced manual search instructions). Coretext acts as a **"Symbiotic Wrapper,"** injecting context completely transparently.
 
 ```mermaid
 flowchart TB
@@ -208,14 +210,15 @@ flowchart TB
         subgraph Inject ["Coretext Kernel (Mechanical State)"]
             direction LR
             K_Arch[ARCHITECTURE.md]:::artifact
-            K_Hint[knowledge/*.md]:::artifact
+            K_Hint[docs/rules/*.md]:::artifact
             K_Exp[experience.json]:::artifact
+            K_Diff[Git Diff]:::artifact
         end
 
-        subgraph SessionA ["Session A: planner.md (Cold Boot)"]
+        subgraph SessionA ["Session A: Planning (Cold Boot)"]
             direction TB
-            InputA([User Requirement])
-            ContextA["Forced Injection<br/>(Kernel prepends ARCHITECTURE)"]:::difference
+            InputA([Standard Prompt])
+            ContextA["Transparent Injection<br/>(Kernel prepends ARCHITECTURE)"]:::difference
             Skill_Brainstorm([brainstorming]):::skill
             Skill_Plan([writing-plans]):::skill
             
@@ -225,40 +228,40 @@ flowchart TB
             
             Art_Spec[docs/superpowers/specs/*]:::artifact
             Art_Plan[docs/superpowers/plans/*]:::artifact
-            
-            Skill_Brainstorm --> Art_Spec
-            Skill_Plan --> Art_Plan
         end
 
-        subgraph SessionB ["Session B: executor.md (Cold Boot)"]
+        subgraph SessionB ["Session B: Task Execution (Cold Boot)"]
             direction TB
-            ContextB["Forced Injection<br/>(Kernel prepends Plan & Knowledge)"]:::difference
-            Skill_TDD([test-driven-development]):::skill
-            Skill_Handoff([requesting-code-review<br/>(Generates Handoff)]):::skill
-            Art_Code[Application Code passing Tests]:::artifact
-            Art_Handoff[docs/handoffs/*]:::artifact
+            InputB([Standard Prompt])
+            ContextB["Transparent Injection<br/>(Kernel prepends Plan & Rules)"]:::difference
+            Skill_Exec([executing-plans]):::skill
+            Skill_ReqReview([requesting-code-review]):::skill
+            Art_Code[Code & Tests]:::artifact
+            Art_Handoff[docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md]:::artifact
             
-            Art_Plan -. "Kernel reads" .-> ContextB
-            ContextB --> Skill_TDD
-            Skill_TDD --> Art_Code
-            Art_Code --> Skill_Handoff
-            Skill_Handoff --> Art_Handoff
+            Art_Plan -. "Kernel provides" .-> ContextB
+            InputB --> ContextB
+            ContextB --> Skill_Exec
+            Skill_Exec --> Art_Code
+            Art_Code --> Skill_ReqReview
+            Skill_ReqReview --> Art_Handoff
         end
 
-        subgraph SessionC ["Session C: reviewer.md (Cold Boot)"]
+        subgraph SessionC ["Session C: Task Review (Cold Boot)"]
             direction TB
-            ContextC["Forced Injection<br/>(Kernel prepends Arch, Plan, Handoff, Diff)"]:::difference
-            Skill_Review([code-reviewer.md instructions]):::coretext_skill
-            Skill_Knowledge([NEW: consolidate-knowledge]):::coretext_skill
+            InputC([Standard Prompt])
+            ContextC["Transparent Injection<br/>(Kernel prepends Arch, Diff, Handoff)"]:::difference
+            Skill_Review([code-reviewer]):::skill
+            Skill_Knowledge([consolidate-rules]):::coretext_skill
+            Art_Feedback[docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-feedback.md]:::artifact
+            Art_UpdateKnowledge[Updated rules/*]:::artifact
             
-            Art_Commit[Git Commit]:::artifact
-            Art_UpdateKnowledge[Updated knowledge/* & experience.json]:::artifact
-            
-            Art_Code -. "Kernel reads Diff" .-> ContextC
-            Art_Handoff -. "Kernel reads" .-> ContextC
+            Art_Handoff -. "Kernel provides" .-> ContextC
+            K_Diff -. "Kernel provides" .-> ContextC
+            InputC --> ContextC
             ContextC --> Skill_Review
-            Skill_Review --> Art_Commit
-            Art_Commit --> Skill_Knowledge
+            Skill_Review --> Art_Feedback
+            Skill_Review --> Skill_Knowledge
             Skill_Knowledge --> Art_UpdateKnowledge
         end
         
@@ -267,6 +270,7 @@ flowchart TB
         Inject -. "Prepends" .-> ContextC
         
         SessionA --> SessionB
-        SessionB --> SessionC
+        SessionB -->|Generates Request| SessionC
+        SessionC -->|Feedback| SessionB
     end
-```
+```` 

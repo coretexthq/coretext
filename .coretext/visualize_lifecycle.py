@@ -23,23 +23,23 @@ def generate_mermaid(json_path):
         (".gemini/agents/reviewer.md", "tests/unit/test_auth.py", "read"),
         (".gemini/agents/reviewer.md", "src/api/auth.py", "read"),
         (".gemini/agents/reviewer.md", "docs/handoffs/handoff.md", "read"),
-        (".gemini/agents/reviewer.md", "docs/knowledge/bcrypt_rounds.md", "modify"),
+        (".gemini/agents/reviewer.md", "docs/rules/bcrypt_rounds.md", "modify"),
         (".gemini/agents/reviewer.md", "docs/ARCHITECTURE.md", "modify"),
         (".gemini/agents/reviewer.md", "changelog.md", "modify"),
-        (".gemini/agents/reviewer.md", "experience.json", "modify"),
+        (".gemini/agents/reviewer.md", "coretext.json", "modify"),
     ]
 
     # Map nodes to subgraphs for grouping
     subgraphs = {
         "Planning_Phase": [".gemini/agents/planner.md", "docs/superpowers/specs/target_state.md", "docs/superpowers/plans/atomic_step.md", "tests/unit/test_auth.py"],
         "Execution_Phase": [".gemini/agents/executor.md", "src/api/auth.py", "docs/handoffs/handoff.md"],
-        "Review_Audit_Phase": [".gemini/agents/reviewer.md", "docs/knowledge/bcrypt_rounds.md", "experience.json", "changelog.md", "docs/archive/handoff_001.md", "docs/archive/spec_001.md"],
-        "Global_Reference": ["docs/ARCHITECTURE.md", "docs/testing.md", ".agents/skills/test-driven-development/SKILL.md", "docs/templates/knowledge_template.md"]
+        "Review_Audit_Phase": [".gemini/agents/reviewer.md", "docs/rules/bcrypt_rounds.md", "coretext.json", "changelog.md", "docs/archive/handoff_001.md", "docs/archive/spec_001.md"],
+        "Global_Reference": ["docs/ARCHITECTURE.md", "docs/testing.md", ".agents/skills/test-driven-development/SKILL.md", "docs/templates/rules_template.md"]
     }
 
     cat_colors = {
         "agents": "#2c3e50", "skills": "#e67e22", "docs": "#3498db", 
-        "knowledge": "#2ecc71", "templates": "#9b59b6", "archive": "#95a5a6", 
+        "rules": "#2ecc71", "templates": "#9b59b6", "archive": "#95a5a6", 
         "coretext": "#e74c3c", "src": "#1abc9c", "tests": "#f1c40f"
     }
 
@@ -55,10 +55,10 @@ def generate_mermaid(json_path):
         if path.startswith("docs/superpowers/plans/"): return "docs"
         if path.startswith("docs/superpowers/specs/"): return "docs"
         if path.startswith("docs/handoffs/"): return "docs"
-        if path.startswith("docs/knowledge/"): return "knowledge"
+        if path.startswith("docs/rules/"): return "rules"
         if path.startswith("docs/templates/"): return "templates"
         if path.startswith("docs/"): return "docs"
-        if path.startswith("experience.json"): return "coretext"
+        if path.startswith("coretext.json"): return "coretext"
         if path.startswith("src/"): return "src"
         if path.startswith("tests/"): return "tests"
         return "docs"
@@ -102,7 +102,7 @@ def generate_mermaid(json_path):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    json_path = script_dir / "experience.json"
+    json_path = script_dir / "coretext.json"
     output_path = script_dir.parent / "docs" / "coretext" / "lifecycle.md"
 
     if not json_path.exists():

@@ -13,9 +13,9 @@ flowchart TB
     %% --- JIT CONTEXT ---
     subgraph JIT ["Context Injection Engine"]
         direction LR
-        K_Docs[docs/ & ARCHITECTURE.md]:::artifact
-        K_Hints[knowledge/*.md]:::artifact
-        Sys_DB[(SQLite / experience.json)]:::system
+        K_Docs[docs/ & docs/ARCHITECTURE.md]:::artifact
+        K_Hints[docs/rules/*.md]:::artifact
+        Sys_DB[(SQLite / .coretext/coretext.jsonl)]:::system
         
         K_Docs --> Sys_DB
         K_Hints --> Sys_DB
@@ -63,7 +63,7 @@ flowchart TB
         A_Reviewer([reviewer]):::agent
         Check_Audit{Tests Passed &<br/>Rules Respected?}:::decision
         A_Knowledge[knowledge/*.md]:::artifact
-        A_ExpUpdate[experience.json update]:::artifact
+        A_ExpUpdate[.coretext/coretext.jsonl update]:::artifact
         A_Handoff_Final[docs/handoffs/* Audit Update]:::artifact
 
         A_Reviewer --> Check_Audit

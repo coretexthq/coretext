@@ -10,7 +10,7 @@ def generate_mermaid(json_path):
     
     cat_colors = {
         "agents": "#2c3e50", "skills": "#e67e22", "docs": "#3498db", 
-        "knowledge": "#2ecc71", "templates": "#9b59b6", "archive": "#95a5a6", 
+        "rules": "#2ecc71", "templates": "#9b59b6", "archive": "#95a5a6", 
         "coretext": "#e74c3c", "src": "#1abc9c", "tests": "#f1c40f"
     }
 
@@ -26,10 +26,10 @@ def generate_mermaid(json_path):
         if path.startswith("docs/superpowers/plans/"): return "docs"
         if path.startswith("docs/superpowers/specs/"): return "docs"
         if path.startswith("docs/handoffs/"): return "docs"
-        if path.startswith("docs/knowledge/"): return "knowledge"
+        if path.startswith("docs/rules/"): return "rules"
         if path.startswith("docs/templates/"): return "templates"
         if path.startswith("docs/"): return "docs"
-        if path.startswith("experience.json"): return "coretext"
+        if path.startswith("coretext.json"): return "coretext"
         if path.startswith("src/"): return "src"
         if path.startswith("tests/"): return "tests"
         return "docs"
@@ -51,7 +51,7 @@ def generate_mermaid(json_path):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    json_path = script_dir / "experience.json"
+    json_path = script_dir / "coretext.json"
     output_path = script_dir.parent / "docs" / "coretext" / "graph.md"
 
     if not json_path.exists():
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     content = [
         "# Coretext Structural Graph",
         "",
-        "This graph visualizes the structural context injection edges defined in `experience.json`.",
+        "This graph visualizes the structural context injection edges defined in `coretext.json`.",
         "",
         "```mermaid",
         generate_mermaid(json_path),

@@ -3,12 +3,12 @@ import sqlite3
 from pathlib import Path
 from typing import List, Dict, Optional, Tuple
 
-class ExperienceEngine:
+class CoretextEngine:
     def __init__(self, coretext_dir: str):
         self.coretext_dir = Path(coretext_dir)
         self.workspace_root = self.coretext_dir.parent
-        self.json_path = self.coretext_dir / "experience.json"
-        self.db_path = self.coretext_dir / "experience.db"
+        self.json_path = self.coretext_dir / "coretext.json"
+        self.db_path = self.coretext_dir / "coretext.db"
         
         self.conn = self._init_db()
         self.sync_json_to_db()
@@ -35,7 +35,7 @@ class ExperienceEngine:
         if not isinstance(data["edges"], list):
             return False, "'edges' must be a list"
             
-        allowed_types = ["docs", "skills", "knowledge", "templates", "archive"]
+        allowed_types = ["docs", "skills", "rules", "templates", "archive"]
         
         for idx, edge in enumerate(data["edges"]):
             if not isinstance(edge, dict):
@@ -51,7 +51,7 @@ class ExperienceEngine:
         return True, None
 
     def sync_json_to_db(self) -> None:
-        """Loads experience.json, validates it, and syncs to SQLite."""
+        """Loads coretext.json, validates it, and syncs to SQLite."""
         if not self.json_path.exists():
             return
         
@@ -60,7 +60,7 @@ class ExperienceEngine:
             
         is_valid, err = self._validate_schema(data)
         if not is_valid:
-            print(f"Warning: experience.json failed schema validation: {err}")
+            print(f"Warning: coretext.json failed schema validation: {err}")
             return
 
         cursor = self.conn.cursor()
@@ -74,22 +74,22 @@ class ExperienceEngine:
         self.conn.commit()
 
     def sync_db_to_json(self) -> None:
-        """Dumps current SQLite state back to experience.json."""
+        """Dumps current SQLite state back to coretext.json."""
         cursor = self.conn.cursor()
         cursor.execute("SELECT source, target, type FROM edges")
         rows = cursor.fetchall()
         
         data = {
-            "$schema": "./experience_schema.json",
+            "$schema": "./coretext_schema.json",
             "edges": [{"source": r[0], "target": r[1], "type": r[2]} for r in rows]
         }
         
         with open(self.json_path, "w") as f:
             json.dump(data, f, indent=2)
 
-    def add_knowledge(self, source_file: str, target_knowledge_file: str, edge_type: str = "knowledge") -> Tuple[bool, Optional[str]]:
+    def add_rules(self, source_file: str, target_rules_file: str, edge_type: str = "rules") -> Tuple[bool, Optional[str]]:
         """
-        API for consolidate-knowledge skill.
+        API for consolidate-rules skill.
         Adds a new edge to the graph, validating it against the schema first.
         Returns (success: bool, error_message: str)
         """
@@ -97,7 +97,7 @@ class ExperienceEngine:
         cursor.execute("SELECT source, target, type FROM edges")
         current_edges = [{"source": r[0], "target": r[1], "type": r[2]} for r in cursor.fetchall()]
         
-        new_edge = {"source": source_file, "target": target_knowledge_file, "type": edge_type}
+        new_edge = {"source": source_file, "target": target_rules_file, "type": edge_type}
         
         if new_edge in current_edges:
             return True, None
@@ -112,7 +112,7 @@ class ExperienceEngine:
             
         cursor.execute(
             "INSERT INTO edges (source, target, type) VALUES (?, ?, ?)",
-            (source_file, target_knowledge_file, edge_type)
+            (source_file, target_rules_file, edge_type)
         )
         self.conn.commit()
         self.sync_db_to_json()
@@ -123,7 +123,7 @@ class ExperienceEngine:
         """
         API for File Read Hooks.
         Queries SQLite to find all target files associated with the read source file.
-        Returns a dictionary categorized by edge type (e.g., 'knowledge', 'docs').
+        Returns a dictionary categorized by edge type (e.g., 'rules', 'docs').
         """
         cursor = self.conn.cursor()
         cursor.execute("SELECT target, type FROM edges WHERE source = ?", (filepath,))
@@ -166,19 +166,20 @@ if __name__ == "__main__":
     import sys
     script_dir = Path(__file__).parent
     
-    engine = ExperienceEngine(str(script_dir))
+    engine = CoretextEngine(str(script_dir))
     
     print("Testing get_context_for_file('src/api/auth.py'):")
     print(engine.get_context_for_file("src/api/auth.py"))
     
-    print("\\nTesting add_knowledge():")
-    success, err = engine.add_knowledge("src/components/Grid.jsx", "knowledge/react_state_rules.md", "knowledge")
+    print("\\nTesting add_rules():")
+    success, err = engine.add_rules("src/components/Grid.jsx", "rules/react_state_rules.md", "rules")
     if success:
-        print("Knowledge added successfully.")
+        print("Rules added successfully.")
     else:
         print(f"Failed: {err}")
     
-    print("\\nTesting bad add_knowledge (wrong type):")
-    success, err = engine.add_knowledge("src/components/Grid.jsx", "knowledge/react_state_rules.md", "bad_type")
+    print("\\nTesting bad add_rules (wrong type):")
+    success, err = engine.add_rules("src/components/Grid.jsx", "rules/react_state_rules.md", "bad_type")
     if not success:
         print(f"Caught schema error as expected: {err}")
+)

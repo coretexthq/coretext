@@ -24,7 +24,7 @@ Build a responsive React application displaying a grid of rental properties. Imp
 *   **Fail-to-Pass (F2P_1.1):** Entering text updates the URL to `?q=text`.
 *   **Fail-to-Pass (F2P_1.2):** Fetches from `/api/properties` include the `X-Trore-Auth` header.
 *   **Fail-to-Pass (F2P_1.3):** The property grid renders items matching the query.
-*   **Knowledge Extraction (Coretext v2):** The Reviewer extracts the header rule to `knowledge/api_rules.md`.
+*   **Rule Extraction (Coretext v2):** The Reviewer extracts the header rule to `docs/rules/api_rules.md`.
 
 ---
 

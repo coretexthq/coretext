@@ -1,5 +1,5 @@
 {
-  "$schema": "./experience_schema.json",
+  "$schema": "./coretext_schema.json",
   "edges": [
     {
       "source": ".gemini/agents/planner.md",
@@ -23,16 +23,16 @@
     },
     {
       "source": "src/api/auth.py",
-      "target": "docs/knowledge/bcrypt_rounds.md",
-      "type": "knowledge"
+      "target": "docs/rules/bcrypt_rounds.md",
+      "type": "rules"
     },
     {
       "source": ".gemini/agents/reviewer.md",
-      "target": "docs/templates/knowledge_template.md",
+      "target": "docs/templates/rules_template.md",
       "type": "templates"
     },
     {
-      "source": "docs/knowledge/bcrypt_rounds.md",
+      "source": "docs/rules/bcrypt_rounds.md",
       "target": "docs/archive/handoff_001.md",
       "type": "archive"
     },
@@ -48,8 +48,8 @@
     },
     {
       "source": "src/components/Grid.jsx",
-      "target": "docs/knowledge/react_state_rules.md",
-      "type": "knowledge"
+      "target": "docs/rules/react_state_rules.md",
+      "type": "rules"
     }
   ]
 }

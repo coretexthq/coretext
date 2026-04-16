@@ -1,14 +1,14 @@
 # Agent Rules (D-SDD)
 
-1. **Truth:** `ARCHITECTURE.md`, `docs/`, `knowledge/`.
+1. **Truth:** `docs/ARCHITECTURE.md`, `docs/`, `docs/rules/`.
 2. **Gate:** Code requires a Planner-authored failing test.
 3. **Intent:** Never update architecture to justify code changes.
-4. **Scope:** Plan only the immediate atomic step. No roadmaps.
+4. **Scope:** Plan only the immediate step. No roadmaps.
 
 ## Artifacts
-- `target_state.md`: Active goal (Planner).
-- `atomic_step.md`: Immediate task (Planner).
-- `handoff.md`: Execution/Audit report (Executor/Reviewer).
-- `knowledge/*.md`: Atomic architectural rules extracted during audits.
-- `experience.json`: Edge graph mapping source code paths to `docs/` and `knowledge/` for SQLite injection.
-- `backlog.md`: Human intent queue.
+- `docs/superpowers/specs/*`: Active goal (Planner).
+- `docs/superpowers/plans/*`: Immediate task (Planner).
+- `docs/handoffs/*`: Execution/Audit report (Executor/Reviewer).
+- `docs/rules/*.md`: Atomic architectural rules extracted during audits.
+- `.coretext/coretext.jsonl`: Edge graph mapping source code paths to `docs/` and `docs/rules/` for injection.
+- `docs/BACKLOG.md`: Human intent queue.

@@ -1,6 +1,6 @@
 # Coretext Structural Graph
 
-This graph visualizes the structural context injection edges defined in `experience.json`.
+This graph visualizes the structural context injection edges defined in `.coretext/coretext.jsonl`.
 
 ```mermaid
 graph TD

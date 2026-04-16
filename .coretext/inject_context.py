@@ -1,7 +1,7 @@
 import sys
 import json
 from pathlib import Path
-from experience_engine import ExperienceEngine
+from coretext_engine import CoretextEngine
 
 def main():
     try:
@@ -26,11 +26,11 @@ def main():
             print(json.dumps({"decision": "allow"}))
             return
 
-        # Initialize the Experience Engine
+        # Initialize the Coretext Engine
         script_dir = Path(__file__).parent
-        engine = ExperienceEngine(str(script_dir))
+        engine = CoretextEngine(str(script_dir))
         
-        # Check if there is any knowledge linked to this file
+        # Check if there is any rules linked to this file
         context_payload = engine.render_context_payload(file_path)
         
         if context_payload:

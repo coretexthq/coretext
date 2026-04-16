@@ -1,7 +1,7 @@
 {
-  "$id": "https://coretext.dev/experience_schema.json",
+  "$id": "https://coretext.dev/coretext_schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Coretext Experience Graph Ledger",
+  "title": "Coretext Coretext Graph Ledger",
   "description": "The deterministic, typed edge graph mapping system state, active agents, and code to architectural intent and historical provenance.",
   "type": "object",
   "required": ["edges"],
@@ -22,8 +22,8 @@
           },
           "type": {
             "type": "string",
-            "enum": ["docs", "skills", "knowledge", "templates", "archive"],
-            "description": "Defines how Coretext routes the target context. 'docs': Mandatory full-text injection (targets docs/ or ARCHITECTURE.md). 'skills': Mandatory full-text injection (targets .agents/skills/). 'knowledge': Passive hint injection by filename only (targets knowledge/). 'templates': Mandatory full-text injection (targets templates/). 'archive': Ignored during execution; used for historical provenance tracking (targets docs/archive/)."
+            "enum": ["docs", "skills", "rules", "templates", "archive"],
+            "description": "Defines how Coretext routes the target context. 'docs': Mandatory full-text injection (targets docs/ or ARCHITECTURE.md). 'skills': Mandatory full-text injection (targets .agents/skills/). 'rules': Passive hint injection by filename only (targets rules/). 'templates': Mandatory full-text injection (targets templates/). 'archive': Ignored during execution; used for historical provenance tracking (targets docs/archive/)."
           }
         }
       }
