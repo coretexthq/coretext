@@ -76,7 +76,7 @@ Establish the baseline environment to isolate scaffolding noise.
 - **Phase 2: Task Execution (Session B - Cold Boot)**
   - **Prompt:** `"Read the latest plan in docs/superpowers/plans/. Use the executing-plans skill to step through this document. For each task, use test-driven-development to make the tests pass. If you encounter any failures, you must use systematic-debugging to find the root cause. When the task is complete, you must use verification-before-completion to prove the tests pass, and finally use the requesting-code-review skill to generate a handoff document in docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md and HALT."`
 - **Phase 3: Task Review (Session C - Cold Boot)**
-  - **Prompt:** `"Use the code-reviewer skill to review the latest changes in the working tree. **You MUST locate and read the project's root architecture file and the review request in docs/superpowers/reviews/** to ensure no global constraints were violated. Output your feedback."`
+  - **Prompt:** `"Use the code-reviewer skill to review the uncommitted changes in the working tree. **You MUST locate and read the project's root architecture file and the review request in docs/superpowers/reviews/** to ensure no global constraints were violated. Output your feedback."`
   - *Result:* Rejection returns to Session B; Approval moves Session B to the next task.
 
 **Expected Failure Mode:** *Constraint Amnesia* by Milestone 3 or 4. The agent will fail to find `ARCHITECTURE.md` or read its long-form plans, causing a "Must-Not Violate" smell.
@@ -97,7 +97,7 @@ Establish the baseline environment to isolate scaffolding noise.
   - **Prompt:** `"Use the executing-plans skill to step through the plan. For each task, use test-driven-development to make the tests pass. If you encounter any failures, you must use systematic-debugging to find the root cause. When the task is complete, you must use verification-before-completion to prove the tests pass, and finally use the requesting-code-review skill to generate a handoff document in docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md and HALT."`
 - **Phase 3: Task Review (Session C - Cold Boot)**
   - **Context:** Kernel passively prepends `ARCHITECTURE.md`, Git Diff, and Handoff Document.
-  - **Prompt:** `"Use the code-reviewer skill to review the latest changes in the working tree. Output your feedback. If the milestone is fully complete and approved, you MUST use the consolidate-rules skill to extract architectural lessons."`
+  - **Prompt:** `"Use the code-reviewer skill to review the uncommitted changes in the working tree. Output your feedback. If the milestone is fully complete and approved, you MUST use the consolidate-rules skill to extract architectural lessons."`
   - *Result:* Rejection re-boots Session B with feedback; Approval extracts lessons to `docs/rules/` and moves to the next task.
 
 **Expected Success Mode:** Reviewer boots cold, immune to context exhaustion. It mechanically blocks Structural Erosion by relying strictly on injected Context & Diff.

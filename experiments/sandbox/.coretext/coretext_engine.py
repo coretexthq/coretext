@@ -69,6 +69,14 @@ class CoretextEngine:
         if not self.jsonl_path.exists():
             return []
 
+        # Normalize filepath to be relative to workspace_root if it's absolute
+        try:
+            path_obj = Path(filepath)
+            if path_obj.is_absolute():
+                filepath = str(path_obj.relative_to(self.workspace_root))
+        except ValueError:
+            pass # Keep it as is if it's not relative to workspace_root
+
         matched_edges = []
         with open(self.jsonl_path, "r") as f:
             for line in f:

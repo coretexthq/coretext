@@ -1,0 +1,22 @@
+# Python artifacts 
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+
+# Environment
+.env
+.venv/
+env/
+
+# BMaD
+# _bmad/
+
+.turbo
+
+/chat_history
+
+/report
+
+.DS_Store

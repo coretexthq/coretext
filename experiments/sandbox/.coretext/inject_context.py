@@ -6,6 +6,8 @@ from coretext_engine import CoretextEngine
 def main():
     try:
         input_data = sys.stdin.read()
+        print(f"DEBUG INJECT_CONTEXT RAW PAYLOAD: {input_data}", file=sys.stderr)
+        
         if not input_data:
             print(json.dumps({"decision": "allow"}))
             return

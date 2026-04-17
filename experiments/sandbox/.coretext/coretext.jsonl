@@ -18,3 +18,4 @@
 {"source": "docs/superpowers/reviews/*feedback*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
 {"source": "docs/rules/*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
 {"source": "test_engine.py", "target": "docs/ARCHITECTURE.md", "type": "hint", "description": "test consolidate-rules", "hook": "both"}
+{"source": "src/test_hook.py", "target": "docs/ARCHITECTURE.md", "type": "hint", "description": "testing", "hook": "both"}

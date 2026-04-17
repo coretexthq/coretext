@@ -28,9 +28,6 @@
     ]
   },
   "hooksConfig": {
-    "disabled": [
-      "coretext-context-injector-write",
-      "coretext-context-injector-read"
-    ]
+    "disabled": []
   }
 }
