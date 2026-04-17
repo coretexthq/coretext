@@ -7,9 +7,9 @@ export default function SearchBar() {
   const handleChange = (e) => {
     const value = e.target.value;
     if (value) {
-      setSearchParams({ q: value });
+      setSearchParams({ q: value }, { replace: true });
     } else {
-      setSearchParams({});
+      setSearchParams({}, { replace: true });
     }
   };
 
