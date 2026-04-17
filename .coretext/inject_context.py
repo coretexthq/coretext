@@ -37,14 +37,19 @@ def main():
         
         # Check if there is any rules linked to this file
         context_payload = engine.render_context_payload(file_path, action)
+        hints = context_payload.get("hints", "")
+        full_files = context_payload.get("full_files", "")
         
-        if context_payload:
+        if hints or full_files:
+            # Extract session ID for namespacing
+            session_id = payload.get("session_id", "default")
+            
             # Check if this is a BeforeTool hook (which applies to write/replace now)
             hookType = payload.get("hook_event_name", payload.get("hookType", ""))
             is_before_tool = hookType == "BeforeTool"
             
-            if is_before_tool and action == "write":
-                ack_file = script_dir / ".acknowledged_paths"
+            if is_before_tool and action == "write" and full_files:
+                ack_file = script_dir / f".acknowledged_paths_{session_id}"
                 acknowledged = False
                 
                 # Check if this file path has already been acknowledged
@@ -54,18 +59,12 @@ def main():
                             lines = f.read().splitlines()
                             if file_path in lines:
                                 acknowledged = True
-                                lines.remove(file_path)
-                                
-                        # Only rewrite if we removed it
-                        if acknowledged:
-                            with open(ack_file, "w") as f:
-                                if lines:
-                                    f.write("\n".join(lines) + "\n")
+                                # Leave it in the file so it remains acknowledged for the rest of the session
                     except Exception:
                         pass
                 
                 if not acknowledged:
-                    # Not yet acknowledged, reject it and record that we rejected it
+                    # Not yet acknowledged, record that we rejected it
                     try:
                         with open(ack_file, "a") as f:
                             f.write(file_path + "\n")
@@ -73,22 +72,27 @@ def main():
                         pass
                         
                     # Disruptive hook: Reject the write action and force the agent to read the context
+                    combined_payload = hints + "\n\n" + full_files if hints else full_files
                     response = {
                         "decision": "deny",
-                        "reason": f"ACTION BLOCKED: You must read and acknowledge the following architectural rules before creating or modifying this file.\n\nPlease read the rules below. Once you understand them, simply retry your write/replace tool call exactly as you just did, and it will be allowed to proceed.\n\n{context_payload}"
+                        "reason": f"ACTION BLOCKED: You must read and acknowledge the following architectural rules before creating or modifying this file.\n\nPlease read the rules below. Once you understand them, simply retry your write/replace tool call exactly as you just did, and it will be allowed to proceed.\n\n{combined_payload}"
                     }
                 else:
-                    # Path was found and removed, allow the action without further injection
+                    # Path was already acknowledged, allow the action
                     response = {
                         "decision": "allow"
                     }
-            else:
-                # Standard AfterTool injection
+            elif not is_before_tool and hints:
+                # Standard AfterTool injection with just hints
                 response = {
                     "decision": "allow",
                     "hookSpecificOutput": {
-                        "additionalContext": context_payload
+                        "additionalContext": hints
                     }
+                }
+            else:
+                response = {
+                    "decision": "allow"
                 }
             print(json.dumps(response))
         else:
@@ -101,6 +105,4 @@ def main():
         print(json.dumps({"decision": "allow"}))
 
 if __name__ == "__main__":
-    main()
-_main__":
     main()

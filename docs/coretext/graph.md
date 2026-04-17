@@ -27,23 +27,30 @@ graph LR
     docs_superpowers_reviews_*request*["docs/superpowers/reviews/*request*"] -->|"full (read)"| _agents_skills_code_reviewer_SKILL_md[".agents/skills/code-reviewer/SKILL.md"]
     docs_superpowers_reviews_*feedback*["docs/superpowers/reviews/*feedback*"] -->|"hint (write)"| _agents_skills_consolidate_rules_SKILL_md[".agents/skills/consolidate-rules/SKILL.md"]
     docs_rules_*["docs/rules/*"] -->|"hint (write)"| _agents_skills_consolidate_rules_SKILL_md[".agents/skills/consolidate-rules/SKILL.md"]
-    class docs_superpowers_specs_* docs
-    class _agents_skills_test_driven_development_SKILL_md skills
-    class docs_rules_coretext_engine_modifications_md rules
-    class tests_* tests
+    test_engine_py["test_engine.py"] -->|"hint (both)"| docs_ARCHITECTURE_md["docs/ARCHITECTURE.md"]
+    _gemini_settings_json[".gemini/settings.json"] -->|"hint (both)"| docs_rules_gemini_cli_payload_structure_md["docs/rules/gemini_cli_payload_structure.md"]
+    _coretext_inject_context_py[".coretext/inject_context.py"] -->|"full (both)"| docs_rules_gemini_cli_payload_structure_md["docs/rules/gemini_cli_payload_structure.md"]
     class docs_superpowers_reviews_*request* docs
-    class _agents_skills_requesting_code_review_SKILL_md skills
+    class _coretext_inject_context_py docs
     class _agents_skills_code_reviewer_SKILL_md skills
+    class _coretext_* docs
+    class _agents_skills_verification_before_completion_SKILL_md skills
+    class _agents_skills_consolidate_rules_SKILL_md skills
+    class src_* src
+    class _agents_skills_brainstorming_SKILL_md skills
+    class docs_superpowers_reviews_*feedback* docs
+    class _gemini_settings_json docs
+    class docs_rules_* rules
+    class _agents_skills_systematic_debugging_SKILL_md skills
+    class test_engine_py docs
+    class _agents_skills_writing_plans_SKILL_md skills
+    class tests_* tests
     class docs_coretext_coretext_flowchart_md docs
     class docs_superpowers_plans_* docs
-    class _agents_skills_consolidate_rules_SKILL_md skills
-    class docs_superpowers_reviews_*feedback* docs
-    class _coretext_* docs
-    class _agents_skills_brainstorming_SKILL_md skills
-    class docs_rules_* rules
+    class docs_rules_gemini_cli_payload_structure_md rules
+    class docs_superpowers_specs_* docs
+    class docs_rules_coretext_engine_modifications_md rules
+    class _agents_skills_test_driven_development_SKILL_md skills
     class docs_ARCHITECTURE_md docs
-    class src_* src
-    class _agents_skills_writing_plans_SKILL_md skills
-    class _agents_skills_verification_before_completion_SKILL_md skills
-    class _agents_skills_systematic_debugging_SKILL_md skills
+    class _agents_skills_requesting_code_review_SKILL_md skills
 ```

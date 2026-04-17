@@ -94,28 +94,28 @@ class CoretextEngine:
                         
         return matched_edges
         
-    def render_context_payload(self, filepath: str, action: str = "both") -> str:
+    def render_context_payload(self, filepath: str, action: str = "both") -> Dict[str, str]:
         """
         Retrieves the context files and reads their contents to build an injection string.
+        Returns a dictionary separating hints and full files.
         """
         context_edges = self.get_context_for_file(filepath, action)
         if not context_edges:
-            return ""
+            return {"hints": "", "full_files": ""}
             
-        payload = [f"--- INJECTED CONTEXT FOR {filepath} ({action.upper()}) ---"]
+        hints = []
+        full_files = []
         
         for edge in context_edges:
             target = edge.get("target", "")
             etype = edge.get("type", "hint")
             desc = edge.get("description", "")
-            source_pattern = edge.get("source", "")
             
-            payload.append(f"\nMatched Source: {source_pattern}")
-            payload.append(f"Rule Intent: {desc} -> {target}")
+            hints.append(f"{desc}: {target}")
             
             target_path = self.workspace_root / target
             if not target_path.exists():
-                payload.append(f"Not Found: {target}")
+                hints.append(f"Not Found: {target}")
                 continue
 
             if etype == "full":
@@ -123,16 +123,16 @@ class CoretextEngine:
                     try:
                         with open(target_path, "r", encoding="utf-8") as f:
                             content = f.read()
-                        payload.append(f"\nFile: {target}\n```\n{content}\n```")
+                        full_files.append(f"\nFile: {target}\n```\n{content}\n```")
                     except UnicodeDecodeError:
-                        payload.append(f"\nFile: {target} (Binary File)")
+                        full_files.append(f"\nFile: {target} (Binary File)")
                 elif target_path.is_dir():
                     for child in target_path.glob("**/*"):
                         if child.is_file():
                             try:
                                 with open(child, "r", encoding="utf-8") as f:
                                     content = f.read()
-                                payload.append(f"\nFile: {child.relative_to(self.workspace_root)}\n```\n{content}\n```")
+                                full_files.append(f"\nFile: {child.relative_to(self.workspace_root)}\n```\n{content}\n```")
                             except UnicodeDecodeError:
                                 pass
             elif etype == "hint":
@@ -142,10 +142,12 @@ class CoretextEngine:
                         if child.is_file():
                             hint_files.append(str(child.relative_to(self.workspace_root)))
                     if hint_files:
-                        payload.append("Files in target folder:\n- " + "\n- ".join(hint_files))
+                        hints.append("Files in target folder:\n- " + "\n- ".join(hint_files))
                         
-        payload.append("\n--- END INJECTED CONTEXT ---")
-        return "\n".join(payload)
+        return {
+            "hints": "\n".join(hints),
+            "full_files": "\n".join(full_files)
+        }
 
 if __name__ == "__main__":
     import sys
