@@ -61,7 +61,7 @@ export default function PropertiesPage() {
   const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE) || 1;
   
   // Ensure current page is valid after filtering
-  const validCurrentPage = Math.min(currentPage, totalPages);
+  const validCurrentPage = Math.max(1, Math.min(currentPage, totalPages));
   
   const startIndex = (validCurrentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
