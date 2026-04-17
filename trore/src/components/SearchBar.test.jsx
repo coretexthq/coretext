@@ -8,11 +8,30 @@ function LocationDisplay() {
   return <div data-testid="location-display">{searchParams.get('q')}</div>;
 }
 
+function LocationDisplayAmenities() {
+  const [searchParams] = useSearchParams();
+  return <div data-testid="amenities-display">{searchParams.get('amenities') || ''}</div>;
+}
+
 const renderWithRouter = (ui, { route = '/' } = {}) => {
   return render(<MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>);
 };
 
 describe('SearchBar', () => {
+  it('updates amenities in URL parameters when checkboxes are toggled', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <SearchBar />
+        <LocationDisplayAmenities />
+      </MemoryRouter>
+    );
+
+    const acCheckbox = screen.getByLabelText(/AC/);
+    fireEvent.click(acCheckbox);
+
+    expect(screen.getByTestId('amenities-display')).toHaveTextContent('ac');
+  });
+
   it('updates URL query parameters on input change', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
