@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { fetchProperties } from '../services/propertyService';
 
 export function useProperties() {
   const [properties, setProperties] = useState([]);
@@ -6,15 +7,7 @@ export function useProperties() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/api/properties', {
-      headers: {
-        'X-Trore-Auth': 'v1-alpha'
-      }
-    })
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch');
-        return res.json();
-      })
+    fetchProperties()
       .then(data => {
         setProperties(data);
         setLoading(false);
