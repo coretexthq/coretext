@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, useSearchParams } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import { describe, it, expect } from 'vitest';
 
 // Helper component to observe URL params
 function LocationDisplay() {
