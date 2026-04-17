@@ -4,29 +4,30 @@
   "title": "Coretext Coretext Graph Ledger",
   "description": "The deterministic, typed edge graph mapping system state, active agents, and code to architectural intent and historical provenance.",
   "type": "object",
-  "required": ["edges"],
+  "required": ["source", "target", "type", "description"],
   "properties": {
-    "edges": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["source", "target", "type"],
-        "properties": {
-          "source": {
-            "type": "string",
-            "description": "The source file path or glob pattern (e.g., agent prompt, source code file)."
-          },
-          "target": {
-            "type": "string",
-            "description": "The target file path being linked to."
-          },
-          "type": {
-            "type": "string",
-            "enum": ["docs", "skills", "rules", "templates", "archive"],
-            "description": "Defines how Coretext routes the target context. 'docs': Mandatory full-text injection (targets docs/ or ARCHITECTURE.md). 'skills': Mandatory full-text injection (targets .agents/skills/). 'rules': Passive hint injection by filename only (targets rules/). 'templates': Mandatory full-text injection (targets templates/). 'archive': Ignored during execution; used for historical provenance tracking (targets docs/archive/)."
-          }
-        }
-      }
+    "source": {
+      "type": "string",
+      "description": "The source file path or glob pattern (e.g., agent prompt, source code file)."
+    },
+    "target": {
+      "type": "string",
+      "description": "The target file path being linked to."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["full", "hint"],
+      "description": "Defines how Coretext routes the target context. 'full': Mandatory full-text injection. 'hint': Inject just the title as a hint so that the agent can decide whether to read it or not."
+    },
+    "description": {
+      "type": "string",
+      "description": "Agent's detailed reasoning or intent for the link (e.g., 'use'). Used to provide context regarding why this link exists in the injection payload."
+    },
+    "hook": {
+      "type": "string",
+      "enum": ["read", "write", "both"],
+      "default": "both",
+      "description": "Specifies when the injection should occur: on read_file, write_file, or both."
     }
   }
 }

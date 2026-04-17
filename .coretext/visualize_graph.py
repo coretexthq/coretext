@@ -2,11 +2,14 @@ import json
 import sys
 from pathlib import Path
 
-def generate_mermaid(json_path):
-    with open(json_path, 'r') as f:
-        data = json.load(f)
+def generate_mermaid(jsonl_path):
+    edges = []
+    with open(jsonl_path, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                edges.append(json.loads(line))
 
-    edges = data.get('edges', [])
     
     cat_colors = {
         "agents": "#2c3e50", "skills": "#e67e22", "docs": "#3498db", 
@@ -14,7 +17,7 @@ def generate_mermaid(json_path):
         "coretext": "#e74c3c", "src": "#1abc9c", "tests": "#f1c40f"
     }
 
-    mermaid = ["graph TD"]
+    mermaid = ["graph LR"]
     for cat, color in cat_colors.items():
         text_color = "white" if cat in ["agents", "coretext", "templates"] else "black"
         mermaid.append(f"    classDef {cat} fill:{color},stroke:#333,stroke-width:1px,color:{text_color};")
@@ -29,7 +32,7 @@ def generate_mermaid(json_path):
         if path.startswith("docs/rules/"): return "rules"
         if path.startswith("docs/templates/"): return "templates"
         if path.startswith("docs/"): return "docs"
-        if path.startswith("coretext.json"): return "coretext"
+        if path.startswith("coretext.jsonl"): return "coretext"
         if path.startswith("src/"): return "src"
         if path.startswith("tests/"): return "tests"
         return "docs"
@@ -37,10 +40,12 @@ def generate_mermaid(json_path):
     nodes = set()
     for edge in edges:
         source = edge['source']; target = edge['target']; etype = edge['type']
+        hook = edge.get('hook', 'both')
         nodes.add(source); nodes.add(target)
         s_id = source.replace('.', '_').replace('/', '_').replace('-', '_')
         t_id = target.replace('.', '_').replace('/', '_').replace('-', '_')
-        mermaid.append(f"    {s_id}[\"{source}\"] -->|{etype}| {t_id}[\"{target}\"]")
+        edge_label = f"{etype} ({hook})"
+        mermaid.append(f"    {s_id}[\"{source}\"] -->|\"{edge_label}\"| {t_id}[\"{target}\"]")
 
     for node in nodes:
         n_id = node.replace('.', '_').replace('/', '_').replace('-', '_')
@@ -51,20 +56,20 @@ def generate_mermaid(json_path):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    json_path = script_dir / "coretext.json"
+    jsonl_path = script_dir / "coretext.jsonl"
     output_path = script_dir.parent / "docs" / "coretext" / "graph.md"
 
-    if not json_path.exists():
-        print(f"Error: {json_path} not found.")
+    if not jsonl_path.exists():
+        print(f"Error: {jsonl_path} not found.")
         sys.exit(1)
         
     content = [
         "# Coretext Structural Graph",
         "",
-        "This graph visualizes the structural context injection edges defined in `coretext.json`.",
+        "This graph visualizes the structural context injection edges defined in `coretext.jsonl`.",
         "",
         "```mermaid",
-        generate_mermaid(json_path),
+        generate_mermaid(jsonl_path),
         "```",
         ""
     ]

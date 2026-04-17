@@ -11,14 +11,16 @@ flowchart TB
     classDef endstate fill:#000,stroke:#000,stroke-width:2px,color:#fff;
 
     %% --- JIT CONTEXT ---
-    subgraph JIT ["Context Injection Engine"]
+    subgraph JIT ["Context Injection Engine (Coretext Kernel)"]
         direction LR
         K_Docs[docs/ & docs/ARCHITECTURE.md]:::artifact
         K_Hints[docs/rules/*.md]:::artifact
-        Sys_DB[(SQLite / .coretext/coretext.jsonl)]:::system
+        Sys_Log[(Event Log / .coretext/coretext.jsonl)]:::system
+        Sys_Engine([Coretext Engine / Python Glob Matcher]):::system
         
-        K_Docs --> Sys_DB
-        K_Hints --> Sys_DB
+        K_Docs -. "Tracked in" .-> Sys_Log
+        K_Hints -. "Tracked in" .-> Sys_Log
+        Sys_Log --> Sys_Engine
     end
 
     %% --- PHASE 1: ORCHESTRATION ---
@@ -30,8 +32,8 @@ flowchart TB
         A_Plan[docs/superpowers/plans/*]:::artifact
 
         H_Backlog --> A_Planner
-        A_Planner --> A_Spec
-        A_Planner --> A_Plan
+        A_Planner -->|writes| A_Spec
+        A_Planner -->|writes| A_Plan
     end
 
     %% --- PHASE 2: EXECUTION ---
@@ -39,11 +41,11 @@ flowchart TB
         direction TB
         A_Executor([executor]):::agent
         A_Code[Application Code]:::artifact
-        A_Handoff_Exec[docs/handoffs/*]:::artifact
+        A_Handoff_Exec[docs/superpowers/reviews/* request.md]:::artifact
         Check_Exec{Execution<br/>Status?}:::decision
 
-        A_Executor --> A_Code
-        A_Executor --> A_Handoff_Exec
+        A_Executor -->|writes| A_Code
+        A_Executor -->|writes| A_Handoff_Exec
         A_Handoff_Exec --> Check_Exec
     end
 
@@ -57,19 +59,21 @@ flowchart TB
         Sys_Linter --> Check_Lint
     end
 
-    %% --- PHASE 4: AUDIT ---
-    subgraph P4 ["Phase 4: Adversarial Audit"]
+    %% --- PHASE 4: TASK REVIEW ---
+    subgraph P4 ["Phase 4: Task Review & Audit"]
         direction TB
         A_Reviewer([reviewer]):::agent
         Check_Audit{Tests Passed &<br/>Rules Respected?}:::decision
-        A_Knowledge[knowledge/*.md]:::artifact
-        A_ExpUpdate[.coretext/coretext.jsonl update]:::artifact
-        A_Handoff_Final[docs/handoffs/* Audit Update]:::artifact
+        A_Knowledge([consolidate-rules skill]):::agent
+        A_Rules[docs/rules/*.md]:::artifact
+        A_ExpUpdate[.coretext/coretext.jsonl event]:::artifact
+        A_Handoff_Final[docs/superpowers/reviews/* feedback.md]:::artifact
 
         A_Reviewer --> Check_Audit
         Check_Audit -- Yes --> A_Knowledge
-        A_Knowledge --> A_ExpUpdate
-        A_ExpUpdate --> A_Handoff_Final
+        A_Knowledge -->|writes| A_Rules
+        A_Rules -->|writes| A_ExpUpdate
+        A_ExpUpdate -->|writes| A_Handoff_Final
         Check_Audit -- No (Reject) --> A_Handoff_Final
     end
 
@@ -96,11 +100,13 @@ flowchart TB
     Finish((Next Iteration)):::endstate
 
     %% --- MAIN CONNECTIONS ---
-    Sys_DB -. Passive Hints .-> A_Executor
-    Sys_DB -. Constraints .-> A_Reviewer
+    %% --- MAIN CONNECTIONS ---
+    Sys_Engine -. "Passively Prepends Arch/Docs (on read/write)" .-> A_Planner
+    Sys_Engine -. "Passively Prepends Plans/Hints (on read/write)" .-> A_Executor
+    Sys_Engine -. "Passively Prepends Diff/Handoff (on read/write)" .-> A_Reviewer
     
-    A_Spec --> A_Executor
-    A_Plan --> A_Executor
+    A_Spec -.->|reads| A_Executor
+    A_Plan -.->|reads| A_Executor
     
     Check_Exec -- "Paradox / Impossible" --> H_Verify
     Check_Exec -- "Success (Code Written)" --> Sys_Linter

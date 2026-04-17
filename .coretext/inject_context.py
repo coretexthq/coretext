@@ -12,14 +12,19 @@ def main():
             
         payload = json.loads(input_data)
         
-        # Extract file_path from the hook payload
-        # Gemini CLI hook payloads typically contain the arguments in toolParameters or similar structures
-        file_path = None
+        # Extract file_path and action from the hook payload
+        toolName = payload.get("toolName", payload.get("request", {}).get("name", ""))
+        action = "write" if "write" in toolName or "replace" in toolName else "read"
         
-        if "toolParameters" in payload and "file_path" in payload["toolParameters"]:
-            file_path = payload["toolParameters"]["file_path"]
-        elif "request" in payload and "parameters" in payload["request"] and "file_path" in payload["request"]["parameters"]:
-            file_path = payload["request"]["parameters"]["file_path"]
+        file_path = None
+        params = payload.get("toolParameters", payload.get("request", {}).get("parameters", {}))
+        
+        if "file_path" in params:
+            file_path = params["file_path"]
+        elif "AbsolutePath" in params:
+            file_path = params["AbsolutePath"]
+        elif "TargetFile" in params:
+            file_path = params["TargetFile"]
             
         if not file_path:
             # If we can't find the file path, just allow the tool to proceed normally
@@ -31,7 +36,7 @@ def main():
         engine = CoretextEngine(str(script_dir))
         
         # Check if there is any rules linked to this file
-        context_payload = engine.render_context_payload(file_path)
+        context_payload = engine.render_context_payload(file_path, action)
         
         if context_payload:
             # Inject the context!

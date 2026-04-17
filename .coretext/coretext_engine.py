@@ -1,185 +1,131 @@
 import json
-import sqlite3
 from pathlib import Path
+import fnmatch
 from typing import List, Dict, Optional, Tuple
 
 class CoretextEngine:
     def __init__(self, coretext_dir: str):
         self.coretext_dir = Path(coretext_dir)
         self.workspace_root = self.coretext_dir.parent
-        self.json_path = self.coretext_dir / "coretext.json"
-        self.db_path = self.coretext_dir / "coretext.db"
-        
-        self.conn = self._init_db()
-        self.sync_json_to_db()
+        self.jsonl_path = self.coretext_dir / "coretext.jsonl"
+        self.schema_path = self.coretext_dir / "coretext_schema.json"
 
-    def _init_db(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS edges (
-                source TEXT NOT NULL,
-                target TEXT NOT NULL,
-                type TEXT NOT NULL,
-                UNIQUE(source, target, type)
-            )
-        """)
-        conn.commit()
-        return conn
-
-    def _validate_schema(self, data: dict) -> Tuple[bool, Optional[str]]:
-        if not isinstance(data, dict):
+    def _validate_schema(self, edge: dict) -> Tuple[bool, Optional[str]]:
+        if not isinstance(edge, dict):
             return False, "Data must be a JSON object"
-        if "edges" not in data:
-            return False, "Missing required key: 'edges'"
-        if not isinstance(data["edges"], list):
-            return False, "'edges' must be a list"
             
-        allowed_types = ["docs", "skills", "rules", "templates", "archive"]
+        allowed_types = ["full", "hint"]
+        allowed_hooks = ["read", "write", "both"]
         
-        for idx, edge in enumerate(data["edges"]):
-            if not isinstance(edge, dict):
-                return False, f"Edge at index {idx} must be an object"
-            for req in ["source", "target", "type"]:
-                if req not in edge:
-                    return False, f"Edge at index {idx} is missing required key '{req}'"
-            if not isinstance(edge["source"], str) or not isinstance(edge["target"], str) or not isinstance(edge["type"], str):
-                return False, f"Edge at index {idx} has non-string values"
-            if edge["type"] not in allowed_types:
-                return False, f"Edge at index {idx} has invalid type '{edge['type']}'. Allowed: {allowed_types}"
-                
+        for req in ["source", "target", "type", "description"]:
+            if req not in edge:
+                return False, f"Missing required key '{req}'"
+        if not isinstance(edge["source"], str) or not isinstance(edge["target"], str) or not isinstance(edge["type"], str) or not isinstance(edge["description"], str):
+            return False, "Has non-string values"
+        if edge["type"] not in allowed_types:
+            return False, f"Invalid type '{edge['type']}'. Allowed: {allowed_types}"
+        
+        hook = edge.get("hook", "both")
+        if hook not in allowed_hooks:
+            return False, f"Invalid hook '{hook}'. Allowed: {allowed_hooks}"
+            
         return True, None
 
-    def sync_json_to_db(self) -> None:
-        """Loads coretext.json, validates it, and syncs to SQLite."""
-        if not self.json_path.exists():
-            return
-        
-        with open(self.json_path, "r") as f:
-            data = json.load(f)
-            
-        is_valid, err = self._validate_schema(data)
-        if not is_valid:
-            print(f"Warning: coretext.json failed schema validation: {err}")
-            return
-
-        cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM edges")
-        
-        for edge in data.get("edges", []):
-            cursor.execute(
-                "INSERT OR IGNORE INTO edges (source, target, type) VALUES (?, ?, ?)",
-                (edge["source"], edge["target"], edge["type"])
-            )
-        self.conn.commit()
-
-    def sync_db_to_json(self) -> None:
-        """Dumps current SQLite state back to coretext.json."""
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT source, target, type FROM edges")
-        rows = cursor.fetchall()
-        
-        data = {
-            "$schema": "./coretext_schema.json",
-            "edges": [{"source": r[0], "target": r[1], "type": r[2]} for r in rows]
-        }
-        
-        with open(self.json_path, "w") as f:
-            json.dump(data, f, indent=2)
-
-    def add_rules(self, source_file: str, target_rules_file: str, edge_type: str = "rules") -> Tuple[bool, Optional[str]]:
+    def add_rules(self, source_file: str, target_rules_file: str, edge_type: str = "hint", description: str = "", hook: str = "both") -> Tuple[bool, Optional[str]]:
         """
         API for consolidate-rules skill.
         Adds a new edge to the graph, validating it against the schema first.
-        Returns (success: bool, error_message: str)
         """
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT source, target, type FROM edges")
-        current_edges = [{"source": r[0], "target": r[1], "type": r[2]} for r in cursor.fetchall()]
+        new_edge = {"source": source_file, "target": target_rules_file, "type": edge_type, "description": description, "hook": hook}
         
-        new_edge = {"source": source_file, "target": target_rules_file, "type": edge_type}
-        
-        if new_edge in current_edges:
-            return True, None
-            
-        test_data = {
-            "edges": current_edges + [new_edge]
-        }
-        
-        is_valid, err = self._validate_schema(test_data)
+        is_valid, err = self._validate_schema(new_edge)
         if not is_valid:
             return False, f"Schema validation failed for new edge: {err}"
-            
-        cursor.execute(
-            "INSERT INTO edges (source, target, type) VALUES (?, ?, ?)",
-            (source_file, target_rules_file, edge_type)
-        )
-        self.conn.commit()
-        self.sync_db_to_json()
+
+        # check if it already exists
+        if self.jsonl_path.exists():
+            with open(self.jsonl_path, "r") as f:
+                for line in f:
+                    line = line.strip()
+                    if line:
+                        try:
+                            edge = json.loads(line)
+                            if edge.get("source") == source_file and edge.get("target") == target_rules_file and edge.get("type") == edge_type:
+                                return True, None  # Already exists
+                        except json.JSONDecodeError:
+                            pass
+                            
+        with open(self.jsonl_path, "a") as f:
+            f.write(json.dumps(new_edge) + "\n")
         
         return True, None
 
-    def get_context_for_file(self, filepath: str) -> Dict[str, List[str]]:
+    def get_context_for_file(self, filepath: str, action: str = "both") -> List[dict]:
         """
         API for File Read Hooks.
-        Queries SQLite to find all target files associated with the read source file.
-        Returns a dictionary categorized by edge type (e.g., 'rules', 'docs').
+        Parses the jsonl event log, matches `source` pattern against filepath using fnmatch.
+        Filters by hook action.
         """
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT target, type FROM edges WHERE source = ?", (filepath,))
-        rows = cursor.fetchall()
+        if not self.jsonl_path.exists():
+            return []
+
+        matched_edges = []
+        with open(self.jsonl_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        edge = json.loads(line)
+                        if "source" in edge and fnmatch.fnmatch(filepath, edge["source"]):
+                            hook = edge.get("hook", "both")
+                            if hook == "both" or action == "both" or hook == action:
+                                matched_edges.append(edge)
+                    except json.JSONDecodeError:
+                        pass
+                        
+        return matched_edges
         
-        context_files = {}
-        for target, edge_type in rows:
-            if edge_type not in context_files:
-                context_files[edge_type] = []
-            context_files[edge_type].append(target)
-            
-        return context_files
-        
-    def render_context_payload(self, filepath: str) -> str:
+    def render_context_payload(self, filepath: str, action: str = "both") -> str:
         """
         Retrieves the context files and reads their contents to build an injection string.
         """
-        context_files = self.get_context_for_file(filepath)
-        if not context_files:
+        context_edges = self.get_context_for_file(filepath, action)
+        if not context_edges:
             return ""
             
-        payload = [f"--- INJECTED CONTEXT FOR {filepath} ---"]
+        payload = [f"--- INJECTED CONTEXT FOR {filepath} ({action.upper()}) ---"]
         
-        for edge_type, targets in context_files.items():
-            payload.append(f"\\n[Type: {edge_type.upper()}]")
-            for target in targets:
+        for edge in context_edges:
+            target = edge.get("target", "")
+            etype = edge.get("type", "hint")
+            desc = edge.get("description", "")
+            
+            payload.append(f"\n[Type: {etype.upper()}]")
+            hook_msg = f"{filepath} {desc} {target}"
+            payload.append(hook_msg)
+            
+            if etype == "full":
                 target_path = self.workspace_root / target
                 if target_path.exists():
-                    with open(target_path, "r") as f:
-                        content = f.read()
-                    payload.append(f"\\nFile: {target}\\n```\\n{content}\\n```")
+                    if target_path.is_file():
+                        with open(target_path, "r") as f:
+                            content = f.read()
+                        payload.append(f"\nFile: {target}\n```\n{content}\n```")
+                    elif target_path.is_dir():
+                        for child in target_path.glob("**/*"):
+                            if child.is_file():
+                                with open(child, "r") as f:
+                                    content = f.read()
+                                payload.append(f"\nFile: {child.relative_to(self.workspace_root)}\n```\n{content}\n```")
                 else:
-                    payload.append(f"\\nFile: {target} (Not Found)")
+                    payload.append(f"\nFile: {target} (Not Found)")
                     
-        payload.append("\\n--- END INJECTED CONTEXT ---")
-        return "\\n".join(payload)
+        payload.append("\n--- END INJECTED CONTEXT ---")
+        return "\n".join(payload)
 
 if __name__ == "__main__":
-    # Example usage for testing
     import sys
     script_dir = Path(__file__).parent
     
     engine = CoretextEngine(str(script_dir))
-    
-    print("Testing get_context_for_file('src/api/auth.py'):")
-    print(engine.get_context_for_file("src/api/auth.py"))
-    
-    print("\\nTesting add_rules():")
-    success, err = engine.add_rules("src/components/Grid.jsx", "rules/react_state_rules.md", "rules")
-    if success:
-        print("Rules added successfully.")
-    else:
-        print(f"Failed: {err}")
-    
-    print("\\nTesting bad add_rules (wrong type):")
-    success, err = engine.add_rules("src/components/Grid.jsx", "rules/react_state_rules.md", "bad_type")
-    if not success:
-        print(f"Caught schema error as expected: {err}")
-)
+    print(engine.render_context_payload("src/api/auth.py", "read"))

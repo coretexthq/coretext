@@ -1,55 +1,19 @@
-{
-  "$schema": "./coretext_schema.json",
-  "edges": [
-    {
-      "source": ".gemini/agents/planner.md",
-      "target": "docs/ARCHITECTURE.md",
-      "type": "docs"
-    },
-    {
-      "source": ".gemini/agents/planner.md",
-      "target": "docs/testing.md",
-      "type": "docs"
-    },
-    {
-      "source": ".gemini/agents/executor.md",
-      "target": "docs/testing.md",
-      "type": "docs"
-    },
-    {
-      "source": ".gemini/agents/reviewer.md",
-      "target": "docs/ARCHITECTURE.md",
-      "type": "docs"
-    },
-    {
-      "source": "src/api/auth.py",
-      "target": "docs/rules/bcrypt_rounds.md",
-      "type": "rules"
-    },
-    {
-      "source": ".gemini/agents/reviewer.md",
-      "target": "docs/templates/rules_template.md",
-      "type": "templates"
-    },
-    {
-      "source": "docs/rules/bcrypt_rounds.md",
-      "target": "docs/archive/handoff_001.md",
-      "type": "archive"
-    },
-    {
-      "source": "docs/archive/handoff_001.md",
-      "target": "docs/archive/spec_001.md",
-      "type": "archive"
-    },
-    {
-      "source": "tests/unit/test_auth.py",
-      "target": ".agents/skills/test-driven-development/SKILL.md",
-      "type": "skills"
-    },
-    {
-      "source": "src/components/Grid.jsx",
-      "target": "docs/rules/react_state_rules.md",
-      "type": "rules"
-    }
-  ]
-}
+{"source": ".coretext/*", "target": "docs/ARCHITECTURE.md", "type": "full", "description": "must abide by the core", "hook": "both"}
+{"source": ".coretext/*", "target": "docs/coretext/coretext_flowchart.md", "type": "hint", "description": "review system flowchart", "hook": "read"}
+{"source": ".coretext/*", "target": "docs/rules/coretext_engine_modifications.md", "type": "full", "description": "follow strict engine constraints", "hook": "both"}
+
+{"source": "docs/superpowers/specs/*", "target": ".agents/skills/brainstorming/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
+{"source": "docs/superpowers/plans/*", "target": ".agents/skills/writing-plans/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
+
+{"source": "src/*", "target": "docs/ARCHITECTURE.md", "type": "hint", "description": "consult global constraints", "hook": "both"}
+{"source": "src/*", "target": ".agents/skills/test-driven-development/SKILL.md", "type": "hint", "description": "use", "hook": "both"}
+{"source": "src/*", "target": ".agents/skills/systematic-debugging/SKILL.md", "type": "hint", "description": "use", "hook": "both"}
+{"source": "src/*", "target": ".agents/skills/verification-before-completion/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
+
+{"source": "tests/*", "target": ".agents/skills/test-driven-development/SKILL.md", "type": "hint", "description": "use", "hook": "both"}
+
+{"source": "docs/superpowers/reviews/*request*", "target": ".agents/skills/requesting-code-review/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
+{"source": "docs/superpowers/reviews/*request*", "target": ".agents/skills/code-reviewer/SKILL.md", "type": "full", "description": "execute review if you are the reviewer", "hook": "read"}
+
+{"source": "docs/superpowers/reviews/*feedback*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
+{"source": "docs/rules/*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
