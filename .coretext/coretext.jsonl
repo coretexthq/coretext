@@ -18,3 +18,5 @@
 {"source": "docs/superpowers/reviews/*feedback*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
 {"source": "docs/rules/*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
 {"source": "test_engine.py", "target": "docs/ARCHITECTURE.md", "type": "hint", "description": "test consolidate-rules", "hook": "both"}
+{"source": ".gemini/settings.json", "target": "docs/rules/gemini_cli_payload_structure.md", "type": "hint", "description": "Matcher must include replace for write-guards", "hook": "both"}
+{"source": ".coretext/inject_context.py", "target": "docs/rules/gemini_cli_payload_structure.md", "type": "full", "description": "Follow correct hook payload parameters", "hook": "both"}

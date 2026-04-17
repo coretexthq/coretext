@@ -40,7 +40,7 @@ def main():
         
         if context_payload:
             # Check if this is a BeforeTool hook (which applies to write/replace now)
-            hookType = payload.get("hookType", "")
+            hookType = payload.get("hook_event_name", payload.get("hookType", ""))
             is_before_tool = hookType == "BeforeTool"
             
             if is_before_tool and action == "write":
@@ -101,4 +101,6 @@ def main():
         print(json.dumps({"decision": "allow"}))
 
 if __name__ == "__main__":
+    main()
+_main__":
     main()
