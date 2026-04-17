@@ -1,0 +1,12 @@
+.map-view-placeholder {
+  min-height: 400px;
+  background-color: #e5e7eb;
+  border: 2px dashed #9ca3af;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
