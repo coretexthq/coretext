@@ -19,3 +19,4 @@
 {"source": "docs/rules/*", "target": ".agents/skills/consolidate-rules/SKILL.md", "type": "hint", "description": "use", "hook": "write"}
 {"source": "test_engine.py", "target": "docs/ARCHITECTURE.md", "type": "hint", "description": "test consolidate-rules", "hook": "both"}
 {"source": "src/test_hook.py", "target": "docs/ARCHITECTURE.md", "type": "hint", "description": "testing", "hook": "both"}
+{"source": "src/math_utils.py", "target": "docs/math_design.md", "type": "hint", "description": "Consult design before modifying math logic", "hook": "both"}
