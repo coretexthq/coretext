@@ -7,10 +7,16 @@ const mockProperties = [
 ];
 
 describe('PropertyGrid', () => {
-  it('renders all properties passed to it', () => {
+  it('renders properties passed via props', () => {
     render(<PropertyGrid properties={mockProperties} />);
     
     expect(screen.getByText('Downtown Studio')).toBeInTheDocument();
     expect(screen.getByText('Suburban 2BR')).toBeInTheDocument();
+  });
+
+  it('renders empty state when no properties are passed', () => {
+    render(<PropertyGrid properties={[]} />);
+    
+    expect(screen.getByText('No properties found.')).toBeInTheDocument();
   });
 });
