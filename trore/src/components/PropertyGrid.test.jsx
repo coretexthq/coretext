@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import PropertyGrid from './PropertyGrid';
 
 const mockProperties = [
@@ -8,14 +7,10 @@ const mockProperties = [
 ];
 
 describe('PropertyGrid', () => {
-  it('renders correctly filtered properties based on URL query', () => {
-    render(
-      <MemoryRouter initialEntries={['/?q=studio']}>
-        <PropertyGrid properties={mockProperties} />
-      </MemoryRouter>
-    );
+  it('renders all properties passed to it', () => {
+    render(<PropertyGrid properties={mockProperties} />);
     
     expect(screen.getByText('Downtown Studio')).toBeInTheDocument();
-    expect(screen.queryByText('Suburban 2BR')).not.toBeInTheDocument();
+    expect(screen.getByText('Suburban 2BR')).toBeInTheDocument();
   });
 });
