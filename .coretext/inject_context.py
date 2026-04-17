@@ -13,11 +13,11 @@ def main():
         payload = json.loads(input_data)
         
         # Extract file_path and action from the hook payload
-        toolName = payload.get("tool_name", payload.get("toolName", payload.get("request", {}).get("name", "")))
+        toolName = payload.get("toolName", payload.get("request", {}).get("name", ""))
         action = "write" if "write" in toolName or "replace" in toolName else "read"
         
         file_path = None
-        params = payload.get("tool_input", payload.get("toolParameters", payload.get("request", {}).get("parameters", {})))
+        params = payload.get("toolParameters", payload.get("request", {}).get("parameters", {}))
         
         if "file_path" in params:
             file_path = params["file_path"]
@@ -33,16 +33,6 @@ def main():
 
         # Initialize the Coretext Engine
         script_dir = Path(__file__).parent
-        
-        # Make file_path relative if it is absolute
-        file_path_obj = Path(file_path)
-        workspace_root = script_dir.parent
-        if file_path_obj.is_absolute():
-            try:
-                file_path = str(file_path_obj.relative_to(workspace_root))
-            except ValueError:
-                pass
-
         engine = CoretextEngine(str(script_dir))
         
         # Check if there is any rules linked to this file
@@ -56,9 +46,9 @@ def main():
             
             # Check if this is a BeforeTool hook (which applies to write/replace now)
             hookType = payload.get("hook_event_name", payload.get("hookType", ""))
-            is_before_tool = hookType in ["BeforeTool", "before_tool"]
+            is_before_tool = hookType == "BeforeTool"
             
-            if is_before_tool and action == "write" and (full_files or hints):
+            if is_before_tool and action == "write" and full_files:
                 ack_file = script_dir / f".acknowledged_paths_{session_id}"
                 acknowledged = False
                 
@@ -82,7 +72,7 @@ def main():
                         pass
                         
                     # Disruptive hook: Reject the write action and force the agent to read the context
-                    combined_payload = (hints + "\n\n" + full_files) if (hints and full_files) else (hints or full_files)
+                    combined_payload = hints + "\n\n" + full_files if hints else full_files
                     response = {
                         "decision": "deny",
                         "reason": f"ACTION BLOCKED: You must read and acknowledge the following architectural rules before creating or modifying this file.\n\nPlease read the rules below. Once you understand them, simply retry your write/replace tool call exactly as you just did, and it will be allowed to proceed.\n\n{combined_payload}"
