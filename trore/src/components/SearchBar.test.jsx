@@ -51,4 +51,13 @@ describe('SearchBar', () => {
     expect(screen.getByRole('combobox', { name: /district/i })).toBeInTheDocument();
     expect(screen.getByRole('combobox', { name: /price range/i })).toBeInTheDocument();
   });
+
+  it('renders the Save Search button', () => {
+    render(
+      <MemoryRouter>
+        <SearchBar districts={['D1', 'D2']} />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('button', { name: /save search/i })).toBeInTheDocument();
+  });
 });

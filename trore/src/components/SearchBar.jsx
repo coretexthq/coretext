@@ -1,5 +1,6 @@
 // src/components/SearchBar.jsx
 import { useSearchParams } from 'react-router-dom';
+import SaveSearchButton from './SaveSearchButton';
 
 export default function SearchBar({ districts = [] }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,6 +89,11 @@ export default function SearchBar({ districts = [] }) {
             onChange={() => toggleAmenity('parking')} 
           /> Parking
         </label>
+        
+        {/* New Save Search Button placed next to advanced filters */}
+        <div style={{ marginLeft: 'auto' }}>
+          <SaveSearchButton />
+        </div>
       </div>
     </div>
   );
