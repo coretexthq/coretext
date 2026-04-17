@@ -1,6 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { useProperties } from './useProperties';
-import { vi, describe, it, expect } from 'vitest';
 
 // Mock global fetch
 global.fetch = vi.fn();
