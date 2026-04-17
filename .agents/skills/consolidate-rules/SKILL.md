@@ -1,13 +1,13 @@
 ---
 name: consolidate-rules
-description: Use ONLY after the code is fully reviewed and approved by the Code Reviewer to extract architectural lessons and mechanically link source code to relevant targets (rules, skills, architecture docs, or other files).
+description: Use ONLY after the code is fully reviewed and approved by the Code Reviewer to extract architectural lessons/constraints in design and mechanically link source code to relevant targets (rules, skills, architecture docs, or other files).
 ---
 
 # Consolidate Rules & Knowledge Context
 
 ## Overview
 
-When reviewing a Git Diff and reading the Executor's review request in `docs/superpowers/reviews/`, your final job (only after the milestone/feature is completely approved) is to ensure relevant context is injected in the future. You must look for new architectural lessons, traps, rules, or existing constraints that future agents should know about when editing the code.
+When reviewing a Git Diff and reading the Executor's review request in `docs/superpowers/reviews/`, your final job (only after the milestone/feature is completely approved) is to ensure relevant context is injected in the future. You must look for new architectural lessons, traps, rules, or existing constraints in design that future agents should know about when editing the code.
 
 You can extract lessons into new rule files in `docs/rules/`, OR you can link directly to existing target files (e.g., `.agents/skills/*`, `docs/ARCHITECTURE.md`, or related code files/folders). By mechanically linking them, the Coretext Kernel will force-feed them to the next agent interacting with your source code.
 
@@ -25,7 +25,7 @@ Identify the relevant target file or folder (e.g., `docs/ARCHITECTURE.md`, `.age
 You MUST register this rule/link into `.coretext/coretext.jsonl` using the provided script so the Coretext Kernel can inject it in the future.
 
 ```bash
-python .coretext/add_rules.py --source "<source>" --target "<target>" --type <full|hint> --description "<intent>"
+python3 .coretext/add_rules.py --source "<source>" --target "<target>" --type <full|hint> --description "<intent>"
 ```
 
 - `--source`: The path to the source file or glob pattern (e.g., `src/api/auth.py`, `src/**/*.tsx`).
