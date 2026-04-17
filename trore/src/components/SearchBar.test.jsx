@@ -8,6 +8,10 @@ function LocationDisplay() {
   return <div data-testid="location-display">{searchParams.get('q')}</div>;
 }
 
+const renderWithRouter = (ui, { route = '/' } = {}) => {
+  return render(<MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>);
+};
+
 describe('SearchBar', () => {
   it('updates URL query parameters on input change', () => {
     render(
@@ -21,5 +25,11 @@ describe('SearchBar', () => {
     fireEvent.change(input, { target: { value: 'studio' } });
     
     expect(screen.getByTestId('location-display')).toHaveTextContent('studio');
+  });
+
+  it('renders district and price range dropdowns', () => {
+    renderWithRouter(<SearchBar districts={['D1', 'D2']} />);
+    expect(screen.getByRole('combobox', { name: /district/i })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: /price range/i })).toBeInTheDocument();
   });
 });
