@@ -2,7 +2,7 @@
   "hooks": {
     "BeforeTool": [
       {
-        "matcher": "write_file",
+        "matcher": "write_file|replace",
         "hooks": [
           {
             "name": "coretext-context-injector-write",
@@ -28,6 +28,7 @@
     ]
   },
   "hooksConfig": {
-    "disabled": []
+    "enabled": true,
+    "notifications": true
   }
 }

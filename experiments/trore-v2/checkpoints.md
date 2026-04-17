@@ -16,7 +16,9 @@
 ---
 
 ## Milestone 1: The Greenfield MVP & The Local Rule Trap
-modif
+**User Requirement:**
+Build a responsive React application displaying a grid of rental properties. Implement a text search bar that filters properties by title. 
+*Product Constraint:* The property data must be fetched from a mock API endpoint `/api/properties`. This API strictly requires a custom authentication header `X-Trore-Auth: v1-alpha` on every request.
 
 **[Future Automated Test Assertions]**
 *   **Fail-to-Pass (F2P_1.1):** Entering text updates the URL to `?q=text`.

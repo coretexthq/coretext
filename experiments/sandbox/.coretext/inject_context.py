@@ -15,11 +15,11 @@ def main():
         payload = json.loads(input_data)
         
         # Extract file_path and action from the hook payload
-        toolName = payload.get("toolName", payload.get("request", {}).get("name", ""))
+        toolName = payload.get("tool_name", payload.get("toolName", payload.get("request", {}).get("name", "")))
         action = "write" if "write" in toolName or "replace" in toolName else "read"
         
         file_path = None
-        params = payload.get("toolParameters", payload.get("request", {}).get("parameters", {}))
+        params = payload.get("tool_input", payload.get("toolParameters", payload.get("request", {}).get("parameters", {})))
         
         if "file_path" in params:
             file_path = params["file_path"]
@@ -42,7 +42,7 @@ def main():
         
         if context_payload:
             # Check if this is a BeforeTool hook (which applies to write/replace now)
-            hookType = payload.get("hookType", "")
+            hookType = payload.get("hook_event_name", payload.get("hookType", ""))
             is_before_tool = hookType == "BeforeTool"
             
             if is_before_tool and action == "write":
