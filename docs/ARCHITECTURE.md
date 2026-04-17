@@ -14,7 +14,13 @@ Coretext implements an Event Sourcing architecture to map system state and code 
 - `Coretext Engine`: The core Python matching and routing system (`.coretext/coretext_engine.py`) that parses the JSONL event log.
 - `Event Log (.coretext/coretext.jsonl)`: The source of truth for all edges. Each line is an independent JSON object mapping a source path to a constraint.
 - `Schema (.coretext/coretext_schema.json)`: Enforces the structure of the JSONL events. Required fields:
-  - `source`: A file path or glob pattern.
+  - `source`: A file path or glob pattern (e.g., agent prompt, source code file).
   - `target`: The file path being linked to.
-  - `type`: Routing directive (`docs`, `skills`, `rules`, `templates`, `archive`).
+  - `type`: Defines how Coretext routes context (`full` for mandatory full-text injection, or `hint` for injecting just the title as a cue).
+  - `description`: Agent's detailed reasoning or intent for the link.
+  - `hook` (Optional): Specifies when the injection should occur (`read`, `write`, or `both`).
 - `Rules (docs/rules/)`: Atomic architectural constraint files injected into agent context.
+- `Scripts`: Utilities provided in `.coretext/` for interacting with the engine:
+  - `add_rules.py`: Appends a new constraint edge to the JSONL log.
+  - `inject_context.py`: Runs the glob-matching engine to dynamically inject context for a given file.
+  - `visualize_graph.py`: Generates Mermaid structural diagrams from the edge graph.

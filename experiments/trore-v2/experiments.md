@@ -90,14 +90,15 @@ Establish the baseline environment to isolate scaffolding noise.
 **Workflow per Milestone (Coretext Kernel Orchestration):**
 
 - **Phase 1: Planning (Session A - Cold Boot)**
-  - **Context:** Kernel passively prepends `ARCHITECTURE.md`.
-  - **Prompt:** `User Requirement` for Milestone *N* + **CRITICAL OVERRIDE** (Do not ask clarifying questions... Make reasonable assumptions and immediately write the spec and plan).
+  - **Context:** Kernel passively prepends `ARCHITECTURE.md`. (not yet implemented)
+    - **Input:** `User Requirement` for Milestone *N*.
+  - **Prompt:** `"Use the brainstorming and writing-plans skills to design and plan this feature. **CRITICAL OVERRIDE:** Do not ask any clarifying questions, do not offer the visual companion, and do not wait for user approval. **You MUST explore the project structure and read existing architecture docs first.** Make reasonable assumptions for any ambiguities and immediately write the spec and the implementation plan."`
 - **Phase 2: Task Execution (Session B - Cold Boot)**
-  - **Context:** Kernel passively prepends `docs/superpowers/plans/*` and `docs/rules/*.md`.
-  - **Prompt:** `"Use the executing-plans skill to step through the plan. For each task, use test-driven-development to make the tests pass. If you encounter any failures, you must use systematic-debugging to find the root cause. When the task is complete, you must use verification-before-completion to prove the tests pass, and finally use the requesting-code-review skill to generate a handoff document in docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md and HALT."`
+  - **Context:** Kernel passively prepends `docs/superpowers/plans/*` and `docs/rules/*.md`. (not yet implemented)
+  - **Prompt:** `"Read the latest plan in docs/superpowers/plans/. Use the executing-plans skill to step through this document. For each task, use test-driven-development to make the tests pass. If you encounter any failures, you must use systematic-debugging to find the root cause. When the task is complete, you must use verification-before-completion to prove the tests pass, and finally use the requesting-code-review skill to generate a handoff document in docs/superpowers/reviews/YYYY-MM-DD-<feature-name>-request.md and HALT."`
 - **Phase 3: Task Review (Session C - Cold Boot)**
-  - **Context:** Kernel passively prepends `ARCHITECTURE.md`, Git Diff, and Handoff Document.
-  - **Prompt:** `"Use the code-reviewer skill to review the latest changes in the working tree. Output your feedback. If the milestone is fully complete and approved, you MUST use the consolidate-rules skill to extract architectural lessons."`
+  - **Context:** Kernel passively prepends `ARCHITECTURE.md`, Git Diff, and Handoff Document. (not yet implemented)
+  - **Prompt:** `"Use the code-reviewer skill to review the latest changes in the working tree. **You MUST locate and read the project's root architecture file and the review request in docs/superpowers/reviews/** to ensure no global constraints were violated. Output your feedback. If the milestone is fully complete and approved, you MUST use the consolidate-rules skill to extract architectural lessons."`
   - *Result:* Rejection re-boots Session B with feedback; Approval extracts lessons to `docs/rules/` and moves to the next task.
 
 **Expected Success Mode:** Reviewer boots cold, immune to context exhaustion. It mechanically blocks Structural Erosion by relying strictly on injected Context & Diff.
