@@ -6,6 +6,8 @@ import PropertyGrid from '../components/PropertyGrid';
 import Pagination from '../components/Pagination';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorBanner from '../components/ErrorBanner';
+import ViewToggle from '../components/ViewToggle';
+import MapView from '../components/MapView';
 import './PropertiesPage.css';
 
 export default function PropertiesPage() {
@@ -68,12 +70,25 @@ export default function PropertiesPage() {
   
   const paginatedProperties = filteredProperties.slice(startIndex, endIndex);
 
+  const currentView = searchParams.get('view') || 'grid';
+
   return (
     <div className="properties-page">
       <h1>Rental Properties</h1>
       <SearchBar districts={availableDistricts} />
-      <PropertyGrid properties={paginatedProperties} />
-      <Pagination currentPage={validCurrentPage} totalPages={totalPages} />
+      
+      <div className="view-controls" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <ViewToggle />
+      </div>
+
+      {currentView === 'map' ? (
+        <MapView properties={filteredProperties} />
+      ) : (
+        <>
+          <PropertyGrid properties={paginatedProperties} />
+          <Pagination currentPage={validCurrentPage} totalPages={totalPages} />
+        </>
+      )}
     </div>
   );
 }

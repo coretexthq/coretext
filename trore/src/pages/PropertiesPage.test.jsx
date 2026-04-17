@@ -1,7 +1,7 @@
 // src/pages/PropertiesPage.test.jsx
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import PropertiesPage from './PropertiesPage';
 import { useProperties } from '../hooks/useProperties';
 
@@ -33,5 +33,38 @@ describe('PropertiesPage Integration', () => {
 
     expect(screen.queryByText('Prop 5')).not.toBeInTheDocument();
     expect(screen.getByText('Page 1 of 2')).toBeInTheDocument();
+  });
+});
+
+describe('PropertiesPage View Toggling', () => {
+  it('renders PropertyGrid by default', () => {
+    useProperties.mockReturnValue({
+      properties: mockProperties,
+      loading: false,
+      error: null
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/properties']}>
+        <PropertiesPage />
+      </MemoryRouter>
+    );
+    expect(screen.getByText('Prop 1')).toBeInTheDocument();
+  });
+
+  it('renders MapView when view=map URL param is present', () => {
+    useProperties.mockReturnValue({
+      properties: mockProperties,
+      loading: false,
+      error: null
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/properties?view=map']}>
+        <PropertiesPage />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/Map View Placeholder/i)).toBeInTheDocument();
+    expect(screen.getByText(/Displaying 5 properties on the map/i)).toBeInTheDocument();
   });
 });
