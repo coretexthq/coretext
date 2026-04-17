@@ -79,6 +79,11 @@ class CoretextEngine:
                         if "source" in edge:
                             source_pattern = edge["source"]
                             is_match = fnmatch.fnmatch(filepath, source_pattern)
+                            if not is_match and "**/" in source_pattern:
+                                is_match = fnmatch.fnmatch(filepath, source_pattern.replace("**/", ""))
+                            if not is_match and "**" in source_pattern:
+                                is_match = fnmatch.fnmatch(filepath, source_pattern.replace("**", "*"))
+                            
                             if not is_match:
                                 # Match if source is a folder
                                 norm_source = source_pattern.rstrip('/') + '/'
