@@ -3,6 +3,7 @@ import { PropertyGrid } from './components/PropertyGrid';
 import { Filters } from './components/Filters';
 import { AdvancedSearch } from './components/AdvancedSearch';
 import { Pagination } from './components/Pagination';
+import { SaveSearchButton } from './components/SaveSearchButton';
 import { useProperties } from './hooks/useProperties';
 import { useUrlQuery } from './hooks/useUrlQuery';
 import './App.css';
@@ -30,6 +31,7 @@ function App() {
           <SearchBar />
           <Filters availableDistricts={availableDistricts} />
           <AdvancedSearch />
+          <SaveSearchButton />
         </div>
       </header>
       
