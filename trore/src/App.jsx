@@ -1,6 +1,8 @@
 import { SearchBar } from './components/SearchBar';
 import { PropertyGrid } from './components/PropertyGrid';
 import { Filters } from './components/Filters';
+import { AdvancedSearch } from './components/AdvancedSearch';
+import { Pagination } from './components/Pagination';
 import { useProperties } from './hooks/useProperties';
 import { useUrlQuery } from './hooks/useUrlQuery';
 import './App.css';
@@ -9,11 +11,15 @@ function App() {
   const [searchQuery] = useUrlQuery('q');
   const [district] = useUrlQuery('district');
   const [priceRange] = useUrlQuery('priceRange');
+  const [amenities] = useUrlQuery('amenities');
+  const [page] = useUrlQuery('page');
   
-  const { properties, availableDistricts, loading, error } = useProperties({ 
+  const { properties, totalPages, availableDistricts, loading, error } = useProperties({ 
     searchQuery, 
     district, 
-    priceRange 
+    priceRange,
+    amenities,
+    page
   });
 
   return (
@@ -23,13 +29,19 @@ function App() {
         <div className="search-and-filters">
           <SearchBar />
           <Filters availableDistricts={availableDistricts} />
+          <AdvancedSearch />
         </div>
       </header>
       
       <main>
         {error && <div className="error">Error: {error}</div>}
         {loading && !error && <div className="loading">Loading properties...</div>}
-        {!loading && !error && <PropertyGrid properties={properties} />}
+        {!loading && !error && (
+          <>
+            <PropertyGrid properties={properties} />
+            <Pagination totalPages={totalPages} />
+          </>
+        )}
       </main>
     </div>
   );
