@@ -1,18 +1,29 @@
 import { SearchBar } from './components/SearchBar';
 import { PropertyGrid } from './components/PropertyGrid';
+import { Filters } from './components/Filters';
 import { useProperties } from './hooks/useProperties';
 import { useUrlQuery } from './hooks/useUrlQuery';
 import './App.css';
 
 function App() {
-  const [query] = useUrlQuery('q');
-  const { properties, loading, error } = useProperties(query);
+  const [searchQuery] = useUrlQuery('q');
+  const [district] = useUrlQuery('district');
+  const [priceRange] = useUrlQuery('priceRange');
+  
+  const { properties, availableDistricts, loading, error } = useProperties({ 
+    searchQuery, 
+    district, 
+    priceRange 
+  });
 
   return (
     <div className="app-container">
       <header>
         <h1>Rental Properties</h1>
-        <SearchBar />
+        <div className="search-and-filters">
+          <SearchBar />
+          <Filters availableDistricts={availableDistricts} />
+        </div>
       </header>
       
       <main>
