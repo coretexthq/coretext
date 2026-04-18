@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
-export function useProperties(searchQuery) {
+export function useProperties({ searchQuery = '', district = '', priceRange = '' } = {}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,9 +29,24 @@ export function useProperties(searchQuery) {
     fetchProperties();
   }, []);
 
-  const filteredData = data.filter(property => 
-    property.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const availableDistricts = useMemo(() => {
+    const districts = new Set(data.map(p => p.district).filter(Boolean));
+    return Array.from(districts).sort();
+  }, [data]);
 
-  return { properties: filteredData, loading, error };
+  const filteredData = useMemo(() => {
+    return data.filter(property => {
+      const matchSearch = property.title?.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchDistrict = district ? property.district === district : true;
+      
+      let matchPrice = true;
+      if (priceRange === 'under-1000') matchPrice = property.price < 1000;
+      else if (priceRange === '1000-2000') matchPrice = property.price >= 1000 && property.price <= 2000;
+      else if (priceRange === 'over-2000') matchPrice = property.price > 2000;
+
+      return matchSearch && matchDistrict && matchPrice;
+    });
+  }, [data, searchQuery, district, priceRange]);
+
+  return { properties: filteredData, availableDistricts, loading, error };
 }
