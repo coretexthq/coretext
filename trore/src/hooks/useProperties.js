@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { fetchProperties } from '../services/api';
 
 export function useProperties({ searchQuery = '', district = '', priceRange = '', amenities = '', page = '1' } = {}) {
   const [data, setData] = useState([]);
@@ -6,18 +7,10 @@ export function useProperties({ searchQuery = '', district = '', priceRange = ''
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProperties = async () => {
+    const loadData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/properties', {
-          headers: {
-            'X-Trore-Auth': 'v1-alpha'
-          }
-        });
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
+        const result = await fetchProperties();
         setData(result);
       } catch (err) {
         setError(err.message);
@@ -26,7 +19,7 @@ export function useProperties({ searchQuery = '', district = '', priceRange = ''
       }
     };
 
-    fetchProperties();
+    loadData();
   }, []);
 
   const availableDistricts = useMemo(() => {
