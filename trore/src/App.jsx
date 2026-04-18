@@ -4,6 +4,8 @@ import { Filters } from './components/Filters';
 import { AdvancedSearch } from './components/AdvancedSearch';
 import { Pagination } from './components/Pagination';
 import { SaveSearchButton } from './components/SaveSearchButton';
+import { ViewToggle } from './components/ViewToggle';
+import { MapView } from './components/MapView';
 import { useProperties } from './hooks/useProperties';
 import { useUrlQuery } from './hooks/useUrlQuery';
 import './App.css';
@@ -14,6 +16,7 @@ function App() {
   const [priceRange] = useUrlQuery('priceRange');
   const [amenities] = useUrlQuery('amenities');
   const [page] = useUrlQuery('page');
+  const [view] = useUrlQuery('view');
   
   const { properties, totalPages, availableDistricts, loading, error } = useProperties({ 
     searchQuery, 
@@ -22,6 +25,8 @@ function App() {
     amenities,
     page
   });
+
+  const isMapView = view === 'map';
 
   return (
     <div className="app-container">
@@ -32,6 +37,7 @@ function App() {
           <Filters availableDistricts={availableDistricts} />
           <AdvancedSearch />
           <SaveSearchButton />
+          <ViewToggle />
         </div>
       </header>
       
@@ -40,7 +46,11 @@ function App() {
         {loading && !error && <div className="loading">Loading properties...</div>}
         {!loading && !error && (
           <>
-            <PropertyGrid properties={properties} />
+            {isMapView ? (
+              <MapView properties={properties} />
+            ) : (
+              <PropertyGrid properties={properties} />
+            )}
             <Pagination totalPages={totalPages} />
           </>
         )}
