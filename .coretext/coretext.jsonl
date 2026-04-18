@@ -8,3 +8,5 @@
 {"source": "trore/src/hooks/*.js", "target": "docs/superpowers/specs/2026-04-18-advanced-search-pagination-design.md", "type": "hint", "description": "Ensure custom hooks correctly parse URL parameters and isolate mock data, respecting the URL-driven state architecture.", "hook": "both"}
 {"source": "trore/src/components/SaveSearchButton.jsx", "target": "docs/rules/url_driven_state.md", "type": "hint", "description": "Ensure UI components exclusively derive search state from URL query parameters", "hook": "both"}
 {"source": "trore/src/hooks/useSaveSearch.js", "target": "docs/rules/api_mocking_and_auth.md", "type": "hint", "description": "Ensure API requests include X-Trore-Auth header and interact with Vite middleware mock endpoints", "hook": "both"}
+{"source": "src/**/*.jsx", "target": "ARCHITECTURE.md", "type": "hint", "description": "Ensure state management follows URL-Driven state and avoids local state for filters.", "hook": "both"}
+{"source": "src/hooks/**/*.js", "target": "ARCHITECTURE.md", "type": "hint", "description": "Ensure state management hooks strictly enforce URL-driven state invariant.", "hook": "both"}
