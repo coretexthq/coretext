@@ -2,3 +2,5 @@
 {"source": "trore/src/hooks/**/*.js", "target": "docs/rules/url_driven_state.md", "type": "hint", "description": "Ensure custom hooks adhere to URL state and data isolation constraints.", "hook": "both"}
 {"source": "trore/src/hooks/useProperties.js", "target": "docs/rules/api_mocking_and_auth.md", "type": "hint", "description": "Ensure data fetching adheres to API mocking and auth constraints.", "hook": "both"}
 {"source": "trore/vite.config.js", "target": "docs/rules/api_mocking_and_auth.md", "type": "hint", "description": "Ensure Vite configuration maintains mock data isolation.", "hook": "both"}
+{"source": "trore/src/components/Filters.jsx", "target": "docs/rules/url_driven_state.md", "type": "hint", "description": "Ensure UI state is managed via URL queries without local component state", "hook": "both"}
+{"source": "trore/src/hooks/useProperties.js", "target": "docs/rules/client_side_filtering.md", "type": "hint", "description": "Ensure data filtering happens locally to prevent multiple API calls", "hook": "both"}
