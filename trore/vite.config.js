@@ -28,6 +28,34 @@ export default defineConfig({
           }
           next();
         });
+        server.middlewares.use('/api/saved-searches', (req, res, next) => {
+          if (req.method === 'POST') {
+            if (req.headers['x-trore-auth'] !== 'v1-alpha') {
+              res.statusCode = 401;
+              res.end(JSON.stringify({ error: 'Unauthorized' }));
+              return;
+            }
+            
+            let body = '';
+            req.on('data', chunk => {
+              body += chunk.toString();
+            });
+            
+            req.on('end', () => {
+              try {
+                const parsedBody = JSON.parse(body);
+                res.statusCode = 201;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, savedFilters: parsedBody }));
+              } catch (e) {
+                res.statusCode = 400;
+                res.end(JSON.stringify({ error: 'Invalid JSON' }));
+              }
+            });
+            return;
+          }
+          next();
+        });
       }
     }
   ],
