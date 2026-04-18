@@ -30,3 +30,16 @@ export function useUrlQuery(param) {
 
   return [query, setQuery];
 }
+
+export function updateUrlQueries(updates) {
+  const url = new URL(window.location);
+  Object.entries(updates).forEach(([key, value]) => {
+    if (value) {
+      url.searchParams.set(key, value);
+    } else {
+      url.searchParams.delete(key);
+    }
+  });
+  window.history.pushState({}, '', url.search);
+  window.dispatchEvent(new Event('urlchange'));
+}
