@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "write_file|replace",
+        "hooks": [
+          {
+            "name": "coretext-context-injector-write",
+            "type": "command",
+            "command": "python3 $GEMINI_PROJECT_DIR/.coretext/inject_context.py",
+            "description": "Checks if context from Coretext exists before an agent writes to a file, and disrupts the action if context is found."
+          }
+        ]
+      }
+    ],
+    "AfterTool": [
+      {
+        "matcher": "read_file",
+        "hooks": [
+          {
+            "name": "coretext-context-injector-read",
+            "type": "command",
+            "command": "python3 $GEMINI_PROJECT_DIR/.coretext/inject_context.py",
+            "description": "Injects context from Coretext immediately after an agent reads a source code file."
+          }
+        ]
+      }
+    ]
+  }
+}

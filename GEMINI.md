@@ -21,7 +21,7 @@ Use the provided script to register a rule/link into `.coretext/coretext.jsonl`.
 Run the following command in your shell:
 
 ```bash
-python .coretext/add_rules.py --source "<source>" --target "<target>" --type <full|hint> --description "<intent>" --hook <read|write|both>
+python3 .coretext/add_rules.py --source "<source>" --target "<target>" --type <full|hint> --description "<intent>" --hook <read|write|both>
 ```
 
 **Parameters:**
@@ -31,6 +31,6 @@ python .coretext/add_rules.py --source "<source>" --target "<target>" --type <fu
   - `full`: Mandatory full-text injection. Use this when the target file's content is critical.
   - `hint`: Injects just the path/title as a hint. Use this to notify future agents that the file exists and is relevant.
 - `--description`: A short description of why this link exists or the intent (e.g., 'follow architectural guidelines', 'use test helper').
-- `--hook`: Optional. Specifies when the injection should occur (`read`, `write`, or `both`). Defaults to `both`.
+- `--hook`: Optional. Specifies when the injection should occur (`read`, `write`, or `both`). Defaults to `read`.
 
 *(If the script returns a schema validation error, read the error message, correct your parameters, and try again.)*
