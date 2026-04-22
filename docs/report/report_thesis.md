@@ -1,13 +1,15 @@
-## **BÁO CÁO NGÀY 08/04/2026**
+## **BÁO CÁO NGÀY 18/04/2026**
+1. **Nội dung**
+* Đã hoàn thiện thí nghiệm cho superpowers không sử dụng và có sử dụng đồ thị tri thức, có kết quả cải thiện
+* Sẽ tiếp tục triển khai benchmark
+* Bổ sung phiếu giao nhiệm vụ: https://docs.google.com/spreadsheets/d/1O1x-YmqA-4YTvRodApp2zvOYX4EldjVS/edit?usp=sharing&ouid=103929767342795094327&rtpof=true&sd=true 
 
-1. Kế hoạch tuần 
-   - Trong 2 ngày triển khai đầy đủ 1 quy trình dùng LLM theo framework  (superpowers) để tạo ra 1 sản phẩm phần mềm ở bước cuối, gồm mã nguồn, sản phẩm đã biên dịch và có thể chạy được và các document trung gian
-   - Trong 3 ngày tiếp theo triển khai 1 quy trình tương tự bổ sung đồ thị tri thức và ra sản phẩm tương tự như trong bước trên để so sánh
-   - Trong x ngày triển khai benchmark để thực hiện so sánh
-      - số token sử dụng (định lượng)
-      - số user requirement được thỏa mãn (định tính)
-      - slopcodebench
-   - Deadline: 18/04/2026
+## **BIÊN BẢN NGÀY 08/04/2026**
+
+1. **Kế hoạch tuần tới**
+* Trong 2 ngày triển khai đầy đủ 1 quy trình dùng LLM theo framework  (superpowers) để tạo ra 1 sản phẩm phần mềm ở bước cuối, gồm mã nguồn, sản phẩm đã biên dịch và có thể chạy được và các document trung gian
+* Trong 3 ngày tiếp theo triển khai 1 quy trình tương tự bổ sung đồ thị tri thức và ra sản phẩm tương tự như trong bước trên để so sánh
+* Trong x ngày triển khai benchmark để thực hiện so sánh
 
 
 ## **BIÊN BẢN NGÀY 09/03/2026**
