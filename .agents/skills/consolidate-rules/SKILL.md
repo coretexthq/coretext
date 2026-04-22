@@ -25,12 +25,13 @@ Identify the relevant target file or folder (e.g., `docs/ARCHITECTURE.md`, `.age
 You MUST register this rule/link into `.coretext/coretext.jsonl` using the provided script so the Coretext Kernel can inject it in the future.
 
 ```bash
-python .coretext/add_rules.py --source "<source>" --target "<target>" --type <full|hint> --description "<intent>"
+python .coretext/add_rules.py --source "<source>" --target "<target>" --type <full|hint> --description "<intent>" --hook <read|write|both>
 ```
 
 - `--source`: The path to the source file or glob pattern (e.g., `src/api/auth.py`, `src/**/*.tsx`).
 - `--target`: The path to the target file/folder to link (e.g., `docs/rules/bcrypt_rounds.md`, `docs/ARCHITECTURE.md`, `.agents/skills/*`, or any code file).
 - `--type`: Must be `full` (mandatory full-text injection) or `hint` (inject title/path so the agent can read later).
 - `--description`: The agent's detailed reasoning or intent for the link (e.g., 'use', 'Ensure state management follows architectural guidelines'). Used to provide context regarding why this link exists in the injection payload.
+- `--hook`: Optional. Must be `read`, `write`, or `both` (default). Specifies whether the context is injected when reading, writing, or both.
 
 *(If the script returns a schema validation error, read the error message, correct your parameters, and try again. You must do this for every source file that the context applies to.)*
