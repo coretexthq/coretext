@@ -1,4 +1,4 @@
-# TroRe V2 Evaluation Report: Treatment Group (Coretext v2)
+# TroRe Evaluation Report: Treatment Group (Coretext v2)
 
 ## Executive Summary
 The Coretext v2 Treatment Group (`coretext--exp-e`) successfully implemented all 5 milestones while strictly adhering to the Global Invariants defined in `ARCHITECTURE.md`. The agent demonstrated zero **Constraint Amnesia**, zero **Must-Not Violate** triggers, and no **Must-Do Omissions**, successfully passing the EvoClaw/SWE-CI inspired continuous evolution benchmark.
