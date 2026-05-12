@@ -14,6 +14,7 @@ The system provides the following scripts to interact with the engine:
 - `python .coretext/add_rules.py`: Append a new constraint edge to the JSONL log.
 - `python .coretext/inject_context.py`: Run the glob-matching engine to inject context for a given file.
 - `python .coretext/visualize_graph.py` & `python .coretext/visualize_lifecycle.py`: Generate structural diagrams.
+- `cd coretext-graph-ui && npm run start`: Launch the live interactive state visualization dashboard.
 
 ## Artifact Management
 - **Planner (Goal):** Output active specs to `docs/superpowers/specs/*`.

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "summary": {
+      "source": "bnmbanhmi/skills",
+      "sourceType": "github",
+      "skillPath": "knowledge/.agents/skills/summary/SKILL.md",
+      "computedHash": "74bcc9ad5b435f6d9df1d69e8035d1f2d94fa21d844515c32cd0500a6119bd6a"
+    }
+  }
+}
