@@ -5,29 +5,43 @@ import type { Node, Edge } from '@xyflow/react';
 function App() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
+  const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const fetchGraph = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/graph');
-        const data = await res.json();
+        const graphRes = await fetch('http://localhost:3001/api/graph');
+        const graphData = await graphRes.json();
         
         // simple comparison to avoid unnecessary react flow re-layouting
-        setNodes(prev => JSON.stringify(prev) === JSON.stringify(data.nodes) ? prev : data.nodes);
-        setEdges(prev => JSON.stringify(prev) === JSON.stringify(data.edges) ? prev : data.edges);
+        setNodes(prev => JSON.stringify(prev) === JSON.stringify(graphData.nodes) ? prev : graphData.nodes);
+        setEdges(prev => JSON.stringify(prev) === JSON.stringify(graphData.edges) ? prev : graphData.edges);
+
+        const highlightRes = await fetch('http://localhost:3001/api/highlights');
+        const highlightData = await highlightRes.json();
+        setHighlightedNodes(new Set(highlightData.nodes));
       } catch (err) {
-        console.error("Failed to fetch graph data:", err);
+        console.error("Failed to fetch data:", err);
       }
     };
 
-    fetchGraph();
-    const interval = setInterval(fetchGraph, 2000);
+    fetchData();
+    const interval = setInterval(fetchData, 2000);
 
     return () => clearInterval(interval);
   }, []);
 
+  // Inject highlighted state into nodes before passing them to CoretextGraph
+  const nodesWithHighlight = nodes.map(node => ({
+    ...node,
+    data: {
+      ...node.data,
+      isHighlighted: highlightedNodes.has(node.id)
+    }
+  }));
+
   return (
-    <CoretextGraph nodes={nodes} edges={edges} />
+    <CoretextGraph nodes={nodesWithHighlight} edges={edges} />
   );
 }
 

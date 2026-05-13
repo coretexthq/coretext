@@ -9,6 +9,42 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+
+app.get('/api/highlights', (req, res) => {
+    try {
+        const sessionsDir = path.resolve(__dirname, '../../.coretext/sessions');
+        if (!fs.existsSync(sessionsDir)) {
+            return res.json({ nodes: [] });
+        }
+        
+        const files = fs.readdirSync(sessionsDir)
+            .filter(f => f.endsWith('.jsonl'))
+            .map(f => ({ name: f, time: fs.statSync(path.join(sessionsDir, f)).mtime.getTime() }))
+            .sort((a, b) => b.time - a.time);
+            
+        if (files.length === 0) {
+            return res.json({ nodes: [] });
+        }
+        
+        const latestFile = path.join(sessionsDir, files[0].name);
+        const content = fs.readFileSync(latestFile, 'utf8');
+        const lines = content.split('\n').filter(l => l.trim().length > 0);
+        
+        const highlightedNodes = new Set();
+        lines.forEach(line => {
+            try {
+                const data = JSON.parse(line);
+                if (data.node_id) highlightedNodes.add(data.node_id);
+            } catch (e) {}
+        });
+        
+        res.json({ nodes: Array.from(highlightedNodes) });
+    } catch (error) {
+        console.error("Error reading highlights:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 app.get('/api/graph', (req, res) => {
     try {

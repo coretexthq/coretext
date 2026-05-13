@@ -40,12 +40,16 @@ const CustomNode = ({ data }: { data: any }) => {
             color: colors.text,
             padding: '10px',
             borderRadius: '5px',
-            border: '1px solid #333',
+            border: data.isHighlighted ? '2px solid #f1c40f' : '1px solid #333',
             width: `${nodeWidth}px`,
             textAlign: 'center',
             fontSize: '12px',
             wordWrap: 'break-word',
-            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+            boxShadow: data.isHighlighted ? '0 0 20px 5px rgba(241, 196, 15, 0.8)' : '0 4px 6px rgba(0,0,0,0.1)',
+            filter: data.isHighlighted ? 'brightness(1.2)' : 'brightness(1)',
+            transition: 'all 0.3s ease-in-out',
+            transform: data.isHighlighted ? 'scale(1.05)' : 'scale(1)',
+            zIndex: data.isHighlighted ? 1000 : 1
         }}>
             <Handle type="target" position={Position.Top} id="t-top" style={{ visibility: 'hidden' }} />
             <Handle type="target" position={Position.Bottom} id="t-bot" style={{ visibility: 'hidden' }} />

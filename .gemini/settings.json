@@ -9,6 +9,12 @@
             "type": "command",
             "command": "python3 $GEMINI_PROJECT_DIR/.coretext/inject_context.py",
             "description": "Checks if context from Coretext exists before an agent writes to a file, and disrupts the action if context is found."
+          },
+          {
+            "name": "coretext-visual-feedback",
+            "type": "command",
+            "command": "python3 $GEMINI_PROJECT_DIR/.coretext/notify_action.py",
+            "description": "Notifies the visualization dashboard to highlight the modified file."
           }
         ]
       }
@@ -22,12 +28,19 @@
             "type": "command",
             "command": "python3 $GEMINI_PROJECT_DIR/.coretext/inject_context.py",
             "description": "Injects context from Coretext immediately after an agent reads a source code file."
+          },
+          {
+            "name": "coretext-visual-feedback",
+            "type": "command",
+            "command": "python3 $GEMINI_PROJECT_DIR/.coretext/notify_action.py",
+            "description": "Notifies the visualization dashboard to highlight the read file."
           }
         ]
       }
     ]
   },
   "hooksConfig": {
+    "enabled": true,
     "disabled": [
       "coretext-context-injector-write",
       "coretext-context-injector-read"

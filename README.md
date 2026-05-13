@@ -9,7 +9,7 @@ Rather than relying on prompt-heavy frameworks that suffer from "Topological Bli
 1. **Isolation:** Agents boot cold in isolated worktrees.
 2. **Constraints:** `docs/ARCHITECTURE.md`, `docs/`, and `docs/rules/` are immutable rules.
 3. **Execution Triad:** Goal (`docs/superpowers/specs/*`) + Gate (Failing Tests) + Scope (`docs/superpowers/plans/*`).
-4. **Context Injection:** A deterministic engine passively injects `docs/` and `docs/rules/` files directly into an agent's context based on glob paths defined in `.coretext/coretext.jsonl`. This structural state can be visualized interactively by running the local `coretext-graph-ui` dashboard.
+4. **Context Injection:** A deterministic engine passively injects `docs/` and `docs/rules/` files directly into an agent's context based on glob paths defined in `.coretext/coretext.jsonl`. This structural state, alongside real-time telemetry of active agent file interactions, can be visualized interactively by running the local `coretext-graph-ui` dashboard.
 
 ## The D-SDD Loop
 1. **Plan:** The Planner translates intent into a Goal, Scope, and failing Tests. It must organically explore architecture docs.
