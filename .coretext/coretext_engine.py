@@ -7,7 +7,8 @@ class CoretextEngine:
     def __init__(self, coretext_dir: str):
         self.coretext_dir = Path(coretext_dir)
         self.workspace_root = self.coretext_dir.parent
-        self.jsonl_path = self.coretext_dir / "coretext.jsonl"
+        workspace_name = self.workspace_root.name
+        self.jsonl_path = self.coretext_dir / f"{workspace_name}.jsonl"
         self.schema_path = self.coretext_dir / "coretext_schema.json"
 
     def _validate_schema(self, edge: dict) -> Tuple[bool, Optional[str]]:

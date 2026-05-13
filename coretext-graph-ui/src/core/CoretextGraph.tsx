@@ -147,9 +147,24 @@ const edgeTypes = { smart: SmartEdge };
 interface CoretextGraphProps {
     nodes: Node[];
     edges: Edge[];
+    availableSessions: string[];
+    selectedSessions: string[];
+    onToggleSession: (session: string) => void;
+    availableGraphs: string[];
+    selectedGraph: string;
+    onSelectGraph: (graph: string) => void;
 }
 
-export const CoretextGraph: React.FC<CoretextGraphProps> = ({ nodes: initialNodes, edges: initialEdges }) => {
+export const CoretextGraph: React.FC<CoretextGraphProps> = ({ 
+    nodes: initialNodes, 
+    edges: initialEdges,
+    availableSessions,
+    selectedSessions,
+    onToggleSession,
+    availableGraphs,
+    selectedGraph,
+    onSelectGraph
+}) => {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [layoutTrigger, setLayoutTrigger] = useState(0);
@@ -225,7 +240,7 @@ export const CoretextGraph: React.FC<CoretextGraphProps> = ({ nodes: initialNode
         <Background color="#ccc" gap={16} />
         <Controls />
         <MiniMap />
-        <Panel position="top-left" style={{ background: 'rgba(255,255,255,0.8)', padding: '10px', borderRadius: '5px', color: '#333', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <Panel position="top-left" style={{ background: 'rgba(255,255,255,0.8)', padding: '10px', borderRadius: '5px', color: '#333', display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '80vh', overflowY: 'auto' }}>
             <h3 style={{margin: 0}}>Coretext State Graph</h3>
             <button 
                 onClick={() => setLayoutTrigger(prev => prev + 1)}
@@ -233,6 +248,58 @@ export const CoretextGraph: React.FC<CoretextGraphProps> = ({ nodes: initialNode
             >
                 Reset & Re-layout
             </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <h4 style={{margin: '10px 0 0 0'}}>Graph Source</h4>
+                {availableGraphs.length === 0 ? (
+                    <div style={{ fontSize: '12px', color: '#666' }}>No graphs found</div>
+                ) : (
+                    <select 
+                        value={selectedGraph} 
+                        onChange={(e) => onSelectGraph(e.target.value)}
+                        style={{ padding: '4px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '12px', maxWidth: '180px' }}
+                    >
+                        {availableGraphs.map(graph => (
+                            <option key={graph} value={graph}>{graph}</option>
+                        ))}
+                    </select>
+                )}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                <h4 style={{margin: 0}}>Sessions</h4>
+                <button 
+                    onClick={async () => {
+                        try {
+                            const res = await fetch('http://localhost:3001/api/ingest', { method: 'POST' });
+                            const data = await res.json();
+                            alert(data.message);
+                        } catch (e) {
+                            alert('Error ingesting logs');
+                        }
+                    }}
+                    style={{ padding: '4px 8px', cursor: 'pointer', background: '#2ecc71', color: 'white', border: 'none', borderRadius: '4px', fontSize: '10px', fontWeight: 'bold' }}
+                >
+                    Ingest Logs
+                </button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginTop: '5px' }}>
+                {availableSessions.length === 0 ? (
+                    <div style={{ fontSize: '12px', color: '#666' }}>No sessions found</div>
+                ) : (
+                    availableSessions.map(session => (
+                        <label key={session} style={{ fontSize: '12px', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                            <input 
+                                type="checkbox" 
+                                checked={selectedSessions.includes(session)} 
+                                onChange={() => onToggleSession(session)} 
+                            />
+                            {session.replace('session_', '').replace('.jsonl', '')}
+                        </label>
+                    ))
+                )}
+                {selectedSessions.length === 0 && availableSessions.length > 0 && (
+                    <div style={{ fontSize: '10px', color: '#888', fontStyle: 'italic', marginTop: '4px' }}>Showing latest session</div>
+                )}
+            </div>
         </Panel>
       </ReactFlow>
     </div>

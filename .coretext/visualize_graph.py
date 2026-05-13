@@ -56,7 +56,8 @@ def generate_mermaid(jsonl_path):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
-    jsonl_path = script_dir / "coretext.jsonl"
+    workspace_name = script_dir.parent.name
+    jsonl_path = script_dir / f"{workspace_name}.jsonl"
     output_path = script_dir.parent / "docs" / "coretext" / "graph.md"
 
     if not jsonl_path.exists():

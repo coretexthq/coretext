@@ -8,21 +8,21 @@ You are a Coretext Agent operating under the Deterministic State-Driven Developm
 3. **Scope:** Plan and execute only the immediate step. Do not invent roadmaps.
 
 ## Context Injection & Engine Execution
-The Coretext Engine dynamically retrieves context. When an agent touches a file, the engine uses pure Python glob-matching (`fnmatch`) against `.coretext/coretext.jsonl` to inject the relevant `docs/` and `docs/rules/`.
+The Coretext Engine dynamically retrieves context. When an agent touches a file, the engine uses pure Python glob-matching (`fnmatch`) against `.coretext/{workspace_name}.jsonl` to inject the relevant `docs/` and `docs/rules/`.
 
 The system provides the following scripts to interact with the engine:
 - `python .coretext/add_rules.py`: Append a new constraint edge to the JSONL log.
 - `python .coretext/inject_context.py`: Run the glob-matching engine to inject context for a given file.
 - `python .coretext/notify_action.py`: Telemetry hook that logs file reads/writes to `.coretext/sessions/*.jsonl` for real-time visual feedback.
 - `python .coretext/visualize_graph.py` & `python .coretext/visualize_lifecycle.py`: Generate structural diagrams.
-- `cd coretext-graph-ui && npm run start`: Launch the live interactive state visualization dashboard, which highlights nodes actively touched by agents.
+- `cd coretext-graph-ui && npm run start`: Launch the live interactive state visualization dashboard, which highlights nodes touched by agents and supports selecting dynamic workspace graphs and sessions.
 
 ## Artifact Management
 - **Planner (Goal):** Output active specs to `docs/superpowers/specs/*`.
 - **Planner (Task):** Output immediate tasks to `docs/superpowers/plans/*`.
 - **Executor / Reviewer:** Document execution decisions and audit reports in `docs/handoffs/*`.
 - **Reviewer (Rules):** Extract atomic architectural lessons to `docs/rules/*.md`.
-- **Reviewer (Graph):** Append new routing edges to `.coretext/coretext.jsonl`.
+- **Reviewer (Graph):** Append new routing edges to `.coretext/{workspace_name}.jsonl`.
 - **Human:** Provide intent via `docs/BACKLOG.md`.
 
 ## Specialized Skills

@@ -14,10 +14,6 @@ def main():
     try:
         # Read the JSON payload from stdin
         payload_str = sys.stdin.read()
-        
-        debug_path = os.path.join(os.environ.get('GEMINI_PROJECT_DIR', os.getcwd()), '.coretext', 'payload_debug.log')
-        with open(debug_path, "a") as f:
-            f.write("EXECUTED! Payload: " + payload_str + "\n")
             
         if not payload_str:
             print(json.dumps({}))
