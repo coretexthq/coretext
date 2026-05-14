@@ -20,3 +20,5 @@ env/
 /report
 
 .DS_Store
+coretext.egg-info/
+*.egg-info
