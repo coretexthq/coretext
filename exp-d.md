@@ -1,4 +1,4 @@
-# TroRe Web App Evaluation Report - Control Group (Superpowers)
+# TroRe Evaluation Report - Control Group (Superpowers)
 
 **Experiment:** Superpowers vs. Superpowers + Coretext v2 (D-SDD)
 **Group:** Control Group (Superpowers alone)
