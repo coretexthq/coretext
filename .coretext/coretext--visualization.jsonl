@@ -29,3 +29,4 @@
 {"source": "src/**/*.tsx", "target": "docs/rules/dashboard_session_state.md", "type": "full", "description": "Manage session state correctly in Dashboard.", "hook": "both"}
 {"source": "setup_coretext.sh", "target": "docs/rules/coretext_setup_script.md", "type": "full", "description": "Automate Coretext environment setup.", "hook": "both"}
 {"source": "sync_coretext.sh", "target": "docs/rules/coretext_sync_packaging.md", "type": "full", "description": "Ensure all dependencies and settings are synced.", "hook": "both"}
+{"source": "src/**/*.tsx", "target": "docs/rules/react_flow_expensive_layouts.md", "type": "full", "description": "Decouple heavy physics simulations from React state updates using a structural key.", "hook": "both"}

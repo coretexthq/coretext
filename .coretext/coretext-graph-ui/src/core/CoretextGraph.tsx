@@ -170,6 +170,14 @@ export const CoretextGraph: React.FC<CoretextGraphProps> = ({
   const [layoutTrigger, setLayoutTrigger] = useState(0);
   const lastTriggerRef = useRef(0);
 
+  // Derive a structural key so the force layout only runs when nodes or edges actually change ids
+  const structuralKey = React.useMemo(() => {
+      return JSON.stringify({
+          n: initialNodes.map(n => n.id).sort(),
+          e: initialEdges.map(e => e.id).sort()
+      });
+  }, [initialNodes, initialEdges]);
+
   useEffect(() => {
       if (initialNodes.length === 0) return;
       
@@ -205,25 +213,32 @@ export const CoretextGraph: React.FC<CoretextGraphProps> = ({
           markerEnd: e.markerEnd ? (typeof e.markerEnd === 'object' ? { ...e.markerEnd, type: MarkerType.ArrowClosed } : { type: MarkerType.ArrowClosed }) : undefined
       }));
 
-      const isManualTrigger = layoutTrigger !== lastTriggerRef.current;
       lastTriggerRef.current = layoutTrigger;
 
+      setNodes(layoutedNodes);
+      setEdges(layoutedEdges);
+  }, [structuralKey, layoutTrigger, setNodes, setEdges]); // Rerun layout ONLY when structure changes
+
+  // Synchronize highlights and other node data without re-running the physics layout
+  useEffect(() => {
+      if (initialNodes.length === 0) return;
       setNodes(prev => {
-          if (prev.length === 0 || isManualTrigger) {
-              return layoutedNodes;
-          }
+          if (prev.length === 0) return prev;
           
-          const prevMap = new Map(prev.map(n => [n.id, n]));
-          return layoutedNodes.map(n => {
-              const existing = prevMap.get(n.id);
-              if (existing) {
-                  return { ...n, position: existing.position }; 
+          let changed = false;
+          const next = prev.map(n => {
+              const initN = initialNodes.find(i => i.id === n.id);
+              if (!initN) return n;
+              if (JSON.stringify(n.data) !== JSON.stringify(initN.data)) {
+                  changed = true;
+                  return { ...n, data: initN.data };
               }
               return n;
           });
+          
+          return changed ? next : prev;
       });
-      setEdges(layoutedEdges);
-  }, [initialNodes, initialEdges, layoutTrigger, setNodes, setEdges]);
+  }, [initialNodes, setNodes]);
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#1e1e1e' }}>

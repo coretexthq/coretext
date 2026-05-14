@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.get('/api/sessions', (req, res) => {
     try {
-        const sessionsDir = path.resolve(__dirname, '../../.coretext/sessions');
+        const sessionsDir = path.resolve(__dirname, '../../sessions');
         if (!fs.existsSync(sessionsDir)) {
             return res.json({ sessions: [] });
         }
@@ -33,7 +33,7 @@ app.get('/api/sessions', (req, res) => {
 app.post('/api/ingest', (req, res) => {
     try {
         const logsDir = path.resolve(__dirname, '../../.coretext/logs');
-        const sessionsDir = path.resolve(__dirname, '../../.coretext/sessions');
+        const sessionsDir = path.resolve(__dirname, '../../sessions');
         
         if (!fs.existsSync(logsDir)) {
             return res.json({ message: "No logs directory found.", ingested: 0 });
@@ -102,7 +102,7 @@ app.post('/api/ingest', (req, res) => {
 
 app.get('/api/highlights', (req, res) => {
     try {
-        const sessionsDir = path.resolve(__dirname, '../../.coretext/sessions');
+        const sessionsDir = path.resolve(__dirname, '../../sessions');
         if (!fs.existsSync(sessionsDir)) {
             return res.json({ nodes: [] });
         }
@@ -148,7 +148,7 @@ app.get('/api/highlights', (req, res) => {
 
 app.get('/api/graphs', (req, res) => {
     try {
-        const coretextDir = path.resolve(__dirname, '../../.coretext');
+        const coretextDir = path.resolve(__dirname, '../../');
         if (!fs.existsSync(coretextDir)) {
             return res.json({ graphs: [] });
         }
@@ -166,7 +166,7 @@ app.get('/api/graphs', (req, res) => {
 
 app.get('/api/graph', (req, res) => {
     try {
-        const coretextDir = path.resolve(__dirname, '../../.coretext');
+        const coretextDir = path.resolve(__dirname, '../../');
         let graphFile = 'coretext.jsonl';
         
         if (req.query.graph) {
@@ -176,7 +176,7 @@ app.get('/api/graph', (req, res) => {
             if (files.length > 0) {
                 // Default to the first found or a specific default logic
                 // Using the workspace name logic:
-                const workspaceName = path.basename(path.resolve(__dirname, '../../'));
+                const workspaceName = path.basename(path.resolve(__dirname, '../../../'));
                 const defaultGraph = `${workspaceName}.jsonl`;
                 if (files.includes(defaultGraph)) {
                     graphFile = defaultGraph;
