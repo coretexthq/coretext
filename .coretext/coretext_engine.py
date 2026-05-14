@@ -34,7 +34,7 @@ class CoretextEngine:
 
     def add_rules(self, source_file: str, target_rules_file: str, edge_type: str = "hint", description: str = "", hook: str = "both") -> Tuple[bool, Optional[str]]:
         """
-        API for consolidate-rules skill.
+        API for coretext skill.
         Adds a new edge to the graph, validating it against the schema first.
         """
         new_edge = {"source": source_file, "target": target_rules_file, "type": edge_type, "description": description, "hook": hook}

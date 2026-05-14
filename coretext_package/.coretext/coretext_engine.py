@@ -7,7 +7,8 @@ class CoretextEngine:
     def __init__(self, coretext_dir: str):
         self.coretext_dir = Path(coretext_dir)
         self.workspace_root = self.coretext_dir.parent
-        self.jsonl_path = self.coretext_dir / "coretext.jsonl"
+        workspace_name = self.workspace_root.name
+        self.jsonl_path = self.coretext_dir / f"{workspace_name}.jsonl"
         self.schema_path = self.coretext_dir / "coretext_schema.json"
 
     def _validate_schema(self, edge: dict) -> Tuple[bool, Optional[str]]:
@@ -33,7 +34,7 @@ class CoretextEngine:
 
     def add_rules(self, source_file: str, target_rules_file: str, edge_type: str = "hint", description: str = "", hook: str = "both") -> Tuple[bool, Optional[str]]:
         """
-        API for consolidate-rules skill.
+        API for coretext skill.
         Adds a new edge to the graph, validating it against the schema first.
         """
         new_edge = {"source": source_file, "target": target_rules_file, "type": edge_type, "description": description, "hook": hook}

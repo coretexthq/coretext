@@ -15,7 +15,7 @@ The system provides the following scripts to interact with the engine:
 - `python .coretext/inject_context.py`: Run the glob-matching engine to inject context for a given file.
 - `python .coretext/notify_action.py`: Telemetry hook that logs file reads/writes to `.coretext/sessions/*.jsonl` for real-time visual feedback.
 - `python .coretext/visualize_graph.py` & `python .coretext/visualize_lifecycle.py`: Generate structural diagrams.
-- `cd coretext-graph-ui && npm run start`: Launch the live interactive state visualization dashboard, which highlights nodes touched by agents and supports selecting dynamic workspace graphs and sessions.
+- `cd .coretext/coretext-graph-ui && npm run start`: Launch the live interactive state visualization dashboard, which highlights nodes touched by agents and supports selecting dynamic workspace graphs and sessions.
 
 ## Artifact Management
 - **Planner (Goal):** Output active specs to `docs/superpowers/specs/*`.
@@ -28,4 +28,4 @@ The system provides the following scripts to interact with the engine:
 ## Specialized Skills
 Leverage custom skills in `.agents/skills/` to execute standard workflows:
 - `code-reviewer`: Use when reviewing code changes against architecture.
-- `consolidate-rules`: Use to extract architectural decisions into `docs/rules/` and mechanically link them in the `.jsonl` log.
+- `coretext`: Use to extract architectural decisions into `docs/rules/` and mechanically link them in the `.jsonl` log.

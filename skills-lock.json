@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "coretext": {
+      "source": "bnmbanhmi/skills",
+      "sourceType": "github",
+      "skillPath": "coretext/.agents/skills/coretext/SKILL.md",
+      "computedHash": "7b4ca0634a81515160a838ed088015f9f306cc871747e24fbfe98dfadfc3a29f"
+    },
     "summary": {
       "source": "bnmbanhmi/skills",
       "sourceType": "github",

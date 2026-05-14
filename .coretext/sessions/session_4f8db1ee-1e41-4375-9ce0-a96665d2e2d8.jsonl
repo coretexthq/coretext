@@ -1,0 +1,26 @@
+{"node_id": "AGENTS.md", "timestamp": "2026-05-14T11:31:00.951991", "tool_name": "replace"}
+{"node_id": ".gemini/skills/manage-coretext-graph-ui/SKILL.md", "timestamp": "2026-05-14T11:31:00.951993", "tool_name": "replace"}
+{"node_id": "README.md", "timestamp": "2026-05-14T11:31:00.951994", "tool_name": "replace"}
+{"node_id": ".gemini/skills/manage-coretext-graph-ui/SKILL.md", "timestamp": "2026-05-14T11:31:09.004593", "tool_name": "replace"}
+{"node_id": ".gemini/skills/manage-coretext-graph-ui/SKILL.md", "timestamp": "2026-05-14T11:31:09.004600", "tool_name": "replace"}
+{"node_id": "/Users/mac/Git/knowledge/project/coretext/ai/Dashboard State & Graph Selection Features.md", "timestamp": "2026-05-14T11:31:14.725779", "tool_name": "read_file"}
+{"node_id": "/Users/mac/Git/knowledge/project/coretext/ai/Dashboard State & Graph Selection Features.md", "timestamp": "2026-05-14T11:31:21.079425", "tool_name": "replace"}
+{"node_id": ".gemini/skills/manage-coretext-graph-ui/SKILL.md", "timestamp": "2026-05-14T11:31:30.756848", "tool_name": "read_file"}
+{"node_id": ".gemini/skills/manage-coretext-graph-ui/SKILL.md", "timestamp": "2026-05-14T11:31:37.596541", "tool_name": "replace"}
+{"node_id": "setup_coretext.sh", "timestamp": "2026-05-14T11:41:22.186722", "tool_name": "write_file"}
+{"node_id": "sync_coretext.sh", "timestamp": "2026-05-14T11:41:28.652427", "tool_name": "read_file"}
+{"node_id": "sync_coretext.sh", "timestamp": "2026-05-14T11:41:34.450423", "tool_name": "replace"}
+{"node_id": "coretext_package/pyproject.toml", "timestamp": "2026-05-14T11:43:48.785223", "tool_name": "read_file"}
+{"node_id": "setup_coretext.sh", "timestamp": "2026-05-14T11:44:08.726701", "tool_name": "replace"}
+{"node_id": "sync_coretext.sh", "timestamp": "2026-05-14T11:49:25.274645", "tool_name": "read_file"}
+{"node_id": "sync_coretext.sh", "timestamp": "2026-05-14T11:49:36.331637", "tool_name": "replace"}
+{"node_id": "AGENTS.md", "timestamp": "2026-05-14T11:53:17.567002", "tool_name": "replace"}
+{"node_id": ".coretext/coretext--visualization.jsonl", "timestamp": "2026-05-14T11:53:17.567005", "tool_name": "replace"}
+{"node_id": "sync_coretext.sh", "timestamp": "2026-05-14T11:53:17.617538", "tool_name": "read_file"}
+{"node_id": ".agents/skills/coretext/SKILL.md", "timestamp": "2026-05-14T11:53:17.630264", "tool_name": "read_file"}
+{"node_id": ".coretext/coretext_engine.py", "timestamp": "2026-05-14T11:53:31.033676", "tool_name": "replace"}
+{"node_id": "sync_coretext.sh", "timestamp": "2026-05-14T11:53:31.033678", "tool_name": "replace"}
+{"node_id": ".agents/skills/coretext/SKILL.md", "timestamp": "2026-05-14T11:53:31.081565", "tool_name": "read_file"}
+{"node_id": ".agents/skills/coretext/SKILL.md", "timestamp": "2026-05-14T11:53:42.595180", "tool_name": "replace"}
+{"node_id": ".agents/skills/coretext/SKILL.md", "timestamp": "2026-05-14T11:53:42.595183", "tool_name": "replace"}
+{"node_id": "/Users/mac/Git/knowledge/project/coretext/ai/Packaging Coretext Dashboard and Configs.md", "timestamp": "2026-05-14T11:56:20.105769", "tool_name": "write_file"}

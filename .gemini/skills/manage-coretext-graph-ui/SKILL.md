@@ -15,16 +15,16 @@ This skill covers the maintenance and extension of the `coretext-graph-ui` proje
 - "Reset button is not working in the dashboard"
 
 ## Directory Structure
-- `coretext-graph-ui/`: Root of the visualization project.
-- `coretext-graph-ui/server/index.js`: Express backend that parses `.coretext/coretext.jsonl`.
-- `coretext-graph-ui/src/core/CoretextGraph.tsx`: Main React Flow component with `d3-force` logic.
-- `coretext-graph-ui/src/App.tsx`: Frontend entry point and data polling logic.
+- `.coretext/coretext-graph-ui/`: Root of the visualization project.
+- `.coretext/coretext-graph-ui/server/index.js`: Express backend that parses `.coretext/coretext.jsonl`.
+- `.coretext/coretext-graph-ui/src/core/CoretextGraph.tsx`: Main React Flow component with `d3-force` logic.
+- `.coretext/coretext-graph-ui/src/App.tsx`: Frontend entry point and data polling logic.
 
 ## Procedures
 
 ### 1. Extending the Backend Parser
 The backend converts JSONL entries into Graph nodes and edges.
-- **Location**: `coretext-graph-ui/server/index.js`
+- **Location**: `.coretext/coretext-graph-ui/server/index.js`
 - **Logic**: It assigns a `category` (trigger, skill, context) based on the file path or relationship.
 - **Action**: When adding new data types, update the category detection logic to ensure proper coloring and layout positioning.
 
@@ -56,7 +56,7 @@ Dense graphs suffer from overlapping straight edges.
 | **Missing Labels** | Use `EdgeLabelRenderer` and the label coordinates returned by `getBezierPath` to center labels on curved edges. |
 
 ## Verification Checklist
-- [ ] Run `npm run build` in `coretext-graph-ui/` to verify TypeScript and Vite transform integrity.
+- [ ] Run `npm run build` in `.coretext/coretext-graph-ui/` to verify TypeScript and Vite transform integrity.
 - [ ] Verify that all custom nodes have `<Handle>` elements.
 - [ ] Ensure all types are imported using `import type`.
 - [ ] Check that `d3-force` simulation has enough ticks to settle.

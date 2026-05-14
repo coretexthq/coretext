@@ -64,7 +64,7 @@ flowchart TB
         direction TB
         A_Reviewer([reviewer]):::agent
         Check_Audit{Tests Passed &<br/>Rules Respected?}:::decision
-        A_Knowledge([consolidate-rules skill]):::agent
+        A_Knowledge([coretext skill]):::agent
         A_Rules[docs/rules/*.md]:::artifact
         A_ExpUpdate[.coretext/coretext.jsonl event]:::artifact
         A_Handoff_Final[docs/superpowers/reviews/* feedback.md]:::artifact
