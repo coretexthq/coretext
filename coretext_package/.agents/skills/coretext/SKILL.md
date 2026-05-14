@@ -1,9 +1,9 @@
 ---
-name: consolidate-rules
+name: coretext
 description: Use ONLY after the code is fully reviewed and approved by the Code Reviewer to extract architectural lessons and mechanically link source code to relevant targets (rules, skills, architecture docs, or other files).
 ---
 
-# Consolidate Rules & Knowledge Context
+# Coretext Rules & Knowledge Context
 
 ## Overview
 

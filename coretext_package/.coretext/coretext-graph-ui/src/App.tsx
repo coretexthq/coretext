@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { CoretextGraph } from './core/CoretextGraph';
 import type { Node, Edge } from '@xyflow/react';
 
@@ -45,7 +45,12 @@ function App() {
 
         const highlightRes = await fetch(highlightUrl);
         const highlightData = await highlightRes.json();
-        setHighlightedNodes(new Set(highlightData.nodes));
+        setHighlightedNodes(prev => {
+            const newArray = Array.from(new Set(highlightData.nodes));
+            const oldArray = Array.from(prev);
+            if (JSON.stringify(newArray.sort()) === JSON.stringify(oldArray.sort())) return prev;
+            return new Set(highlightData.nodes);
+        });
       } catch (err) {
         console.error("Failed to fetch data:", err);
       }
@@ -67,13 +72,15 @@ function App() {
     });
   };
 
-  const nodesWithHighlight = nodes.map(node => ({
-    ...node,
-    data: {
-      ...node.data,
-      isHighlighted: highlightedNodes.has(node.id)
-    }
-  }));
+  const nodesWithHighlight = useMemo(() => {
+      return nodes.map(node => ({
+        ...node,
+        data: {
+          ...node.data,
+          isHighlighted: highlightedNodes.has(node.id)
+        }
+      }));
+  }, [nodes, highlightedNodes]);
 
   return (
     <CoretextGraph 
