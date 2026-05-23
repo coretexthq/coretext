@@ -1,0 +1,4 @@
+[submodule "coretext-docs"]
+	path = coretext-docs
+	url = https://github.com/coretexthq/coretext-docs.git
+	branch = main
