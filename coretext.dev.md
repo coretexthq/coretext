@@ -17,14 +17,24 @@ Coretext envisions a "Headless" filesystem layer where agents operate, audit, an
     - **Hook Time (Reflex):** Event-based safety and enforcement (Git Hooks).
 - **Isolation:** Using Git Worktrees as virtual address spaces for agents to work in private, auditable "offices."
 
+## Git Submodules Triangle Architecture
+To enable AI agents to natively access and index documentation without symlink recursion problems, we implemented the Triangle Architecture:
+- A private subproject repository `coretext-docs` holds all project knowledge.
+- In the codebase repo `coretext`, it is added as a submodule at `coretext-docs/` (retaining the existing code-specific `docs/` folder).
+- In the master Obsidian vault `knowledge`, it is added as a submodule at `project/coretext/`.
+- Automatic synchronization is bootstrapped via `setup_coretext.sh` and enforced via a worktree-compatible `post-checkout` git hook.
+
 # Backlog
 - [[coretext.dev.open-source-swarm-community]]
 - [[coretext.memory.trace-sync]]
 
 # Log
+- [[coretext.dev.strategy.git_submodules]] - Git Submodules Triangle Architecture Migration
 - [[Organizational Documentation Architecture]] - the origin of {{project}}.{{scope}}.{{issue}}
 - [[coretext.dev.strategy.agent_native_kb]]
 - [[coretext.dev.strategy.headless_company]]
 - [[coretext.architecture.headless_os]]
 # Resource
+- [[coretext.dev.strategy.git_submodules]]
+
 

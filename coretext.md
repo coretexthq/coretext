@@ -27,6 +27,7 @@
 - **Cryptographic Intent Hashing:** Hash target states/atomic steps to commit metadata for traceability.
 
 # Log
+- [[coretext.dev|Development Strategy]]: Git Submodule Triangle Architecture and company/dev environment bootstrapping.
 - [[coretext.architecture|Architecture]]: Deterministic routing, fnmatch matching, and the virtual MMU model.
 - [[coretext.dsdd|D-SDD]]: Planner, executor, reviewer, and the current artifact flow.
 - [[coretext.memory|Memory]]: Session traces, backend-agnostic sync, and durable rule extraction.
