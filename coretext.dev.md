@@ -29,12 +29,10 @@ To enable AI agents to natively access and index documentation without symlink r
 - [[coretext.memory.trace-sync]]
 
 # Log
-- [[coretext.dev.strategy.git_submodules]] - Git Submodules Triangle Architecture Migration
 - [[Organizational Documentation Architecture]] - the origin of {{project}}.{{scope}}.{{issue}}
 - [[coretext.dev.strategy.agent_native_kb]]
 - [[coretext.dev.strategy.headless_company]]
 - [[coretext.architecture.headless_os]]
 # Resource
-- [[coretext.dev.strategy.git_submodules]]
 
 
