@@ -23,7 +23,7 @@ The pivot to native primitives was largely driven by the evolution of AI tooling
 ## Related Notes
 - [[GEMINI.md]]
 - [[AGENTS.md file]]
-- [[coretext.strategy.headless-company|The Headless OS-Company Architecture]]
+- [[coretext.strategy.headless-company]]
 - [[coretext.memory.digital_hippocampus|The Digital Hippocampus Architecture]]
 - [[A Social Filesystem]]
 
