@@ -17,5 +17,5 @@
 - Keep the rule and note system aligned so the story stays credible.
 
 ## Resource
-- [[coretext.dev.strategy.agent_native_kb]]
+- [[coretext.dev.strategy-agent-native-kb]]
 - [[coretext.dashboard]]

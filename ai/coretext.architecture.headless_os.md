@@ -14,7 +14,7 @@ Explored the architectural shift of Coretext towards a "Headless OS" and Agentic
 ## Related Notes
 - [[resource/You Need to Rewrite Your CLI for AI Agents.md]] - Referenced for the tension between JSON payloads and CLI flags, and the importance of context window discipline.
 - [[resource/Progressive Disclosure.md]] - Connected to the concept of Agent Skills and Just-in-Time Learning to bypass context limits.
-- [[coretext.dev.strategy.agent_native_kb|The Headless Organization and Agent-Native Knowledge Base]] - Related to the B2B Company OS architecture and the role of human interfaces.
+- [[coretext.dev.strategy-agent-native-kb|The Headless Organization and Agent-Native Knowledge Base]] - Related to the B2B Company OS architecture and the role of human interfaces.
 - [[resource/Evolution of Interfaces.md]] - Mapped the shift from CLI to LCI (Language Conversational Interface) and the human role changing to Director.
 
 ## Original Prompts Reference

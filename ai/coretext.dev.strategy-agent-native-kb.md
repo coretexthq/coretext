@@ -9,7 +9,7 @@ Evaluated the transition of Coretext from a "personal companion" to an "Agent-Na
 
 ## Related Notes
 - [[coretext.dsdd.telemetry|Adversarial Execution and Coretext Telemetry]] - Foundation for the adversarial auditing loop and implicit telemetry.
-- [[coretext.dev.strategy.headless_company|The Headless OS-Company Architecture]] - Core concept for the company-as-an-OS model.
+- [[coretext.dev.strategy-headless-company|The Headless OS-Company Architecture]] - Core concept for the company-as-an-OS model.
 - [[coretext.memory.hebbian_experience|The Native Primitives and Hebbian Experience Architecture]] - Context for the "Everything is a File" and native primitives philosophy.
 
 ## Original Prompts Reference

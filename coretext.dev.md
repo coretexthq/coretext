@@ -30,8 +30,8 @@ To enable AI agents to natively access and index documentation without symlink r
 
 # Log
 - [[Organizational Documentation Architecture]] - the origin of {{project}}.{{scope}}.{{issue}}
-- [[coretext.dev.strategy.agent_native_kb]]
-- [[coretext.dev.strategy.headless_company]]
+- [[coretext.dev.strategy-agent-native-kb]]
+- [[coretext.dev.strategy-headless-company]]
 - [[coretext.architecture.headless_os]]
 # Resource
 
