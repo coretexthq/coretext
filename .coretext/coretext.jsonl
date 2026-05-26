@@ -30,3 +30,5 @@
 {"source": "setup_coretext.sh", "target": "docs/rules/coretext_setup_script.md", "type": "hint", "description": "Automate Coretext environment setup.", "hook": "both"}
 {"source": "sync_coretext.sh", "target": "docs/rules/coretext_sync_packaging.md", "type": "hint", "description": "Ensure all dependencies and settings are synced.", "hook": "both"}
 {"source": "src/**/*.tsx", "target": "docs/rules/react_flow_expensive_layouts.md", "type": "hint", "description": "Decouple heavy physics simulations from React state updates using a structural key.", "hook": "both"}
+{"source": ".coretext/*", "target": "docs/coretext/coretext_hooks.md", "type": "hint", "description": "review hooks and context injection", "hook": "both"}
+{"source": ".gemini/settings.json", "target": "docs/coretext/coretext_hooks.md", "type": "hint", "description": "review hooks and context injection", "hook": "both"}

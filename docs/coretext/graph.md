@@ -40,41 +40,44 @@ graph LR
     setup_coretext_sh["setup_coretext.sh"] -->|"hint (both)"| docs_rules_coretext_setup_script_md["docs/rules/coretext_setup_script.md"]
     sync_coretext_sh["sync_coretext.sh"] -->|"hint (both)"| docs_rules_coretext_sync_packaging_md["docs/rules/coretext_sync_packaging.md"]
     src_**_*_tsx["src/**/*.tsx"] -->|"hint (both)"| docs_rules_react_flow_expensive_layouts_md["docs/rules/react_flow_expensive_layouts.md"]
-    class docs_rules_react_flow_custom_nodes_md rules
-    class _agents_skills_code_reviewer_SKILL_md skills
-    class docs_superpowers_reviews_*feedback* docs
-    class docs_coretext_coretext_flowchart_md docs
-    class test_engine_py docs
-    class src_**_*_tsx src
-    class docs_rules_react_flow_overlapping_edges_md rules
-    class _agents_skills_systematic_debugging_SKILL_md skills
-    class _agents_skills_coretext_SKILL_md skills
-    class docs_superpowers_plans_* docs
-    class docs_rules_session_based_hooks_md rules
-    class docs_superpowers_specs_* docs
-    class docs_rules_react_flow_expensive_layouts_md rules
-    class _agents_skills_requesting_code_review_SKILL_md skills
-    class docs_rules_coretext_sync_packaging_md rules
-    class _agents_skills_verification_before_completion_SKILL_md skills
-    class _coretext_notify_action_py docs
-    class _agents_skills_test_driven_development_SKILL_md skills
-    class setup_coretext_sh docs
-    class tests_* tests
-    class src_* src
+    _coretext_*[".coretext/*"] -->|"hint (both)"| docs_coretext_coretext_hooks_md["docs/coretext/coretext_hooks.md"]
+    _gemini_settings_json[".gemini/settings.json"] -->|"hint (both)"| docs_coretext_coretext_hooks_md["docs/coretext/coretext_hooks.md"]
     class _coretext_inject_context_py docs
-    class docs_rules_normalize_hook_paths_md rules
-    class docs_rules_coretext_setup_script_md rules
-    class _agents_skills_writing_plans_SKILL_md skills
+    class docs_superpowers_specs_* docs
+    class test_engine_py docs
+    class _coretext_* docs
+    class docs_rules_d3_force_overlapping_nodes_md rules
+    class _agents_skills_test_driven_development_SKILL_md skills
+    class _agents_skills_requesting_code_review_SKILL_md skills
+    class docs_rules_react_flow_custom_nodes_md rules
+    class docs_coretext_coretext_hooks_md docs
+    class tests_* tests
+    class docs_rules_session_based_hooks_md rules
+    class docs_rules_gemini_cli_payload_structure_md rules
+    class src_**_*_tsx src
     class docs_superpowers_reviews_*request* docs
+    class _agents_skills_coretext_SKILL_md skills
     class docs_rules_coretext_engine_modifications_md rules
-    class docs_rules_gemini_cli_hook_merging_md rules
+    class docs_coretext_coretext_flowchart_md docs
+    class _agents_skills_systematic_debugging_SKILL_md skills
+    class src_* src
+    class _gemini_settings_json docs
+    class docs_ARCHITECTURE_md docs
+    class _agents_skills_verification_before_completion_SKILL_md skills
+    class docs_rules_react_flow_overlapping_edges_md rules
+    class _coretext_notify_action_py docs
+    class docs_rules_* rules
+    class docs_rules_coretext_sync_packaging_md rules
+    class docs_superpowers_plans_* docs
+    class _agents_skills_writing_plans_SKILL_md skills
+    class docs_rules_normalize_hook_paths_md rules
+    class docs_superpowers_reviews_*feedback* docs
+    class _agents_skills_code_reviewer_SKILL_md skills
     class docs_rules_dashboard_session_state_md rules
     class sync_coretext_sh docs
+    class setup_coretext_sh docs
+    class docs_rules_react_flow_expensive_layouts_md rules
     class _agents_skills_brainstorming_SKILL_md skills
-    class docs_rules_* rules
-    class docs_ARCHITECTURE_md docs
-    class _coretext_* docs
-    class _gemini_settings_json docs
-    class docs_rules_gemini_cli_payload_structure_md rules
-    class docs_rules_d3_force_overlapping_nodes_md rules
+    class docs_rules_gemini_cli_hook_merging_md rules
+    class docs_rules_coretext_setup_script_md rules
 ```
