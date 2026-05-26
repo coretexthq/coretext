@@ -11,14 +11,14 @@ The old approach of upserting full node content into SurrealDB and removing the 
 
 ## Related Notes
 - [[resource/Language Server Protocol]]: LSP as symbol/navigation layer, not universal AST memory
-- [[coretext.archive.memory]]: original memory-layer framing
+- [[archived.coretext.memory]]: original memory-layer framing
 - [[SurrealDB]]: SurrealDB as graph and hybrid search engine
 - [[coretext.memory.hebbian_experience|The Native Primitives and Hebbian Experience Architecture]]: shift from heavy infrastructure to files plus telemetry
 - [[The Bare-Metal Hebbian Architecture vs SurrealDB RAG]]: files as truth, SurrealDB as disposable materialized view
 - [[resource/Git-Based Differential Memory for AI Agents]]: differential memory and state continuity
 - [[resource/Automating Knowledge Graph]]: SurrealDB automation reference
 - [[coretext.architecture.cognitive_infra|LLM as the Language Module and the Cognitive Infrastructure of Coretext]]: Coretext as extra-linguistic cognitive system
-- [[coretext.archive.database]]: earlier SurrealMCP and database-first architecture
+- [[archived.coretext.database]]: earlier SurrealMCP and database-first architecture
 - [[coretext.memory.decoupled_graph|Decoupled Graph and Episodic Memory]]: markdown plus JSON middle-ground design
 - [[Reranking for Coretext]]: reranking and formatting before injection
 - [[resource/Claude Context]]: critique of grep-only retrieval and code indexing alternatives
