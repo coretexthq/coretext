@@ -38,7 +38,7 @@
 - [[coretext.architecture.bare_metal]]
 - [[coretext.architecture.unified_platform]]
 - [[coretext.architecture.VMMU]]
-- [[coretext.archive.database]]
-- [[coretext.archive.sandbox]]
+- [[archived.coretext.database]]
+- [[archived.coretext.sandbox]]
 - `docs/ARCHITECTURE.md`
 - `docs/coretext/coretext_flowchart.md`

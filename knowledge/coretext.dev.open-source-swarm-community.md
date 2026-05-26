@@ -28,7 +28,7 @@ An exploration of designing self-organizing agent swarms and headless companies 
 ## Original Prompts
 đi theo hướng xây dựng hệ thống tự quản lý như [[Open-source]] 
 - một vài hướng đi trong [[Open Source Software community structures to Agentic Software Engineering]]
-- ý tưởng ban đầu ở [[coretext.dev.strategy.headless_company]]
+- ý tưởng ban đầu ở [[coretext.strategy.headless-company]]
 - ví dụ: [[Rust]], Debian, Python, curl
 - Ladder of Contribution
 - GOVERNANCE.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md giống [[AGENTS.md file]]
