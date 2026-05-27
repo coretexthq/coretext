@@ -302,7 +302,7 @@
 			"width":320,
 			"height":260
 		},
-		{"id":"4d21394a18369a0b","type":"file","file":"project/coretext/Gemini CLI.md","x":-1380,"y":21000,"width":400,"height":360},
+		{"id":"4d21394a18369a0b","type":"file","file":"archive/Gemini CLI.md","x":-1380,"y":21000,"width":400,"height":360},
 		{"id":"89df98e8bbce576e","type":"file","file":"project/coretext/transition-to-sdd/docs/coretext/graph.md","x":-2400,"y":13200,"width":985,"height":1880},
 		{"id":"22fbccbfe27edc71","type":"file","file":"project/coretext/EvoClaw.md","x":780,"y":13820,"width":720,"height":820},
 		{"id":"d263b4e27fab63cc","type":"link","url":"https://github.com/abhigyanpatwari/GitNexus","x":-5140,"y":7440,"width":680,"height":1140},

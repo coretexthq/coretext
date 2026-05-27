@@ -25,14 +25,13 @@ To enable AI agents to natively access and index documentation without symlink r
 - Automatic synchronization is bootstrapped via `setup_coretext.sh` and enforced via a worktree-compatible `post-checkout` git hook.
 
 # Backlog
-- [[coretext.dev.open-source-swarm-community]]
+- [[coretext.strategy.open-source-swarm-community]]
 - [[coretext.memory.trace-sync]]
 
 # Log
-- [[Organizational Documentation Architecture]] - the origin of {{project}}.{{scope}}.{{issue}}
+- [[knowledge.architecture]] - the origin of {{project}}.{{scope}}.{{issue}}
 - [[coretext.strategy.agent-native-kb]]
 - [[coretext.strategy.headless-company]]
 - [[coretext.architecture.headless_os]]
 # Resource
-
 
