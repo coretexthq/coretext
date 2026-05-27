@@ -11,6 +11,6 @@
 - Dashboard dependencies under `.coretext/coretext-graph-ui/`.
 
 ## Resource
-- [[coretext.dev.infra.hosting]]
+- [[coretext.infra.hosting]]
 - [[docs/rules/coretext_setup_script.md]]
 - [[docs/rules/coretext_sync_packaging.md]]

@@ -51,7 +51,7 @@
 *   **Orchestration Frameworks:**
     *   **Spec-Driven Development:** `obrasuperpowers`, `fission-ai_openspec`, `BMad Method`, `Oh-My-Openagent (OmO)`.
     *   **Legacy Frameworks:** `ClaudeKit`, `LangGraph`, `DeerFlow`, `CrewAI`. Rigid DAGs that smart models outgrow.
-- [[coretext.dev.open-source-swarm-community]]
+- [[coretext.strategy.open-source-swarm-community]]
 
 ## Chapter III: System Design & Methodology
 *   **Methodology & Metaphors:**
