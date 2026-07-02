@@ -1,0 +1,9 @@
+{
+  "conversationId": "session-xyz-789",
+  "toolCall": {
+    "name": "write_to_file",
+    "args": {
+      "TargetFile": "src/api/auth.py"
+    }
+  }
+}

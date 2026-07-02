@@ -1,0 +1,11 @@
+{
+  "runtime": "codex",
+  "event": "PostToolUse",
+  "tool_name": "view_file",
+  "tool_input": {
+    "AbsolutePath": "/Users/mac/Git/coretext/src/api/auth.py"
+  },
+  "action": "read",
+  "session_id": "session-abc-123",
+  "file_paths": ["src/api/auth.py"]
+}

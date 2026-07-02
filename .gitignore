@@ -22,3 +22,15 @@ env/
 .DS_Store
 coretext.egg-info/
 *.egg-info
+
+# Node.js
+node_modules/
+dist/
+.vercel
+
+# Obsidian
+.obsidian
+
+# Packaging
+/package/
+

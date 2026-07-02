@@ -1,0 +1,2566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trore - Premium Lodging Renter Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --bg-surface: #0e1326;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --primary-glow: rgba(16, 185, 129, 0.15);
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.15);
+      --warning: #fbbf24;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Glow Effects */
+    .bg-glow-1 {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
+      z-index: -1;
+      filter: blur(120px);
+      pointer-events: none;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      bottom: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
+      z-index: -1;
+      filter: blur(120px);
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* Header styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-card);
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 0 15px var(--primary);
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 30%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Actor / Renter Selector */
+    .renter-selector-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+    }
+
+    .renter-selector-container label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .renter-select {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .renter-select option {
+      background: var(--bg-surface);
+      color: #fff;
+    }
+
+    /* Layout Split */
+    .main-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* Filters Section */
+    .filters-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* Advanced Filters toggle/row */
+    .advanced-filters-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .price-range-inputs {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .price-range-inputs span {
+      color: var(--text-muted);
+    }
+
+    /* Amenities checkboxes styling */
+    .amenities-group {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 992px) {
+      .amenities-group {
+        grid-column: span 1;
+      }
+    }
+
+    .amenities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .checkbox-label input {
+      accent-color: var(--primary);
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Action buttons below filters */
+    .filter-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .left-actions, .right-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.65rem 1.25rem;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-card);
+      color: #fff;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-hover);
+    }
+
+    .btn-accent {
+      background: var(--accent-glow);
+      border-color: rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+    }
+
+    .btn-accent:hover {
+      background: rgba(99, 102, 241, 0.25);
+      border-color: var(--accent);
+    }
+
+    /* View Mode & Sort Row */
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .results-count {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .results-count strong {
+      color: #fff;
+    }
+
+    /* Toggle switches */
+    .toggle-group {
+      display: flex;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 0.25rem;
+    }
+
+    .toggle-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* Listings layout: Grid vs Split */
+    .listings-container {
+      display: grid;
+      gap: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .listings-container.grid-mode {
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    }
+
+    .listings-container.map-mode {
+      grid-template-columns: 1fr 1.2fr;
+    }
+
+    @media (max-width: 992px) {
+      .listings-container.map-mode {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .listings-list {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .map-mode .listings-list {
+      grid-template-columns: 1fr;
+      max-height: 700px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    /* Listing Card styling */
+    .listing-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+    }
+
+    .card-banner {
+      height: 180px;
+      background: linear-gradient(135deg, #1e1e38, #111124);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+
+    .card-badge-rating {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(5px);
+      border: 1px solid var(--border-card);
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fbbf24;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .card-badge-price {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      background: rgba(16, 185, 129, 0.95);
+      border-radius: 8px;
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .card-content {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex-grow: 1;
+    }
+
+    .card-district {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .card-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-info-row {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 0.75rem;
+      margin-top: auto;
+    }
+
+    .card-info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .card-amenities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .amenity-tag {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+      text-transform: capitalize;
+    }
+
+    /* Map view placeholder */
+    .map-panel {
+      background: #0d1222;
+      border: 1px solid var(--border-card);
+      border-radius: 16px;
+      height: 700px;
+      position: sticky;
+      top: 1.5rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .map-header {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-card);
+      background: rgba(14, 19, 38, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 10;
+    }
+
+    .map-canvas-container {
+      flex-grow: 1;
+      position: relative;
+      background: radial-gradient(circle at center, #11182c 0%, #070a13 100%);
+    }
+
+    /* Visual stylized elements of mock map */
+    .map-river {
+      position: absolute;
+      top: 40%;
+      left: -20%;
+      width: 140%;
+      height: 60px;
+      background: rgba(99, 102, 241, 0.1);
+      transform: rotate(-15deg);
+      border-top: 1px dashed rgba(99, 102, 241, 0.2);
+      border-bottom: 1px dashed rgba(99, 102, 241, 0.2);
+    }
+
+    .map-road-1 {
+      position: absolute;
+      top: 0;
+      left: 30%;
+      width: 20px;
+      height: 100%;
+      background: rgba(255,255,255,0.02);
+      border-left: 1px dashed rgba(255,255,255,0.05);
+      border-right: 1px dashed rgba(255,255,255,0.05);
+    }
+
+    .map-road-2 {
+      position: absolute;
+      top: 60%;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px dashed rgba(255,255,255,0.05);
+      border-bottom: 1px dashed rgba(255,255,255,0.05);
+    }
+
+    .map-district-label {
+      position: absolute;
+      color: rgba(255,255,255,0.15);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      pointer-events: none;
+    }
+
+    .map-pin {
+      position: absolute;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      box-shadow: 0 0 15px var(--primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .map-pin::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px 6px 0;
+      border-style: solid;
+      border-color: var(--primary) transparent;
+      display: block;
+      width: 0;
+    }
+
+    .map-pin:hover, .map-pin.active {
+      background: var(--accent);
+      box-shadow: 0 0 20px var(--accent);
+      transform: translate(-50%, -50%) scale(1.1);
+      z-index: 10;
+    }
+
+    .map-pin:hover::after, .map-pin.active::after {
+      border-color: var(--accent) transparent;
+    }
+
+    /* Saved Searches Side Panel / Section */
+    .saved-searches-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .saved-searches-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .saved-searches-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .saved-search-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .saved-search-item:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--border-hover);
+    }
+
+    .saved-search-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .saved-search-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    .saved-search-filters {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    /* Pagination Controls */
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .page-info {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Detail Modal styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 7, 13, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      width: 100%;
+      max-width: 750px;
+      max-height: 90vh;
+      border-radius: 24px;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(13, 17, 23, 0.8);
+      border: 1px solid var(--border-card);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      z-index: 10;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .modal-banner {
+      height: 250px;
+      background: linear-gradient(135deg, #1e1e38, #111124);
+      position: relative;
+    }
+
+    .modal-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .modal-header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .modal-price-tag {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .modal-meta-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 1rem;
+    }
+
+    .modal-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-amenities-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .modal-amenity-pill {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-card);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      text-transform: capitalize;
+    }
+
+    /* Blackout / availability display in detail page */
+    .blocked-dates-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .blocked-dates-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .blocked-date-item {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    .blocked-date-item.blackout {
+      border-left: 3px solid var(--danger);
+    }
+
+    .blocked-date-item.approved {
+      border-left: 3px solid var(--warning);
+    }
+
+    /* Booking Request Form Styling */
+    .booking-form {
+      background: rgba(99, 102, 241, 0.03);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .booking-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 576px) {
+      .booking-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .booking-summary-box {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+      display: none; /* Shown when dates are selected */
+    }
+
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-line.total {
+      border-top: 1px dashed rgba(255,255,255,0.1);
+      padding-top: 0.5rem;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .booking-status-message {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .booking-status-message.error {
+      background: var(--danger-glow);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      display: block;
+    }
+
+    .booking-status-message.success {
+      background: var(--primary-glow);
+      border: 1px solid var(--primary);
+      color: #a7f3d0;
+      display: block;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--success);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--danger);
+    }
+
+    .toast-icon {
+      font-size: 1.25rem;
+    }
+
+    .toast-message {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-card);
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <div class="logo-dot"></div>
+        <div class="logo-text">Trore Lodgings</div>
+      </div>
+      
+      <div class="renter-selector-container">
+        <label for="renterSelector">Renter Mode:</label>
+        <select id="renterSelector" class="renter-select" onchange="onRenterChange()">
+          <option value="Emma Watson">Emma Watson</option>
+          <option value="Dave Jones">Dave Jones</option>
+          <option value="Grace Hopper">Grace Hopper</option>
+          <option value="Guest User">Guest User</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Tabs Nav Bar -->
+      <div class="tab-nav" style="display: flex; gap: 1rem; border-bottom: 1px solid var(--border-card); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+        <button id="tabLinkRenter" class="tab-link active" onclick="switchTab('renter')" style="background: none; border: none; color: var(--primary); font-family: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; background-color: var(--primary-glow); transition: all 0.2s;">Renter Portal</button>
+        <button id="tabLinkHost" class="tab-link" onclick="switchTab('host')" style="background: none; border: none; color: var(--text-muted); font-family: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s;">Host Dashboard</button>
+        <button id="tabLinkAdmin" class="tab-link" onclick="switchTab('admin')" style="background: none; border: none; color: var(--text-muted); font-family: inherit; font-size: 1.1rem; font-weight: 700; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.2s;">Admin Panel</button>
+      </div>
+
+      <!-- Renter Portal View -->
+      <div id="tabContentRenter" class="tab-content">
+        <!-- Search & Filters Panel -->
+      <section class="filters-card">
+        <div class="search-row">
+          <div class="input-group">
+            <label for="filterSearch">Text Search</label>
+            <input type="text" id="filterSearch" class="form-input" placeholder="Search by title, description..." oninput="onFilterChange()">
+          </div>
+          
+          <div class="input-group">
+            <label for="filterDistrict">District</label>
+            <select id="filterDistrict" class="form-input" onchange="onFilterChange()">
+              <option value="">All Districts</option>
+              <option value="Downtown">Downtown</option>
+              <option value="Back Bay">Back Bay</option>
+              <option value="North End">North End</option>
+              <option value="South End">South End</option>
+              <option value="Cambridge">Cambridge</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="filterSort">Sort By</label>
+            <select id="filterSort" class="form-input" onchange="onFilterChange()">
+              <option value="relevance">Relevance</option>
+              <option value="price">Price: Low to High</option>
+              <option value="rating">Rating: High to Low</option>
+              <option value="newest">Newest Listings</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="advanced-filters-row">
+          <div class="input-group">
+            <label>Price Range</label>
+            <div class="price-range-inputs">
+              <input type="number" id="filterMinPrice" class="form-input" style="width: 100%;" placeholder="Min" oninput="onFilterChange()">
+              <span>-</span>
+              <input type="number" id="filterMaxPrice" class="form-input" style="width: 100%;" placeholder="Max" oninput="onFilterChange()">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="filterBedrooms">Bedrooms</label>
+            <select id="filterBedrooms" class="form-input" onchange="onFilterChange()">
+              <option value="">Any Bedrooms</option>
+              <option value="1">1+ Bedrooms</option>
+              <option value="2">2+ Bedrooms</option>
+              <option value="3">3+ Bedrooms</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="filterStartDate">Check-in Date</label>
+            <input type="date" id="filterStartDate" class="form-input" onchange="onFilterChange()">
+          </div>
+
+          <div class="input-group">
+            <label for="filterEndDate">Check-out Date</label>
+            <input type="date" id="filterEndDate" class="form-input" onchange="onFilterChange()">
+          </div>
+        </div>
+
+        <!-- Amenities Grid -->
+        <div class="input-group" style="margin-bottom: 1.25rem;">
+          <label>Amenities</label>
+          <div class="amenities-grid">
+            <label class="checkbox-label"><input type="checkbox" value="air conditioning" onchange="onFilterChange()"> Air Conditioning</label>
+            <label class="checkbox-label"><input type="checkbox" value="balcony" onchange="onFilterChange()"> Balcony</label>
+            <label class="checkbox-label"><input type="checkbox" value="parking" onchange="onFilterChange()"> Parking</label>
+            <label class="checkbox-label"><input type="checkbox" value="pool" onchange="onFilterChange()"> Pool</label>
+            <label class="checkbox-label"><input type="checkbox" value="workspace" onchange="onFilterChange()"> Workspace</label>
+            <label class="checkbox-label"><input type="checkbox" value="pet friendly" onchange="onFilterChange()"> Pet Friendly</label>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <div class="left-actions">
+            <button class="btn btn-secondary" onclick="resetFilters()">Reset Filters</button>
+            <button class="btn btn-accent" onclick="saveSearch()">💾 Save Search</button>
+          </div>
+          <div class="right-actions">
+            <span class="results-count" id="resultsCount">Found 0 listings</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Saved Searches list -->
+      <section class="saved-searches-panel">
+        <h3 class="saved-searches-title">
+          <span>Saved Searches for <span id="activeRenterName" style="color: var(--primary);">Emma Watson</span></span>
+        </h3>
+        <div class="saved-searches-list" id="savedSearchesList">
+          <!-- Populated by JS -->
+          <div style="color: var(--text-muted); font-size: 0.9rem;">No saved searches found.</div>
+        </div>
+      </section>
+
+      <!-- View Toggle and Pagination Row -->
+      <section class="controls-row">
+        <div class="toggle-group">
+          <button id="btnGridView" class="toggle-btn active" onclick="setViewMode('grid')">Grid View</button>
+          <button id="btnMapView" class="toggle-btn" onclick="setViewMode('map')">Map View</button>
+        </div>
+      </section>
+
+      <!-- Listings Display and Mock Map Layout -->
+      <section class="listings-container grid-mode" id="listingsContainer">
+        <!-- Render grid of listings -->
+        <div class="listings-list" id="listingsGrid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Render visual map mockup (shown only in map mode) -->
+        <div class="map-panel" id="mapPanel" style="display: none;">
+          <div class="map-header">
+            <h4 style="font-family: 'Outfit'; font-size: 1.05rem;">Interactive Search Map Placeholder</h4>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.2rem;">Showing pins matching active results</p>
+          </div>
+          <div class="map-canvas-container">
+            <div class="map-river"></div>
+            <div class="map-road-1"></div>
+            <div class="map-road-2"></div>
+            <div class="map-district-label" style="top: 15%; left: 10%;">Downtown</div>
+            <div class="map-district-label" style="top: 75%; left: 15%;">South End</div>
+            <div class="map-district-label" style="top: 25%; left: 65%;">Back Bay</div>
+            <div class="map-district-label" style="top: 55%; left: 70%;">North End</div>
+            <div class="map-district-label" style="top: 10%; left: 45%;">Cambridge</div>
+            
+            <div id="mapPinsContainer">
+              <!-- Pins inserted by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pagination -->
+      <div class="pagination-container" id="paginationContainer">
+        <button class="btn btn-secondary" id="btnPrevPage" onclick="changePage(-1)">Previous</button>
+        <span class="page-info" id="pageInfo">Page 1 of 1</span>
+        <button class="btn btn-secondary" id="btnNextPage" onclick="changePage(1)">Next</button>
+      </div>
+      </div>
+
+      <!-- Host Portal View -->
+      <div id="tabContentHost" class="tab-content" style="display: none;">
+        <!-- Host selector and Create Button -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="renter-selector-container">
+            <label for="hostSelector">Active Host:</label>
+            <select id="hostSelector" class="renter-select" onchange="onHostChange()">
+              <option value="Alice Vance">Alice Vance</option>
+              <option value="Bob Miller">Bob Miller</option>
+              <option value="Charlie Song">Charlie Song</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="openCreateListingModal()">➕ Create New Listing</button>
+        </div>
+
+        <!-- Host Listings Grid -->
+        <div class="listings-container grid-mode">
+          <div class="listings-list" id="hostListingsGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Booking Requests Placeholder -->
+        <section class="filters-card" style="margin-top: 2rem;">
+          <h3 class="saved-searches-title" style="margin-bottom: 1rem;">Booking Requests for Your Listings</h3>
+          <div id="hostBookingsList">
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Loading bookings or child scope pending integration...</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Admin Portal View -->
+      <div id="tabContentAdmin" class="tab-content" style="display: none;">
+        <section class="filters-card">
+          <h3 class="saved-searches-title" style="margin-bottom: 1.5rem;">System Mutation Audit Logs</h3>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; color: var(--text-main); min-width: 600px;">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border-card); color: var(--text-muted); font-weight: 700;">
+                  <th style="padding: 0.75rem 1rem;">Timestamp</th>
+                  <th style="padding: 0.75rem 1rem;">Actor</th>
+                  <th style="padding: 0.75rem 1rem;">Action</th>
+                  <th style="padding: 0.75rem 1rem;">Entity</th>
+                  <th style="padding: 0.75rem 1rem;">Summary</th>
+                </tr>
+              </thead>
+              <tbody id="adminAuditLogsTableBody">
+                <tr style="border-bottom: 1px solid var(--border-card);">
+                  <td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                    Audit logs will load here after booking operations integration.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Trore lodging marketplace. Advanced Agentic Coding Case Study.</p>
+    </footer>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-card">
+      <div class="modal-close-btn" onclick="closeModal()">✕</div>
+      <div class="modal-banner">
+        <img id="modalImg" src="/lodging_loft.png" alt="Listing Image">
+      </div>
+      <div class="modal-body">
+        <div class="modal-header-info">
+          <div>
+            <div id="modalDistrict" class="card-district">District</div>
+            <h2 id="modalTitle" class="modal-title">Title</h2>
+          </div>
+          <div class="modal-price-tag">
+            $<span id="modalPrice">0</span><span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">/night</span>
+          </div>
+        </div>
+
+        <div class="modal-meta-row">
+          <div>🛏️ <span id="modalBedrooms">0</span> Bedrooms</div>
+          <div>⭐ <span id="modalRating">0.0</span> Rating</div>
+          <div>👤 Host: <span id="modalHost">Host Name</span></div>
+        </div>
+
+        <div class="modal-section-title">Overview</div>
+        <p id="modalDescription" class="modal-description">Description goes here...</p>
+
+        <div class="modal-section-title">Amenities</div>
+        <div class="modal-amenities-list" id="modalAmenities">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Blackout Dates -->
+        <div class="modal-section-title">Calendar & Availability</div>
+        <div class="blocked-dates-container">
+          <p style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem;">Host Blackout & Approved Booking Dates:</p>
+          <div class="blocked-dates-list" id="modalBlockedDates">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
+        <!-- Booking Form -->
+        <div class="booking-form">
+          <div class="modal-section-title" style="margin-bottom: 1rem; color: var(--accent);">Submit Booking Request</div>
+          
+          <div class="booking-status-message" id="bookingStatus"></div>
+
+          <div class="booking-form-grid">
+            <div class="input-group">
+              <label for="bookRenterName">Full Name</label>
+              <input type="text" id="bookRenterName" class="form-input" placeholder="Your Name" required>
+            </div>
+            <div class="input-group">
+              <label for="bookRenterEmail">Email Address</label>
+              <input type="email" id="bookRenterEmail" class="form-input" placeholder="you@example.com" required>
+            </div>
+            <div class="input-group">
+              <label for="bookStartDate">Arrival Date</label>
+              <input type="date" id="bookStartDate" class="form-input" onchange="calculateQuote()" required>
+            </div>
+            <div class="input-group">
+              <label for="bookEndDate">Departure Date</label>
+              <input type="date" id="bookEndDate" class="form-input" onchange="calculateQuote()" required>
+            </div>
+          </div>
+
+          <!-- Price Quote Calculator -->
+          <div class="booking-summary-box" id="bookingSummaryBox">
+            <div class="summary-line">
+              <span>Nightly Rate</span>
+              <span>$<span id="quotePricePerNight">0</span> x <span id="quoteNights">0</span> nights</span>
+            </div>
+            <div class="summary-line total">
+              <span>Total Price</span>
+              <span>$<span id="quoteTotal">0</span></span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.85rem;" onclick="submitBooking()">Submit Booking Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Host Listing Create/Edit Modal -->
+  <div class="modal-overlay" id="hostListingModal">
+    <div class="modal-card">
+      <div class="modal-close-btn" onclick="closeHostListingModal()">✕</div>
+      <div class="modal-body" style="padding-top: 3rem;">
+        <h2 id="hostListingModalTitle" class="modal-title" style="margin-bottom: 1.5rem; color: var(--primary);">Create New Listing</h2>
+        <form id="hostListingForm" onsubmit="submitHostListingForm(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          <input type="hidden" id="hostListingId">
+          <div class="input-group">
+            <label for="hostListingTitle">Listing Title</label>
+            <input type="text" id="hostListingTitle" class="form-input" placeholder="e.g. Beautiful Lake Cabin" required>
+          </div>
+          <div class="booking-form-grid">
+            <div class="input-group">
+              <label for="hostListingDistrict">District</label>
+              <select id="hostListingDistrict" class="form-input" required>
+                <option value="Downtown">Downtown</option>
+                <option value="Back Bay">Back Bay</option>
+                <option value="North End">North End</option>
+                <option value="South End">South End</option>
+                <option value="Cambridge">Cambridge</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="hostListingPrice">Nightly Price ($)</label>
+              <input type="number" id="hostListingPrice" class="form-input" min="1" placeholder="120" required>
+            </div>
+          </div>
+          <div class="booking-form-grid">
+            <div class="input-group">
+              <label for="hostListingBedrooms">Bedrooms</label>
+              <input type="number" id="hostListingBedrooms" class="form-input" min="1" placeholder="1" required>
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Amenities</label>
+            <div class="amenities-grid" id="hostListingAmenities">
+              <label class="checkbox-label"><input type="checkbox" value="air conditioning"> Air Conditioning</label>
+              <label class="checkbox-label"><input type="checkbox" value="balcony"> Balcony</label>
+              <label class="checkbox-label"><input type="checkbox" value="parking"> Parking</label>
+              <label class="checkbox-label"><input type="checkbox" value="pool"> Pool</label>
+              <label class="checkbox-label"><input type="checkbox" value="workspace"> Workspace</label>
+              <label class="checkbox-label"><input type="checkbox" value="pet friendly"> Pet Friendly</label>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="hostListingDescription">Description</label>
+            <textarea id="hostListingDescription" class="form-input" style="height: 100px; resize: vertical;" placeholder="Describe your property..."></textarea>
+          </div>
+          <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Save Listing</button>
+            <button type="button" class="btn btn-secondary" onclick="closeHostListingModal()" style="flex: 1; justify-content: center;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Host Blackouts Management Modal -->
+  <div class="modal-overlay" id="hostBlackoutModal">
+    <div class="modal-card">
+      <div class="modal-close-btn" onclick="closeHostBlackoutModal()">✕</div>
+      <div class="modal-body" style="padding-top: 3rem;">
+        <h2 class="modal-title" style="margin-bottom: 0.5rem; color: var(--accent);">Manage Blackout Dates</h2>
+        <p id="hostBlackoutModalSubtitle" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Listing details</p>
+        <input type="hidden" id="hostBlackoutListingId">
+
+        <!-- Add Blackout Form -->
+        <div class="booking-form" style="margin-bottom: 2rem;">
+          <h4 style="font-family: 'Outfit'; font-size: 1.05rem; margin-bottom: 1rem; color: var(--accent);">Add Blackout Date Range</h4>
+          <div class="booking-form-grid">
+            <div class="input-group">
+              <label for="newBlackoutStart">Start Date</label>
+              <input type="date" id="newBlackoutStart" class="form-input" required>
+            </div>
+            <div class="input-group">
+              <label for="newBlackoutEnd">End Date</label>
+              <input type="date" id="newBlackoutEnd" class="form-input" required>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="submitAddBlackout()">Add Blackout Window</button>
+        </div>
+
+        <!-- Current Blackouts List -->
+        <h4 style="font-family: 'Outfit'; font-size: 1.05rem; margin-bottom: 0.75rem;">Current Blackout Windows</h4>
+        <div class="blocked-dates-list" id="hostBlackoutsListContainer">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Toast Notification -->
+  <div class="toast" id="actionToast">
+    <div class="toast-icon" id="toastIcon">⚡</div>
+    <div class="toast-message" id="toastMessage">Action recorded.</div>
+  </div>
+
+  <!-- Script for Renter Logic -->
+  <script>
+    // Constants
+    const AUTH_HEADER = 'v3-4-case-study';
+    const activeListing = {
+      id: null,
+      nightly_price: 0,
+      blockedDates: [] // Array of {start, end}
+    };
+
+    let currentPage = 1;
+    let totalPages = 1;
+    let currentViewMode = 'grid';
+
+    // Coordinate mapping for map pins (mock coordinates per listing title/district)
+    const pinCoordinates = {
+      'Downtown': { top: '35%', left: '25%' },
+      'Back Bay': { top: '38%', left: '60%' },
+      'North End': { top: '55%', left: '72%' },
+      'South End': { top: '75%', left: '30%' },
+      'Cambridge': { top: '20%', left: '48%' }
+    };
+
+    // Central API call client with Auth header enforced
+    async function apiFetch(url, options = {}) {
+      const headers = {
+        'X-Trore-Auth': AUTH_HEADER,
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      };
+
+      const response = await fetch(url, { ...options, headers });
+      if (response.status === 401) {
+        showToast('Unauthorized: Check auth header.', 'error');
+        throw new Error('Unauthorized');
+      }
+      return response;
+    }
+
+    // Show toast notifications
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('actionToast');
+      const icon = document.getElementById('toastIcon');
+      const msg = document.getElementById('toastMessage');
+
+      toast.className = `toast show ${type}`;
+      icon.textContent = type === 'success' ? '✅' : '❌';
+      msg.textContent = message;
+
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 3500);
+    }
+
+    // On Renter Selector changed
+    function onRenterChange() {
+      const select = document.getElementById('renterSelector');
+      const activeName = document.getElementById('activeRenterName');
+      activeName.textContent = select.value;
+      
+      // Prefill booking name if modal is open
+      document.getElementById('bookRenterName').value = select.value === 'Guest User' ? '' : select.value;
+      
+      // Reload saved searches
+      loadSavedSearches();
+    }
+
+    // Reset Filters to default
+    function resetFilters() {
+      document.getElementById('filterSearch').value = '';
+      document.getElementById('filterDistrict').value = '';
+      document.getElementById('filterMinPrice').value = '';
+      document.getElementById('filterMaxPrice').value = '';
+      document.getElementById('filterBedrooms').value = '';
+      document.getElementById('filterStartDate').value = '';
+      document.getElementById('filterEndDate').value = '';
+      document.getElementById('filterSort').value = 'relevance';
+
+      const checkboxes = document.querySelectorAll('.amenities-grid input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.checked = false);
+
+      currentPage = 1;
+      updateUrlAndFetch();
+    }
+
+    // Read form inputs and get current search state filters
+    function getFiltersFromInputs() {
+      const checkboxes = document.querySelectorAll('.amenities-grid input[type="checkbox"]:checked');
+      const amenities = Array.from(checkboxes).map(cb => cb.value);
+
+      return {
+        q: document.getElementById('filterSearch').value.trim(),
+        district: document.getElementById('filterDistrict').value,
+        minPrice: document.getElementById('filterMinPrice').value,
+        maxPrice: document.getElementById('filterMaxPrice').value,
+        bedrooms: document.getElementById('filterBedrooms').value,
+        startDate: document.getElementById('filterStartDate').value,
+        endDate: document.getElementById('filterEndDate').value,
+        sortBy: document.getElementById('filterSort').value,
+        amenities: amenities.join(','),
+        page: currentPage,
+        viewMode: currentViewMode
+      };
+    }
+
+    // Write filter object state into URL parameters
+    function updateUrlAndFetch() {
+      const filters = getFiltersFromInputs();
+      const params = new URLSearchParams();
+
+      for (const [key, value] of Object.entries(filters)) {
+        if (value) {
+          params.set(key, value);
+        }
+      }
+
+      window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+      fetchListings();
+    }
+
+    // Listen for filter input change (text input uses debounce, others instant)
+    let debounceTimer;
+    function onFilterChange() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        currentPage = 1; // Reset to page 1 on filter changes
+        updateUrlAndFetch();
+      }, 250);
+    }
+
+    // Set View Mode (grid vs map)
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      
+      const btnGrid = document.getElementById('btnGridView');
+      const btnMap = document.getElementById('btnMapView');
+      const listingsContainer = document.getElementById('listingsContainer');
+      const mapPanel = document.getElementById('mapPanel');
+
+      if (mode === 'grid') {
+        btnGrid.classList.add('active');
+        btnMap.classList.remove('active');
+        listingsContainer.className = 'listings-container grid-mode';
+        mapPanel.style.display = 'none';
+      } else {
+        btnGrid.classList.remove('active');
+        btnMap.classList.add('active');
+        listingsContainer.className = 'listings-container map-mode';
+        mapPanel.style.display = 'flex';
+      }
+
+      updateUrlAndFetch();
+    }
+
+    // Fetch listings from backend
+    async function fetchListings() {
+      const params = new URLSearchParams(window.location.search);
+      try {
+        const res = await apiFetch(`/api/listings?${params.toString()}`);
+        const data = await res.json();
+
+        renderListings(data.listings);
+        renderMapPins(data.listings);
+
+        currentPage = data.page;
+        totalPages = data.totalPages || 1;
+
+        // Results count
+        document.getElementById('resultsCount').innerHTML = `Found <strong>${data.total}</strong> listings`;
+
+        // Update pagination
+        document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+        document.getElementById('btnPrevPage').disabled = currentPage <= 1;
+        document.getElementById('btnNextPage').disabled = currentPage >= totalPages;
+      } catch (err) {
+        console.error('Fetch listings failed:', err);
+      }
+    }
+
+    // Render listing cards
+    function renderListings(listings) {
+      const grid = document.getElementById('listingsGrid');
+      grid.innerHTML = '';
+
+      if (listings.length === 0) {
+        grid.innerHTML = `<div style="padding: 3rem; text-align: center; color: var(--text-muted); grid-column: 1/-1;">
+          <h4 style="margin-bottom: 0.5rem; color: #fff;">No Listings Found</h4>
+          <p>Try adjusting your search filters or dates.</p>
+        </div>`;
+        return;
+      }
+
+      listings.forEach(listing => {
+        const amenitiesHtml = listing.amenities.slice(0, 3).map(a => `<span class="amenity-tag">${a}</span>`).join('');
+        const moreCount = listing.amenities.length - 3;
+        const moreHtml = moreCount > 0 ? `<span class="amenity-tag">+${moreCount} more</span>` : '';
+
+        const card = document.createElement('div');
+        card.className = 'listing-card';
+        card.onclick = () => openModal(listing.id);
+        card.innerHTML = `
+          <div class="card-banner">
+            <img src="/lodging_loft.png" alt="${listing.title}">
+            <div class="card-badge-rating">★ ${listing.rating.toFixed(1)}</div>
+            <div class="card-badge-price">$${listing.nightly_price} <span style="font-size: 0.75rem; font-weight: 500; opacity: 0.8;">/ night</span></div>
+          </div>
+          <div class="card-content">
+            <div class="card-district">${listing.district}</div>
+            <h3 class="card-title">${listing.title}</h3>
+            <p class="card-description">${listing.description || ''}</p>
+            <div class="card-amenities">
+              ${amenitiesHtml}
+              ${moreHtml}
+            </div>
+            <div class="card-info-row">
+              <div class="card-info-item">🛏️ ${listing.bedrooms} Beds</div>
+              <div class="card-info-item">👤 Host: ${listing.host_name}</div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Render map pins on mock map view
+    function renderMapPins(listings) {
+      const container = document.getElementById('mapPinsContainer');
+      container.innerHTML = '';
+
+      listings.forEach((listing, index) => {
+        // Find coordinate offset based on district
+        const coords = pinCoordinates[listing.district] || { top: '50%', left: '50%' };
+        // Apply slight offset if multiple listings are in the same district
+        const topOffset = parseFloat(coords.top) + (index % 3 - 1) * 3;
+        const leftOffset = parseFloat(coords.left) + (Math.floor(index / 3) - 1) * 4;
+
+        const pin = document.createElement('div');
+        pin.className = 'map-pin';
+        pin.style.top = `${topOffset}%`;
+        pin.style.left = `${leftOffset}%`;
+        pin.innerHTML = `⭐ $${listing.nightly_price}`;
+        pin.onclick = (e) => {
+          e.stopPropagation();
+          openModal(listing.id);
+        };
+        container.appendChild(pin);
+      });
+    }
+
+    // Change Pagination Page
+    function changePage(direction) {
+      currentPage += direction;
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+      updateUrlAndFetch();
+    }
+
+    // Load saved searches for active renter
+    async function loadSavedSearches() {
+      const renter = document.getElementById('renterSelector').value;
+      const listContainer = document.getElementById('savedSearchesList');
+      listContainer.innerHTML = '';
+
+      try {
+        const res = await apiFetch(`/api/saved-searches?renter_name=${encodeURIComponent(renter)}`);
+        const searches = await res.json();
+
+        if (searches.length === 0) {
+          listContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.9rem;">No saved searches found.</div>`;
+          return;
+        }
+
+        searches.forEach(search => {
+          const item = document.createElement('div');
+          item.className = 'saved-search-item';
+          item.onclick = () => restoreSavedSearch(search.filters);
+
+          const filterPills = [];
+          for (const [key, value] of Object.entries(search.filters)) {
+            if (value && key !== 'page' && key !== 'viewMode') {
+              filterPills.push(`<span class="amenity-tag">${key}: ${value}</span>`);
+            }
+          }
+
+          item.innerHTML = `
+            <div class="saved-search-details">
+              <div class="saved-search-title">Search Configuration #${search.id}</div>
+              <div class="saved-search-filters">
+                ${filterPills.join('') || '<span class="amenity-tag">all active listings</span>'}
+              </div>
+            </div>
+            <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">Load</button>
+          `;
+          listContainer.appendChild(item);
+        });
+      } catch (err) {
+        console.error('Failed to load saved searches:', err);
+      }
+    }
+
+    // Save current searches configuration to backend
+    async function saveSearch() {
+      const renter = document.getElementById('renterSelector').value;
+      const rawFilters = getFiltersFromInputs();
+      
+      // Clean page out of saved filter search payload to keep it clean
+      delete rawFilters.page;
+
+      try {
+        const res = await apiFetch('/api/saved-searches', {
+          method: 'POST',
+          body: JSON.stringify({
+            renter_name: renter,
+            filters: rawFilters
+          })
+        });
+
+        if (res.ok) {
+          showToast('Search filters configuration saved successfully!');
+          loadSavedSearches();
+        } else {
+          showToast('Failed to save search configuration.', 'error');
+        }
+      } catch (err) {
+        console.error('Save search failed:', err);
+      }
+    }
+
+    // Restore saved search to inputs & URL parameters
+    function restoreSavedSearch(filters) {
+      resetFiltersToState(filters);
+      updateUrlAndFetch();
+      showToast('Restored saved search parameters.');
+    }
+
+    // Force input controls to represent a given filter state
+    function resetFiltersToState(filters) {
+      document.getElementById('filterSearch').value = filters.q || '';
+      document.getElementById('filterDistrict').value = filters.district || '';
+      document.getElementById('filterMinPrice').value = filters.minPrice || '';
+      document.getElementById('filterMaxPrice').value = filters.maxPrice || '';
+      document.getElementById('filterBedrooms').value = filters.bedrooms || '';
+      document.getElementById('filterStartDate').value = filters.startDate || '';
+      document.getElementById('filterEndDate').value = filters.endDate || '';
+      document.getElementById('filterSort').value = filters.sortBy || 'relevance';
+
+      // Set view mode
+      if (filters.viewMode) {
+        currentViewMode = filters.viewMode;
+      }
+
+      // Checkboxes
+      const activeAmenities = (filters.amenities || '').split(',').filter(Boolean);
+      const checkboxes = document.querySelectorAll('.amenities-grid input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        cb.checked = activeAmenities.includes(cb.value);
+      });
+
+      currentPage = Number(filters.page) || 1;
+    }
+
+    // Open detail modal with detailed listing state
+    async function openModal(id) {
+      const modal = document.getElementById('detailModal');
+      const bookingStatus = document.getElementById('bookingStatus');
+      bookingStatus.style.display = 'none';
+
+      try {
+        const res = await apiFetch(`/api/listings/${id}`);
+        const data = await res.json();
+
+        const listing = data.listing;
+        activeListing.id = listing.id;
+        activeListing.nightly_price = listing.nightly_price;
+
+        document.getElementById('modalTitle').textContent = listing.title;
+        document.getElementById('modalDistrict').textContent = listing.district;
+        document.getElementById('modalPrice').textContent = listing.nightly_price;
+        document.getElementById('modalBedrooms').textContent = listing.bedrooms;
+        document.getElementById('modalRating').textContent = listing.rating.toFixed(1);
+        document.getElementById('modalHost').textContent = listing.host_name;
+        document.getElementById('modalDescription').textContent = listing.description || 'No description available.';
+
+        // Render amenities
+        const amenitiesList = document.getElementById('modalAmenities');
+        amenitiesList.innerHTML = '';
+        if (listing.amenities.length === 0) {
+          amenitiesList.innerHTML = '<span style="color: var(--text-muted); font-size: 0.85rem;">None</span>';
+        } else {
+          listing.amenities.forEach(a => {
+            amenitiesList.innerHTML += `<span class="modal-amenity-pill">${a}</span>`;
+          });
+        }
+
+        // Combine blocked ranges and display
+        const blockedList = document.getElementById('modalBlockedDates');
+        blockedList.innerHTML = '';
+        activeListing.blockedDates = [];
+
+        data.blackouts.forEach(b => {
+          activeListing.blockedDates.push({ start: b.start_date, end: b.end_date, type: 'blackout' });
+          blockedList.innerHTML += `
+            <div class="blocked-date-item blackout">
+              <span>🚫 Blackout Date (Unavailable)</span>
+              <span><strong>${b.start_date}</strong> to <strong>${b.end_date}</strong></span>
+            </div>
+          `;
+        });
+
+        data.bookings.forEach(b => {
+          activeListing.blockedDates.push({ start: b.start_date, end: b.end_date, type: 'approved' });
+          blockedList.innerHTML += `
+            <div class="blocked-date-item approved">
+              <span>📅 Confirmed Booking</span>
+              <span><strong>${b.start_date}</strong> to <strong>${b.end_date}</strong></span>
+            </div>
+          `;
+        });
+
+        if (activeListing.blockedDates.length === 0) {
+          blockedList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem;">All dates currently open!</div>';
+        }
+
+        // Prefill booking inputs from active actor
+        const renter = document.getElementById('renterSelector').value;
+        document.getElementById('bookRenterName').value = renter === 'Guest User' ? '' : renter;
+        document.getElementById('bookRenterEmail').value = renter === 'Guest User' ? '' : `${renter.toLowerCase().replace(' ', '')}@example.com`;
+
+        // Prefill arrival/departure dates from search filters if present
+        document.getElementById('bookStartDate').value = document.getElementById('filterStartDate').value;
+        document.getElementById('bookEndDate').value = document.getElementById('filterEndDate').value;
+
+        // Force quote calculate
+        calculateQuote();
+
+        modal.classList.add('open');
+      } catch (err) {
+        console.error('Failed to load listing details:', err);
+      }
+    }
+
+    // Close detail modal
+    function closeModal() {
+      const modal = document.getElementById('detailModal');
+      modal.classList.remove('open');
+      activeListing.id = null;
+    }
+
+    // Calculate Price Quote
+    function calculateQuote() {
+      const startInput = document.getElementById('bookStartDate').value;
+      const endInput = document.getElementById('bookEndDate').value;
+      const summaryBox = document.getElementById('bookingSummaryBox');
+
+      if (!startInput || !endInput || startInput > endInput) {
+        summaryBox.style.display = 'none';
+        return;
+      }
+
+      const start = new Date(startInput);
+      const end = new Date(endInput);
+      const nights = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+      const total = nights * activeListing.nightly_price;
+
+      document.getElementById('quotePricePerNight').textContent = activeListing.nightly_price;
+      document.getElementById('quoteNights').textContent = nights;
+      document.getElementById('quoteTotal').textContent = total;
+
+      summaryBox.style.display = 'block';
+    }
+
+    // Submit Booking Request
+    async function submitBooking() {
+      const statusBox = document.getElementById('bookingStatus');
+      statusBox.style.display = 'none';
+      statusBox.className = 'booking-status-message';
+
+      const renterName = document.getElementById('bookRenterName').value.trim();
+      const renterEmail = document.getElementById('bookRenterEmail').value.trim();
+      const startDate = document.getElementById('bookStartDate').value;
+      const endDate = document.getElementById('bookEndDate').value;
+
+      if (!renterName || !renterEmail || !startDate || !endDate) {
+        statusBox.textContent = 'All fields are required to submit booking.';
+        statusBox.classList.add('error');
+        return;
+      }
+
+      try {
+        const res = await apiFetch('/api/booking-requests', {
+          method: 'POST',
+          body: JSON.stringify({
+            listing_id: activeListing.id,
+            renter_name: renterName,
+            renter_email: renterEmail,
+            start_date: startDate,
+            end_date: endDate
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.status === 201) {
+          statusBox.textContent = `Booking request created successfully! Request ID: #${data.id}, Total Price: $${data.total_price}`;
+          statusBox.classList.add('success');
+          showToast('Booking request submitted!');
+          
+          // Re-render blocked dates on display
+          setTimeout(() => {
+            openModal(activeListing.id);
+          }, 1500);
+        } else {
+          statusBox.textContent = data.message || 'Booking submission failed.';
+          statusBox.classList.add('error');
+        }
+      } catch (err) {
+        statusBox.textContent = 'Connection error submitting booking request.';
+        statusBox.classList.add('error');
+      }
+    }
+
+    // Initialize application state from URL query parameters
+    function initFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const filters = {};
+
+      for (const [key, value] of params.entries()) {
+        filters[key] = value;
+      }
+
+      resetFiltersToState(filters);
+      
+      // Update UI components
+      const btnGrid = document.getElementById('btnGridView');
+      const btnMap = document.getElementById('btnMapView');
+      const listingsContainer = document.getElementById('listingsContainer');
+      const mapPanel = document.getElementById('mapPanel');
+
+      if (currentViewMode === 'grid') {
+        btnGrid.classList.add('active');
+        btnMap.classList.remove('active');
+        listingsContainer.className = 'listings-container grid-mode';
+        mapPanel.style.display = 'none';
+      } else {
+        btnGrid.classList.remove('active');
+        btnMap.classList.add('active');
+        listingsContainer.className = 'listings-container map-mode';
+        mapPanel.style.display = 'flex';
+      }
+
+      fetchListings();
+    }
+
+    // Active host and host listings state
+    let activeHostListings = [];
+
+    // Switch Tabs
+    function switchTab(tabName) {
+      const renterTab = document.getElementById('tabContentRenter');
+      const hostTab = document.getElementById('tabContentHost');
+      const adminTab = document.getElementById('tabContentAdmin');
+
+      const renterLink = document.getElementById('tabLinkRenter');
+      const hostLink = document.getElementById('tabLinkHost');
+      const adminLink = document.getElementById('tabLinkAdmin');
+
+      // Hide all tabs
+      renterTab.style.display = 'none';
+      hostTab.style.display = 'none';
+      adminTab.style.display = 'none';
+
+      // Reset styles
+      renterLink.style.color = 'var(--text-muted)';
+      renterLink.style.backgroundColor = 'transparent';
+      hostLink.style.color = 'var(--text-muted)';
+      hostLink.style.backgroundColor = 'transparent';
+      adminLink.style.color = 'var(--text-muted)';
+      adminLink.style.backgroundColor = 'transparent';
+
+      if (tabName === 'renter') {
+        renterTab.style.display = 'block';
+        renterLink.style.color = 'var(--primary)';
+        renterLink.style.backgroundColor = 'var(--primary-glow)';
+      } else if (tabName === 'host') {
+        hostTab.style.display = 'block';
+        hostLink.style.color = 'var(--primary)';
+        hostLink.style.backgroundColor = 'var(--primary-glow)';
+        fetchHostListings();
+        if (typeof fetchHostBookings === 'function') {
+          fetchHostBookings();
+        }
+      } else if (tabName === 'admin') {
+        adminTab.style.display = 'block';
+        adminLink.style.color = 'var(--primary)';
+        adminLink.style.backgroundColor = 'var(--primary-glow)';
+        if (typeof fetchAdminAuditLogs === 'function') {
+          fetchAdminAuditLogs();
+        }
+      }
+    }
+
+    // Active host dropdown changed
+    function onHostChange() {
+      fetchHostListings();
+      if (typeof fetchHostBookings === 'function') {
+        fetchHostBookings();
+      }
+    }
+
+    // Fetch and render active host listings
+    async function fetchHostListings() {
+      const hostName = document.getElementById('hostSelector').value;
+      const grid = document.getElementById('hostListingsGrid');
+      grid.innerHTML = '<div style="color: var(--text-muted); padding: 2rem;">Loading listings...</div>';
+
+      try {
+        const res = await apiFetch('/api/host/listings', {
+          headers: { 'X-Trore-Host': hostName }
+        });
+        if (!res.ok) {
+          throw new Error('Failed to load listings');
+        }
+        activeHostListings = await res.json();
+        renderHostListings();
+      } catch (err) {
+        console.error('Fetch host listings failed:', err);
+        grid.innerHTML = '<div style="color: var(--danger); padding: 2rem;">Error loading host listings.</div>';
+      }
+    }
+
+    // Render listings for host dashboard
+    function renderHostListings() {
+      const grid = document.getElementById('hostListingsGrid');
+      grid.innerHTML = '';
+
+      if (activeHostListings.length === 0) {
+        grid.innerHTML = `<div style="padding: 3rem; text-align: center; color: var(--text-muted); grid-column: 1/-1;">
+          <h4 style="margin-bottom: 0.5rem; color: #fff;">No Listings Found</h4>
+          <p>Click "Create New Listing" to get started.</p>
+        </div>`;
+        return;
+      }
+
+      activeHostListings.forEach(listing => {
+        const statusBadge = listing.status === 'active' 
+          ? '<span style="background: var(--primary-glow); color: var(--primary); border: 1px solid var(--primary); font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">Active</span>'
+          : '<span style="background: var(--danger-glow); color: var(--danger); border: 1px solid var(--danger); font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700;">Inactive</span>';
+
+        const amenitiesHtml = listing.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('');
+
+        const card = document.createElement('div');
+        card.className = 'listing-card';
+        card.style.cursor = 'default'; // Disable details modal on click for host cards
+        card.innerHTML = `
+          <div class="card-banner">
+            <img src="/lodging_loft.png" alt="${listing.title}">
+            <div class="card-badge-rating">★ ${listing.rating.toFixed(1)}</div>
+            <div class="card-badge-price">${listing.nightly_price} <span style="font-size: 0.75rem; font-weight: 500; opacity: 0.8;">/ night</span></div>
+          </div>
+          <div class="card-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <div class="card-district">${listing.district}</div>
+              ${statusBadge}
+            </div>
+            <h3 class="card-title">${listing.title}</h3>
+            <p class="card-description">${listing.description || ''}</p>
+            <div class="card-amenities">
+              ${amenitiesHtml || '<span style="color: var(--text-muted); font-size: 0.75rem;">No amenities</span>'}
+            </div>
+            <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">
+              🚫 Blackouts: ${listing.blackouts.length} ranges defined
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.75rem;">
+              <button class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.8rem;" onclick="openEditListingModal(${listing.id})">✏️ Edit</button>
+              <button class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.8rem;" onclick="togglePublishStatus(${listing.id}, '${listing.status}')">
+                ${listing.status === 'active' ? '👁️ Hide' : '👁️ Show'}
+              </button>
+              <button class="btn btn-secondary" style="flex: 1; padding: 0.4rem; font-size: 0.8rem;" onclick="openBlackoutModal(${listing.id})">🚫 Dates</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Open listing modal for creation
+    function openCreateListingModal() {
+      document.getElementById('hostListingModalTitle').textContent = 'Create New Listing';
+      document.getElementById('hostListingId').value = '';
+      document.getElementById('hostListingForm').reset();
+      
+      const modal = document.getElementById('hostListingModal');
+      modal.classList.add('open');
+    }
+
+    // Open listing modal for edit
+    function openEditListingModal(listingId) {
+      const listing = activeHostListings.find(l => l.id === listingId);
+      if (!listing) return;
+
+      document.getElementById('hostListingModalTitle').textContent = 'Edit Listing';
+      document.getElementById('hostListingId').value = listing.id;
+      document.getElementById('hostListingTitle').value = listing.title;
+      document.getElementById('hostListingDistrict').value = listing.district;
+      document.getElementById('hostListingPrice').value = listing.nightly_price;
+      document.getElementById('hostListingBedrooms').value = listing.bedrooms;
+      document.getElementById('hostListingDescription').value = listing.description || '';
+
+      // Checkboxes
+      const checkboxes = document.querySelectorAll('#hostListingAmenities input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        cb.checked = listing.amenities.includes(cb.value);
+      });
+
+      const modal = document.getElementById('hostListingModal');
+      modal.classList.add('open');
+    }
+
+    // Close host listing modal
+    function closeHostListingModal() {
+      const modal = document.getElementById('hostListingModal');
+      modal.classList.remove('open');
+    }
+
+    // Submit Create/Edit Form
+    async function submitHostListingForm(event) {
+      event.preventDefault();
+      const hostName = document.getElementById('hostSelector').value;
+      const listingId = document.getElementById('hostListingId').value;
+      
+      const title = document.getElementById('hostListingTitle').value.trim();
+      const district = document.getElementById('hostListingDistrict').value;
+      const price = Number(document.getElementById('hostListingPrice').value);
+      const bedrooms = Number(document.getElementById('hostListingBedrooms').value);
+      const description = document.getElementById('hostListingDescription').value.trim();
+
+      const checkboxes = document.querySelectorAll('#hostListingAmenities input[type="checkbox"]:checked');
+      const amenities = Array.from(checkboxes).map(cb => cb.value);
+
+      const payload = { title, district, nightly_price: price, bedrooms, description, amenities };
+
+      const url = listingId ? `/api/host/listings/${listingId}` : '/api/host/listings';
+      const method = listingId ? 'PUT' : 'POST';
+
+      try {
+        const res = await apiFetch(url, {
+          method,
+          headers: { 'X-Trore-Host': hostName },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          showToast(listingId ? 'Listing updated successfully!' : 'Listing created successfully!');
+          closeHostListingModal();
+          fetchHostListings();
+          // Also fetch listings for renter side if they switch back
+          fetchListings();
+        } else {
+          const data = await res.json();
+          showToast(data.message || 'Operation failed.', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error performing save.', 'error');
+      }
+    }
+
+    // Toggle publish/unpublish listing
+    async function togglePublishStatus(listingId, currentStatus) {
+      const hostName = document.getElementById('hostSelector').value;
+      const action = currentStatus === 'active' ? 'unpublish' : 'publish';
+      try {
+        const res = await apiFetch(`/api/host/listings/${listingId}/${action}`, {
+          method: 'POST',
+          headers: { 'X-Trore-Host': hostName }
+        });
+        if (res.ok) {
+          showToast(currentStatus === 'active' ? 'Listing unpublished.' : 'Listing published!');
+          fetchHostListings();
+          fetchListings();
+        } else {
+          showToast('Failed to change status.', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error changing status.', 'error');
+      }
+    }
+
+    // Open blackout management modal
+    function openBlackoutModal(listingId) {
+      const listing = activeHostListings.find(l => l.id === listingId);
+      if (!listing) return;
+
+      document.getElementById('hostBlackoutListingId').value = listing.id;
+      document.getElementById('hostBlackoutModalSubtitle').textContent = `"${listing.title}" in ${listing.district}`;
+      document.getElementById('newBlackoutStart').value = '';
+      document.getElementById('newBlackoutEnd').value = '';
+
+      renderHostBlackoutsList(listing);
+
+      const modal = document.getElementById('hostBlackoutModal');
+      modal.classList.add('open');
+    }
+
+    // Close blackout modal
+    function closeHostBlackoutModal() {
+      const modal = document.getElementById('hostBlackoutModal');
+      modal.classList.remove('open');
+    }
+
+    // Render blackout list
+    function renderHostBlackoutsList(listing) {
+      const list = document.getElementById('hostBlackoutsListContainer');
+      list.innerHTML = '';
+
+      if (!listing.blackouts || listing.blackouts.length === 0) {
+        list.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; padding: 1rem 0;">No blackout windows defined.</div>';
+        return;
+      }
+
+      listing.blackouts.forEach(b => {
+        const item = document.createElement('div');
+        item.className = 'blocked-date-item blackout';
+        item.style.marginBottom = '0.5rem';
+        item.innerHTML = `
+          <span>🚫 ${b.start_date} to ${b.end_date}</span>
+          <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; border-color: var(--danger); color: #fca5a5;" onclick="deleteBlackout(${listing.id}, ${b.id})">Delete</button>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    // Submit add blackout
+    async function submitAddBlackout() {
+      const hostName = document.getElementById('hostSelector').value;
+      const listingId = document.getElementById('hostBlackoutListingId').value;
+      const start_date = document.getElementById('newBlackoutStart').value;
+      const end_date = document.getElementById('newBlackoutEnd').value;
+
+      if (!start_date || !end_date) {
+        showToast('Both dates are required.', 'error');
+        return;
+      }
+
+      try {
+        const res = await apiFetch(`/api/host/listings/${listingId}/blackouts`, {
+          method: 'POST',
+          headers: { 'X-Trore-Host': hostName },
+          body: JSON.stringify({ start_date, end_date })
+        });
+
+        if (res.ok) {
+          showToast('Blackout date added successfully!');
+          
+          // Re-fetch host listings to get updated blackouts
+          await fetchHostListings();
+          
+          // Refresh the list inside modal
+          const listing = activeHostListings.find(l => l.id === Number(listingId));
+          if (listing) {
+            renderHostBlackoutsList(listing);
+          }
+          
+          // Clear inputs
+          document.getElementById('newBlackoutStart').value = '';
+          document.getElementById('newBlackoutEnd').value = '';
+          
+          // Also fetch listings for renter side if they switch back
+          fetchListings();
+        } else {
+          const data = await res.json();
+          showToast(data.message || 'Failed to add blackout date.', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error adding blackout.', 'error');
+      }
+    }
+
+    // Delete blackout
+    async function deleteBlackout(listingId, blackoutId) {
+      const hostName = document.getElementById('hostSelector').value;
+      try {
+        const res = await apiFetch(`/api/host/listings/${listingId}/blackouts/${blackoutId}`, {
+          method: 'DELETE',
+          headers: { 'X-Trore-Host': hostName }
+        });
+
+        if (res.ok) {
+          showToast('Blackout date range deleted.');
+          
+          // Re-fetch host listings
+          await fetchHostListings();
+          
+          // Refresh the list inside modal
+          const listing = activeHostListings.find(l => l.id === Number(listingId));
+          if (listing) {
+            renderHostBlackoutsList(listing);
+          }
+          
+          // Also fetch listings for renter side if they switch back
+          fetchListings();
+        } else {
+          showToast('Failed to delete blackout range.', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error deleting blackout.', 'error');
+      }
+        }
+
+    // Fetch bookings for the active host
+    async function fetchHostBookings() {
+      const hostName = document.getElementById('hostSelector').value;
+      const listContainer = document.getElementById('hostBookingsList');
+      if (!listContainer) return;
+
+      try {
+        const res = await apiFetch('/api/host/bookings', {
+          headers: { 'X-Trore-Host': hostName }
+        });
+        if (!res.ok) {
+          throw new Error('Failed to load bookings');
+        }
+        const bookings = await res.json();
+        renderHostBookings(bookings);
+      } catch (err) {
+        console.error('Fetch host bookings failed:', err);
+        listContainer.innerHTML = '<div style="color: var(--danger); padding: 1.5rem; text-align: center;">Error loading booking requests.</div>';
+      }
+    }
+
+    // Render bookings list for host dashboard
+    function renderHostBookings(bookings) {
+      const listContainer = document.getElementById('hostBookingsList');
+      listContainer.innerHTML = '';
+
+      if (bookings.length === 0) {
+        listContainer.innerHTML = '<div style="color: var(--text-muted); padding: 1.5rem; text-align: center;">No booking requests found for your listings.</div>';
+        return;
+      }
+
+      const tableWrapper = document.createElement('div');
+      tableWrapper.style.overflowX = 'auto';
+
+      const table = document.createElement('table');
+      table.style.width = '100%';
+      table.style.borderCollapse = 'collapse';
+      table.style.textAlign = 'left';
+      table.style.fontSize = '0.9rem';
+      table.style.color = 'var(--text-main)';
+      table.style.minWidth = '600px';
+
+      table.innerHTML = `
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border-card); color: var(--text-muted); font-weight: 700;">
+            <th style="padding: 0.75rem 1rem;">Listing</th>
+            <th style="padding: 0.75rem 1rem;">Renter</th>
+            <th style="padding: 0.75rem 1rem;">Dates</th>
+            <th style="padding: 0.75rem 1rem;">Total Price</th>
+            <th style="padding: 0.75rem 1rem;">Status</th>
+            <th style="padding: 0.75rem 1rem; text-align: right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="hostBookingsTableBody"></tbody>
+      `;
+
+      tableWrapper.appendChild(table);
+      listContainer.appendChild(tableWrapper);
+
+      const tbody = table.querySelector('#hostBookingsTableBody');
+
+      bookings.forEach(b => {
+        let statusBadge = '';
+        if (b.status === 'pending') {
+          statusBadge = `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">Pending</span>`;
+        } else if (b.status === 'approved') {
+          statusBadge = `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">Approved</span>`;
+        } else {
+          statusBadge = `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">Declined</span>`;
+        }
+
+        let actionButtons = '';
+        if (b.status === 'pending') {
+          actionButtons = `
+            <button class="btn btn-primary" style="background: var(--primary); border-color: var(--primary); padding: 0.3rem 0.6rem; font-size: 0.8rem; margin-right: 0.5rem;" onclick="approveBooking(${b.id})">Approve</button>
+            <button class="btn btn-secondary" style="border-color: var(--danger); color: #fca5a5; padding: 0.3rem 0.6rem; font-size: 0.8rem;" onclick="declineBooking(${b.id})">Decline</button>
+          `;
+        } else {
+          actionButtons = `<span style="color: var(--text-muted); font-size: 0.85rem;">None</span>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid var(--border-card)';
+        tr.innerHTML = `
+          <td style="padding: 0.75rem 1rem; font-weight: 600;">${b.listing_title}</td>
+          <td style="padding: 0.75rem 1rem;">
+            <div>${b.renter_name}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">${b.renter_email}</div>
+          </td>
+          <td style="padding: 0.75rem 1rem;">${b.start_date} to ${b.end_date}</td>
+          <td style="padding: 0.75rem 1rem; font-weight: 600; color: var(--primary);">${b.total_price.toFixed(2)}</td>
+          <td style="padding: 0.75rem 1rem;">${statusBadge}</td>
+          <td style="padding: 0.75rem 1rem; text-align: right;">${actionButtons}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Approve booking request
+    async function approveBooking(id) {
+      const hostName = document.getElementById('hostSelector').value;
+      try {
+        const res = await apiFetch(`/api/host/bookings/${id}/approve`, {
+          method: 'POST',
+          headers: { 'X-Trore-Host': hostName }
+        });
+        if (res.ok) {
+          showToast('Booking request approved successfully!');
+          fetchHostListings();
+          fetchHostBookings();
+          fetchListings();
+        } else {
+          const data = await res.json();
+          showToast(data.message || 'Failed to approve booking request.', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error approving booking.', 'error');
+      }
+    }
+
+    // Decline booking request
+    async function declineBooking(id) {
+      const hostName = document.getElementById('hostSelector').value;
+      try {
+        const res = await apiFetch(`/api/host/bookings/${id}/decline`, {
+          method: 'POST',
+          headers: { 'X-Trore-Host': hostName }
+        });
+        if (res.ok) {
+          showToast('Booking request declined successfully!');
+          fetchHostListings();
+          fetchHostBookings();
+          fetchListings();
+        } else {
+          const data = await res.json();
+          showToast(data.message || 'Failed to decline booking request.', 'error');
+        }
+      } catch (err) {
+        showToast('Connection error declining booking.', 'error');
+      }
+    }
+
+    // Fetch and render admin mutation audit logs
+    async function fetchAdminAuditLogs() {
+      const tbody = document.getElementById('adminAuditLogsTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '<tr><td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">Loading audit logs...</td></tr>';
+
+      try {
+        const res = await apiFetch('/api/admin/audit-logs');
+        if (!res.ok) {
+          throw new Error('Failed to load audit logs');
+        }
+        const logs = await res.json();
+        renderAdminAuditLogs(logs);
+      } catch (err) {
+        console.error('Fetch admin audit logs failed:', err);
+        tbody.innerHTML = '<tr><td colspan="5" style="padding: 2rem; text-align: center; color: var(--danger);">Error loading audit logs.</td></tr>';
+      }
+    }
+
+    // Render admin audit logs
+    function renderAdminAuditLogs(logs) {
+      const tbody = document.getElementById('adminAuditLogsTableBody');
+      tbody.innerHTML = '';
+
+      if (logs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="padding: 2rem; text-align: center; color: var(--text-muted);">No audit logs found in system.</td></tr>';
+        return;
+      }
+
+      logs.forEach(log => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid var(--border-card)';
+        tr.style.transition = 'background 0.2s';
+        tr.onmouseover = () => tr.style.background = 'rgba(255, 255, 255, 0.02)';
+        tr.onmouseout = () => tr.style.background = 'transparent';
+
+        tr.innerHTML = `
+          <td style="padding: 0.75rem 1rem; color: var(--text-muted); font-size: 0.8rem; white-space: nowrap;">${log.timestamp}</td>
+          <td style="padding: 0.75rem 1rem; font-weight: 600;">${log.actor}</td>
+          <td style="padding: 0.75rem 1rem;"><span class="amenity-tag" style="background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1); color: var(--text-main); font-size: 0.75rem; text-transform: uppercase;">${log.action_type}</span></td>
+          <td style="padding: 0.75rem 1rem; color: var(--text-muted); font-size: 0.8rem;">${log.entity_type} (#${log.entity_id})</td>
+          <td style="padding: 0.75rem 1rem; font-size: 0.85rem;">${log.summary}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Window load and back/forward navigation event handlers
+    window.addEventListener('popstate', initFromUrl);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      onRenterChange(); // Init active renter searches
+      initFromUrl();    // Parse URL and search listings
+    });
+  </script>
+</body>
+</html>

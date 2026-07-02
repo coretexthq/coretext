@@ -1,0 +1,20 @@
+[
+  {
+    "conversationId": "session-isolated-a",
+    "toolCall": {
+      "name": "write_to_file",
+      "args": {
+        "TargetFile": "src/api/auth.py"
+      }
+    }
+  },
+  {
+    "conversationId": "session-isolated-b",
+    "toolCall": {
+      "name": "write_to_file",
+      "args": {
+        "TargetFile": "src/api/auth.py"
+      }
+    }
+  }
+]

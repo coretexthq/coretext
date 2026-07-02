@@ -1,0 +1,10 @@
+{"source": "src/db.js", "target": "knowledge/trore.foundation.md", "type": "hint", "description": "Database schema and connection", "hook": "both"}
+{"source": "scripts/seed.js", "target": "knowledge/trore.foundation.md", "type": "hint", "description": "Database seed script", "hook": "both"}
+{"source": "server.js", "target": "knowledge/trore.renter.md", "type": "hint", "description": "API routes for listing search, details, saved searches, and booking validation", "hook": "both"}
+{"source": "public/index.html", "target": "knowledge/trore.renter.md", "type": "hint", "description": "Renter UI dashboard, filters, grid/map placeholder, detail modal, and URL sync", "hook": "both"}
+{"source": "tests/test_renter.js", "target": "knowledge/trore.renter.md", "type": "hint", "description": "Automated API verification for search, filters, pagination, saved searches, and booking validation", "hook": "both"}
+{"source": "tests/test_host.js", "target": "knowledge/trore.operations.host.md", "type": "hint", "description": "Automated verification suite for host-owned listings and blackout management", "hook": "both"}
+{"source": "tests/test_booking.js", "target": "knowledge/trore.operations.booking.md", "type": "hint", "description": "Automated verification suite for booking approvals, manual declines, automated overlap rejection, host checks, and audit trails", "hook": "both"}
+{"source": "tests/run_all_tests.js", "target": "knowledge/trore.integration.md", "type": "hint", "description": "Unified test runner running E2E tests sequentially in separate process environments", "hook": "both"}
+{"source": "tests/smoke_manual.md", "target": "knowledge/trore.integration.md", "type": "hint", "description": "Documented manual E2E user-mode walkthrough steps for renter/host/reviewer tasks", "hook": "both"}
+{"source": "README.md", "target": "knowledge/trore.integration.md", "type": "hint", "description": "Setup commands, API endpoints, architecture diagrams, invariants, and local running guides", "hook": "both"}

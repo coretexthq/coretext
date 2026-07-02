@@ -1,0 +1,1 @@
+{"source": "src/api/*.py", "target": ".coretext-data/rules/rule.md", "type": "hint", "description": "Ensure error formatting middleware uses RFC 7807", "hook": "both"}

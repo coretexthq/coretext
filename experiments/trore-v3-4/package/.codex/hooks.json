@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__.*(read|view).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.coretext/inject_context.py\"",
+            "timeout": 30,
+            "statusMessage": "Checking Coretext context"
+          }
+        ]
+      },
+      {
+        "matcher": "^apply_patch$|Edit|Write|mcp__.*(write|edit|replace).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.coretext/inject_context.py\"",
+            "timeout": 30,
+            "statusMessage": "Checking Coretext context"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__.*(read|view).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.coretext/inject_context.py\"",
+            "timeout": 30,
+            "statusMessage": "Checking Coretext context"
+          }
+        ]
+      }
+    ]
+  }
+}

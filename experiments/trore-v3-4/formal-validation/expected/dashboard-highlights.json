@@ -1,0 +1,6 @@
+{
+  "nodes": ["src/api/auth.py"],
+  "actions": {
+    "src/api/auth.py": "write"
+  }
+}

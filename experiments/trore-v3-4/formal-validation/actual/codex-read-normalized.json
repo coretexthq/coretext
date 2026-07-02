@@ -1,0 +1,13 @@
+{
+  "runtime": "codex",
+  "event": "PostToolUse",
+  "tool_name": "view_file",
+  "tool_input": {
+    "AbsolutePath": "src/api/auth.py"
+  },
+  "action": "read",
+  "session_id": "session-abc-123",
+  "file_paths": [
+    "src/api/auth.py"
+  ]
+}

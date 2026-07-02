@@ -1,0 +1,9 @@
+{
+  "conversationId": "session-first-write",
+  "toolCall": {
+    "name": "write_to_file",
+    "args": {
+      "TargetFile": "src/api/auth.py"
+    }
+  }
+}

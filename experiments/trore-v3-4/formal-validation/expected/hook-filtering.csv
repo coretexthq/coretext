@@ -1,0 +1,7 @@
+action,hook,expected_decision
+read,read,Active
+read,write,Inactive
+read,both,Active
+write,read,Inactive
+write,write,Active
+write,both,Active

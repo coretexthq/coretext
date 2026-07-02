@@ -1,0 +1,14 @@
+{
+  "name": "coretext-thesis-site",
+  "version": "1.0.0",
+  "description": "Graduation thesis compiler and site",
+  "main": "compile.js",
+  "scripts": {
+    "build": "node compile.js && npm --prefix .coretext/coretext-graph-ui install && npm --prefix .coretext/coretext-graph-ui run build && node compile-dashboard-data.js",
+    "dev": "node compile.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "marked": "^12.0.0"
+  }
+}
