@@ -43,7 +43,7 @@ if [ "$IS_UNZIP_INSTALLER" -eq 1 ]; then
       "$SCRIPT_DIR/" "$PARENT_DIR/.coretext/"
       
     # 2. Copy config templates and tests selectively
-    for skill in "knowledge" "export"; do
+    for skill in "knowledge" "coretext-agents"; do
         if [ -d "$SCRIPT_DIR/.agents/skills/$skill" ]; then
             echo "Copying $skill skill..."
             mkdir -p "$PARENT_DIR/.agents/skills/$skill"
@@ -80,7 +80,7 @@ elif [ "$IS_SUBMODULE" -eq 1 ]; then
     echo "Running in submodule mode. Configuring host project root ($PARENT_DIR)..."
     
     # 1. Copy/merge config templates and tests selectively
-    for skill in "knowledge" "export"; do
+    for skill in "knowledge" "coretext-agents"; do
         if [ -d "$SCRIPT_DIR/.agents/skills/$skill" ]; then
             echo "Copying $skill skill..."
             mkdir -p "$PARENT_DIR/.agents/skills/$skill"
