@@ -1,0 +1,24 @@
+{
+  "coretext-context-injector": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": "view_file|write_to_file|replace_file_content|multi_replace_file_content",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ../.coretext/inject_context.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python3 ../.coretext/inject_context.py",
+        "timeout": 30
+      }
+    ]
+  }
+}

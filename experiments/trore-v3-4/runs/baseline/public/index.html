@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trore - Lodging Marketplace</title>
+  <!-- SEO Tags -->
+  <meta name="description" content="Find the perfect short-term rental with Trore. Filter by price, bedrooms, amenities, and dates. Save searches and request bookings instantly.">
+  
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="logo-container">
+      <div class="logo-icon">T</div>
+      <h1 class="logo-text">Trore</h1>
+    </div>
+    
+    <div class="header-controls">
+      <!-- Actor selector (Authentication Simulation) -->
+      <div class="actor-select-wrapper">
+        <span class="actor-label">Active Actor:</span>
+        <select id="actorSelect" class="actor-select" aria-label="Select User Actor">
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <main id="renterView" class="main-container">
+    
+    <!-- Sidebar (Filters and Saved Searches) -->
+    <aside class="sidebar">
+      
+      <!-- Saved Searches Panel (Renter role only) -->
+      <div class="sidebar-panel" id="savedSearchesSection" style="display: none;">
+        <h2 class="panel-title">Saved Searches</h2>
+        <div class="saved-searches-list" id="savedSearchesList">
+          <!-- Populated dynamically -->
+        </div>
+        <button class="btn-save-search" id="btnSaveSearch">
+          <span style="font-size: 1.1rem">+</span> Save Current Filter State
+        </button>
+      </div>
+
+      <!-- Filters Panel -->
+      <div class="sidebar-panel">
+        <h2 class="panel-title">Search Filters</h2>
+        
+        <!-- Search Input -->
+        <div class="filter-group">
+          <label class="filter-label" for="searchField">Keywords</label>
+          <input type="text" id="searchField" class="input-text" placeholder="e.g. loft, beach, villa..." aria-label="Search keywords">
+        </div>
+        
+        <!-- District dropdown -->
+        <div class="filter-group">
+          <label class="filter-label" for="districtSelect">District</label>
+          <select id="districtSelect" class="select-input" aria-label="Select District">
+            <option value="">All Districts</option>
+            <option value="Downtown">Downtown</option>
+            <option value="Beachside">Beachside</option>
+            <option value="District 1">District 1</option>
+            <option value="Suburbs">Suburbs</option>
+            <option value="Forest">Forest</option>
+          </select>
+        </div>
+        
+        <!-- Price Min/Max -->
+        <div class="filter-group">
+          <label class="filter-label">Nightly Price Range ($)</label>
+          <div class="price-inputs-row">
+            <input type="number" id="minPrice" class="input-text" placeholder="Min" min="0" aria-label="Minimum nightly price">
+            <input type="number" id="maxPrice" class="input-text" placeholder="Max" min="0" aria-label="Maximum nightly price">
+          </div>
+        </div>
+        
+        <!-- Bedrooms Count -->
+        <div class="filter-group">
+          <label class="filter-label" for="bedroomsSelect">Bedrooms (Min)</label>
+          <select id="bedroomsSelect" class="select-input" aria-label="Select Bedrooms Count">
+            <option value="">Any Bedrooms</option>
+            <option value="1">1+ Bedrooms</option>
+            <option value="2">2+ Bedrooms</option>
+            <option value="3">3+ Bedrooms</option>
+            <option value="4">4+ Bedrooms</option>
+            <option value="5">5+ Bedrooms</option>
+          </select>
+        </div>
+        
+        <!-- Dates Range -->
+        <div class="filter-group">
+          <label class="filter-label" for="startDate">Check-In Date</label>
+          <input type="date" id="startDate" class="input-text" aria-label="Check-in date">
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="endDate">Check-Out Date</label>
+          <input type="date" id="endDate" class="input-text" aria-label="Check-out date">
+        </div>
+        
+        <!-- Amenities Checkboxes -->
+        <div class="filter-group">
+          <label class="filter-label">Amenities</label>
+          <div class="checkbox-grid">
+            <label class="checkbox-label">
+              <input type="checkbox" value="air conditioning">
+              <span class="checkbox-custom"></span>
+              Air Conditioning
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="balcony">
+              <span class="checkbox-custom"></span>
+              Balcony
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="parking">
+              <span class="checkbox-custom"></span>
+              Parking
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="pool">
+              <span class="checkbox-custom"></span>
+              Pool
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="workspace">
+              <span class="checkbox-custom"></span>
+              Workspace
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" value="pet friendly">
+              <span class="checkbox-custom"></span>
+              Pet Friendly
+            </label>
+          </div>
+        </div>
+
+        <!-- View Mode Toggle -->
+        <div class="filter-group">
+          <label class="filter-label">View Mode</label>
+          <div class="view-mode-toggle">
+            <button class="view-mode-btn active" id="viewGridBtn">Grid View</button>
+            <button class="view-mode-btn" id="viewMapBtn">Map View</button>
+          </div>
+        </div>
+        
+      </div>
+    </aside>
+    
+    <!-- Content Section -->
+    <section class="content-area">
+      
+      <!-- Top Sort Bar -->
+      <div class="content-top-bar">
+        <div class="listings-count" id="listingsCount">
+          Loading rentals...
+        </div>
+        
+        <div class="sort-wrapper">
+          <span>Sort By:</span>
+          <select id="sortSelect" class="sort-select" aria-label="Select sorting option">
+            <option value="rating">Best Rating</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="newest">Newest Listings</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Grid View (Listings) -->
+      <div class="listings-grid" id="listingsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+      
+      <!-- Map View (Placeholder) -->
+      <div class="map-view-container" id="mapView">
+        <h3>Property Map Locations</h3>
+        <div class="map-placeholder">
+          <div class="map-grid-bg"></div>
+          <div class="map-island map-island-1"></div>
+          <div class="map-island map-island-2"></div>
+          <div class="map-island map-island-3"></div>
+          
+          <!-- Pin markers rendered here -->
+          <div id="mapPins" style="position: absolute; width: 100%; height: 100%;"></div>
+        </div>
+      </div>
+      
+      <!-- Pagination Controls -->
+      <div class="pagination-container">
+        <button class="btn-pagination" id="prevPageBtn" disabled>Previous</button>
+        <div class="page-indicator" id="pageIndicator">Page <span>1</span> of <span>1</span></div>
+        <button class="btn-pagination" id="nextPageBtn" disabled>Next</button>
+      </div>
+      
+    </section>
+  </main>
+
+  <!-- Host Dashboard View -->
+  <main id="hostView" class="main-container" style="display: none;">
+    <!-- Left Side: Host Listings -->
+    <section class="content-area" style="flex: 1.2; display: flex; flex-direction: column; gap: 20px;">
+      <div class="content-top-bar" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <h2 style="font-size: 1.5rem; font-weight: 600;">Your Listings</h2>
+        <button class="view-mode-btn active" id="btnCreateListing" style="padding: 10px 16px; border-radius: var(--border-radius-md); background: var(--accent-gradient); border: none; color: #fff; cursor: pointer; font-weight: 500;">+ Create Listing</button>
+      </div>
+      
+      <div id="hostListingsGrid" class="listings-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; display: grid;">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Right Side: Booking Requests -->
+    <aside class="sidebar" style="width: 450px;">
+      <div class="sidebar-panel" style="width: 100%; min-height: 400px; padding: 24px;">
+        <h2 class="panel-title" style="margin-bottom: 20px;">Booking Requests</h2>
+        <div id="hostBookingsList" style="display: flex; flex-direction: column; gap: 16px;">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Reviewer/Admin View -->
+  <main id="adminView" class="main-container" style="display: none; flex-direction: column; gap: 24px;">
+    <section class="content-area">
+      <div class="content-top-bar" style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <h2 style="font-size: 1.5rem; font-weight: 600;">System Audit Logs</h2>
+      </div>
+      <div class="sidebar-panel" style="padding: 24px; overflow-x: auto; background: var(--panel-bg); backdrop-filter: blur(12px); border: 1px solid var(--panel-border); border-radius: var(--border-radius-lg);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--panel-border); color: var(--text-secondary);">
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Timestamp</th>
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Actor ID</th>
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Actor Name</th>
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Action Type</th>
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Entity Type</th>
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Entity ID</th>
+              <th style="padding: 12px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Summary</th>
+            </tr>
+          </thead>
+          <tbody id="auditLogsList">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Create/Edit Listing Modal -->
+  <div class="modal-overlay" id="hostListingModal" style="display: none;">
+    <div class="modal-content" style="max-width: 600px;">
+      <button class="modal-close" id="hostListingModalClose" aria-label="Close modal">✕</button>
+      <div class="modal-body" style="padding: 24px;">
+        <h2 id="hostListingModalTitle" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 20px;">Create New Listing</h2>
+        <form id="hostListingForm" style="display: flex; flex-direction: column; gap: 16px;">
+          <input type="hidden" id="hostListingId">
+          
+          <div class="filter-group">
+            <label class="filter-label" for="hostListingTitleInput">Title</label>
+            <input type="text" id="hostListingTitleInput" class="input-text" required placeholder="e.g. Beautiful Ocean View Villa">
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="filter-group">
+              <label class="filter-label" for="hostListingDistrictInput">District</label>
+              <select id="hostListingDistrictInput" class="select-input" required>
+                <option value="Downtown">Downtown</option>
+                <option value="Beachside">Beachside</option>
+                <option value="District 1">District 1</option>
+                <option value="Suburbs">Suburbs</option>
+                <option value="Forest">Forest</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <label class="filter-label" for="hostListingPriceInput">Nightly Price ($)</label>
+              <input type="number" id="hostListingPriceInput" class="input-text" required min="1" placeholder="e.g. 150">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="filter-group">
+              <label class="filter-label" for="hostListingBedroomsInput">Bedrooms</label>
+              <input type="number" id="hostListingBedroomsInput" class="input-text" required min="1" max="10" placeholder="e.g. 2">
+            </div>
+            
+            <div class="filter-group">
+              <label class="filter-label">Amenities</label>
+              <div id="hostListingAmenitiesContainer" class="checkbox-grid" style="grid-template-columns: 1fr; gap: 8px; max-height: 120px; overflow-y: auto; padding: 6px; border: 1px solid var(--panel-border); border-radius: var(--border-radius-sm); background: rgba(0,0,0,0.2);">
+                <label class="checkbox-label"><input type="checkbox" value="air conditioning"><span class="checkbox-custom"></span> Air Conditioning</label>
+                <label class="checkbox-label"><input type="checkbox" value="balcony"><span class="checkbox-custom"></span> Balcony</label>
+                <label class="checkbox-label"><input type="checkbox" value="parking"><span class="checkbox-custom"></span> Parking</label>
+                <label class="checkbox-label"><input type="checkbox" value="pool"><span class="checkbox-custom"></span> Pool</label>
+                <label class="checkbox-label"><input type="checkbox" value="workspace"><span class="checkbox-custom"></span> Workspace</label>
+                <label class="checkbox-label"><input type="checkbox" value="pet friendly"><span class="checkbox-custom"></span> Pet Friendly</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" for="hostListingShortDescInput">Short Description</label>
+            <input type="text" id="hostListingShortDescInput" class="input-text" required placeholder="A brief one-line description.">
+          </div>
+
+          <div class="filter-group">
+            <label class="filter-label" for="hostListingDescInput">Full Description</label>
+            <textarea id="hostListingDescInput" class="input-text" style="height: 100px; resize: vertical; padding: 10px;" required placeholder="Detailed description of the property, guidelines, check-in, etc."></textarea>
+          </div>
+          
+          <button type="submit" class="btn-book" style="margin-top: 10px; width: 100%; cursor: pointer;">Save Listing</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blackout Management Modal -->
+  <div class="modal-overlay" id="hostBlackoutModal" style="display: none;">
+    <div class="modal-content" style="max-width: 500px;">
+      <button class="modal-close" id="hostBlackoutModalClose" aria-label="Close modal">✕</button>
+      <div class="modal-body" style="padding: 24px;">
+        <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 8px;">Manage Blackouts</h2>
+        <div id="hostBlackoutModalListingTitle" style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px;">Listing Title</div>
+        
+        <!-- Add blackout form -->
+        <form id="hostBlackoutForm" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--panel-border);">
+          <h3 style="font-size: 1.1rem; font-weight: 500;">Add Blackout Date Range</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="filter-group">
+              <label class="filter-label" for="hostBlackoutStartInput">Start Date</label>
+              <input type="date" id="hostBlackoutStartInput" class="input-text" required>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label" for="hostBlackoutEndInput">End Date</label>
+              <input type="date" id="hostBlackoutEndInput" class="input-text" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-book" style="width: 100%; cursor: pointer;">Add Date Range</button>
+        </form>
+
+        <!-- Blackout list -->
+        <h3 style="font-size: 1.1rem; font-weight: 500; margin-bottom: 12px;">Current Blackout Ranges</h3>
+        <div id="hostBlackoutsList" style="display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; padding-right: 4px;">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Listing Detail Modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="Close details modal">✕</button>
+      
+      <div class="modal-hero">
+        <img src="" class="modal-hero-img" id="modalHeroImg" alt="Listing banner image">
+      </div>
+      
+      <div class="modal-body">
+        
+        <div class="modal-header-section">
+          <div>
+            <h2 class="modal-title" id="modalTitle">Listing Title</h2>
+            <div class="modal-host" id="modalHost">Hosted by <span>Host Name</span></div>
+          </div>
+          <div style="text-align: right;">
+            <div class="rating-badge" id="modalRating" style="position: static;">★ 4.8</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 6px;" id="modalMeta">District • 2 Bedrooms</div>
+          </div>
+        </div>
+        
+        <div class="modal-grid">
+          
+          <!-- Left side: details, description, amenities, calendar/blackouts -->
+          <div class="modal-left">
+            <div>
+              <h3 class="detail-section-title">About this space</h3>
+              <p style="font-size: 0.95rem; color: var(--text-secondary); white-space: pre-wrap;" id="modalDescription">Description details go here...</p>
+            </div>
+            
+            <div>
+              <h3 class="detail-section-title">Amenities</h3>
+              <div class="amenities-list" id="modalAmenities">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+            
+            <div>
+              <h3 class="detail-section-title">Blackout & Booked Dates</h3>
+              <div class="blackout-dates-list" id="modalBlackouts">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side: booking request form & quote -->
+          <div class="modal-right">
+            <div class="booking-card">
+              <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 16px;">Request to Book</h3>
+              
+              <form id="bookingForm">
+                <div class="filter-group">
+                  <label class="filter-label" for="bookingStartDate">Check-In</label>
+                  <input type="date" id="bookingStartDate" class="input-text" required>
+                </div>
+                <div class="filter-group">
+                  <label class="filter-label" for="bookingEndDate">Check-Out</label>
+                  <input type="date" id="bookingEndDate" class="input-text" required>
+                </div>
+                
+                <div class="filter-group">
+                  <label class="filter-label" for="bookingRenterName">Full Name</label>
+                  <input type="text" id="bookingRenterName" class="input-text" required placeholder="Your name">
+                </div>
+                <div class="filter-group">
+                  <label class="filter-label" for="bookingRenterEmail">Email Address</label>
+                  <input type="email" id="bookingRenterEmail" class="input-text" required placeholder="your.email@example.com">
+                </div>
+                
+                <!-- Quote Price Calculation Section -->
+                <div class="quote-breakdown" id="quoteSection" style="display: none;">
+                  <div class="quote-line">
+                    <span id="quoteNightsTotal">$120 × 0 nights</span>
+                    <span id="quoteSubtotal">$0</span>
+                  </div>
+                  <div class="quote-line quote-total">
+                    <span>Total (excl. tax)</span>
+                    <span id="quoteTotal">$0</span>
+                  </div>
+                </div>
+                
+                <!-- Warnings / Errors -->
+                <div class="booking-warning" id="bookingWarning"></div>
+                
+                <button type="submit" class="btn-book" id="btnBook" disabled>Enter dates to book</button>
+              </form>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Services trailing slash rule: docs/rules/services_dir_slash.md
+Files in target folder:
+- docs/rules/services_dir_slash.md/file1.md
+- docs/rules/services_dir_slash.md/file2.md

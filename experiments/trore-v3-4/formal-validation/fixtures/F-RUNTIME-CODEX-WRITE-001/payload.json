@@ -1,0 +1,9 @@
+{
+  "cwd": "/Users/mac/Git/coretext",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "*** Update File: src/api/auth.py\n*** Add File: src/utils/helpers.py"
+  },
+  "session_id": "session/abc#123;invalid"
+}

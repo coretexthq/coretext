@@ -1,0 +1,6 @@
+predicate_field,value,details
+reusable,True,Rule specifies general error formatting standard
+scoped,True,Applies to src/api/*.py
+future_facing,True,Provides guidance for future error handler modifications
+reviewed,True,Has session metadata referencing source session: True
+verifiable,True,Ledger edge maps correctly to rules directory: True

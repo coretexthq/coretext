@@ -1,0 +1,4 @@
+criterion,status,details
+durable-delta-reusability,Pass,Stable rule is distilled rather than raw chronology
+evidence-linkage,Pass,Durable note links back to session summary evidence
+promoted-state-validation,Pass,Durable note contains the expected RFC 7807 error formatting rules

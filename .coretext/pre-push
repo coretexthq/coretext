@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Upstream Contribution Guard pre-push Hook
+# Prevents pushing personal/workspace files (thesis, experiments, knowledge bases, scratch, local rule data)
+# to the upstream product repository coretexthq/coretext.
+
+remote="$1"
+url="$2"
+
+# Only run this check if the destination URL contains "coretexthq/coretext"
+if [[ "$url" =~ "coretexthq/coretext" ]]; then
+    forbidden_patterns=("graduation-thesis/" "experiments/" "knowledge/" ".coretext-data/" "scratch/")
+
+    # Read the refs being pushed from stdin (format: <local ref> <local oid> <remote ref> <remote oid>)
+    while read -r local_ref local_oid remote_ref remote_oid; do
+        # If we are deleting a ref, skip checks
+        if [ "$local_oid" = "0000000000000000000000000000000000000000" ]; then
+            continue
+        fi
+
+        # Determine the revision range to check
+        if [ "$remote_oid" = "0000000000000000000000000000000000000000" ]; then
+            # New branch push. Check files changed in commits unique to this branch vs other remotes
+            changed_files=$(git log --name-only --pretty=format: "$local_oid" --not --remotes 2>/dev/null | sort -u)
+            # Fallback if no remotes are set up or git log fails
+            if [ -z "$changed_files" ]; then
+                changed_files=$(git diff-tree -r --no-commit-id --name-only "$local_oid" 2>/dev/null)
+            fi
+        else
+            # Existing branch update. Check files changed between remote_oid and local_oid.
+            changed_files=$(git diff-tree -r --no-commit-id --name-only "$remote_oid" "$local_oid" 2>/dev/null | sort -u)
+        fi
+
+        # Scan changed files for forbidden paths
+        echo "$changed_files" | while read -r file; do
+            [ -z "$file" ] && continue
+            for pattern in "${forbidden_patterns[@]}"; do
+                if [[ "$file" == "$pattern"* ]]; then
+                    echo "ERROR: [Upstream Contribution Guard] Detected changes to forbidden directory '$pattern' in file: '$file'" >&2
+                    echo "Pushing personal or workspace-specific files to upstream remote '$url' is blocked." >&2
+                    echo "Please remove these files/changes from your push commits or push to a different remote." >&2
+                    exit 1
+                fi
+            done
+        done
+
+        # If any pipeline in the loop failed (exited 1), propagate exit code
+        if [ ${PIPESTATUS[1]} -eq 1 ]; then
+            exit 1
+        fi
+    done
+fi
+
+exit 0

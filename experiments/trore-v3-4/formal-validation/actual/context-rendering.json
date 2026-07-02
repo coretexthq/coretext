@@ -1,0 +1,12 @@
+{
+  "src/api/auth.py": {
+    "read": {
+      "hints": "Auth read rule: docs/rules/auth_read.md\nAuth general rule: docs/rules/auth_general.md\nNot Found: docs/rules/auth_general.md",
+      "full_files": ""
+    },
+    "write": {
+      "hints": "Auth write rule: docs/rules/auth_write.md\nAuth general rule: docs/rules/auth_general.md\nNot Found: docs/rules/auth_general.md",
+      "full_files": "\nFile: docs/rules/auth_write.md\n```\n# Auth Write Rule\nThis is the rule for writing authentication files.\n- Always require admin permission.\n- Log every write.\n\n```"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "step1_view_response": {
+    "decision": "allow"
+  },
+  "step2_pre_invocation_response": {
+    "injectSteps": [
+      {
+        "ephemeralMessage": "Note lineage: knowledge/coretext.md\n* coretext [project] knowledge/coretext.md"
+      }
+    ]
+  },
+  "step3_repeat_view_response": {
+    "decision": "allow"
+  },
+  "step4_repeat_pre_invocation_response": {
+    "injectSteps": []
+  }
+}

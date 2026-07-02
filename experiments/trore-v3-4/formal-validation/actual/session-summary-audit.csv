@@ -1,0 +1,19 @@
+session,field,status
+session_complete,Goal,Present
+session_complete,Input context,Present
+session_complete,Actions,Present
+session_complete,Decisions,Present
+session_complete,Changed artifacts,Present
+session_complete,Verification,Present
+session_complete,Unresolved risks,Present
+session_complete,Durable deltas,Present
+session_complete,Handoff,Present
+session_incomplete,Goal,Present
+session_incomplete,Input context,Missing
+session_incomplete,Actions,Present
+session_incomplete,Decisions,Present
+session_incomplete,Changed artifacts,Present
+session_incomplete,Verification,Missing
+session_incomplete,Unresolved risks,Missing
+session_incomplete,Durable deltas,Missing
+session_incomplete,Handoff,Missing

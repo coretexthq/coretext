@@ -1,0 +1,4 @@
+{
+  "decision": "deny",
+  "reason": "ACTION BLOCKED: You must read and acknowledge the following architectural rules before creating or modifying this file.\n\nPlease read the rules below. Once you understand them, retry your write/replace tool call exactly as you just did, and it will be allowed to proceed.\n\nAuth write rule: docs/rules/auth_write.md\nAuth general rule: docs/rules/auth_general.md\nNot Found: docs/rules/auth_general.md\n\nFile: docs/rules/auth_write.md\n```\n# Auth Write Rule\nThis is the rule for writing authentication files.\n- Always require admin permission.\n- Log every write.\n\n```"
+}

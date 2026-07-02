@@ -1,0 +1,9 @@
+filepath,pattern,expected_match
+src/api/auth.py,src/api/auth.py,True
+src/api/auth.py,src/utils/*.py,False
+src/utils/helpers.py,src/utils/*.py,True
+src/db/conn1.py,src/db/conn?.py,True
+src/db/connection.py,src/db/conn?.py,False
+src/services/billing.py,src/services/,True
+src/models/user.py,src/models,True
+src/models,src/models,True

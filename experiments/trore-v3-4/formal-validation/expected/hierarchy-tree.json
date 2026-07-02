@@ -1,0 +1,77 @@
+{
+  "id": "coretext",
+  "qualifiedName": "coretext",
+  "name": "coretext",
+  "type": "project",
+  "path": "knowledge/coretext.md",
+  "virtual": false,
+  "hasBacklog": true,
+  "children": [
+    {
+      "id": "coretext.backend",
+      "qualifiedName": "coretext.backend",
+      "name": "backend",
+      "type": "scope",
+      "path": "knowledge/coretext.backend.md",
+      "virtual": false,
+      "children": [
+        {
+          "id": "coretext.backend.db",
+          "qualifiedName": "coretext.backend.db",
+          "name": "db",
+          "type": "scope",
+          "path": null,
+          "virtual": true,
+          "children": [
+            {
+              "id": "coretext.backend.db.postgres",
+              "qualifiedName": "coretext.backend.db.postgres",
+              "name": "postgres",
+              "type": "scope",
+              "path": "knowledge/coretext.backend.db.postgres.md",
+              "virtual": false,
+              "children": [
+                {
+                  "id": "session::coretext.backend.db.postgres.session2",
+                  "qualifiedName": "coretext.backend.db.postgres.session2",
+                  "name": "session2",
+                  "type": "session",
+                  "path": "knowledge/ai/coretext.backend.db.postgres.session2.md",
+                  "virtual": false,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "session::coretext.backend.db.mysql.session3",
+          "qualifiedName": "coretext.backend.db.mysql.session3",
+          "name": "session3",
+          "type": "session",
+          "path": "knowledge/ai/coretext.backend.db.mysql.session3.md",
+          "virtual": false,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "coretext.frontend",
+      "qualifiedName": "coretext.frontend",
+      "name": "frontend",
+      "type": "scope",
+      "path": "knowledge/coretext.frontend.md",
+      "virtual": false,
+      "children": []
+    },
+    {
+      "id": "session::coretext.session1",
+      "qualifiedName": "coretext.session1",
+      "name": "session1",
+      "type": "session",
+      "path": "knowledge/ai/coretext.session1.md",
+      "virtual": false,
+      "children": []
+    }
+  ]
+}

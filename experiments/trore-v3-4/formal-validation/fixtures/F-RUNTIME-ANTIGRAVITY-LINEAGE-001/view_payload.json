@@ -1,0 +1,9 @@
+{
+  "conversationId": "session-lineage-123",
+  "toolCall": {
+    "name": "view_file",
+    "args": {
+      "AbsolutePath": "knowledge/coretext.md"
+    }
+  }
+}

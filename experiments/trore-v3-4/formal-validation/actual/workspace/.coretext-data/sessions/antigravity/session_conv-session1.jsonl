@@ -1,0 +1,1 @@
+{"source": "MODEL", "type": "PLANNER_RESPONSE", "created_at": "2026-06-26T10:44:37Z", "tool_calls": [{"name": "view_file", "args": {"AbsolutePath": "/Users/mac/Git/coretext/experiments/trore-v3-4/formal-validation/actual/workspace/src/api/auth.py"}}]}

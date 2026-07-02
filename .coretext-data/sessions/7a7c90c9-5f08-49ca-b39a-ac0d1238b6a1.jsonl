@@ -1,0 +1,15 @@
+{"node_id": "knowledge/trore.md", "timestamp": "2026-06-26T03:45:55Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "experiments/trore-v3-4/runs/hooks/knowledge/trore.md", "timestamp": "2026-06-26T03:46:05Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "experiments/trore-v3-4/runs/nohooks/knowledge/trore.md", "timestamp": "2026-06-26T03:46:06Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "docs/coretext_hooks.md", "timestamp": "2026-06-26T03:46:15Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".agents/hooks.json", "timestamp": "2026-06-26T03:46:18Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".coretext/inject_context.py", "timestamp": "2026-06-26T03:46:21Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "setup.sh", "timestamp": "2026-06-26T03:46:23Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".coretext/runtime_hook_adapter.py", "timestamp": "2026-06-26T03:46:25Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".coretext/note_hierarchy.py", "timestamp": "2026-06-26T03:46:27Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "knowledge/trore.md", "timestamp": "2026-06-26T03:46:42Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".coretext/coretext_engine.py", "timestamp": "2026-06-26T03:46:47Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".coretext-data/.pending_lineage_7a7c90c9-5f08-49ca-b39a-ac0d1238b6a1.jsonl", "timestamp": "2026-06-26T03:47:08Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "tests/test_runtime_hooks.py", "timestamp": "2026-06-26T03:47:13Z", "tool_name": "view_file", "action": "read"}
+{"node_id": ".coretext/notify_action.py", "timestamp": "2026-06-26T03:47:18Z", "tool_name": "view_file", "action": "read"}
+{"node_id": "scratch/verification_result.txt", "timestamp": "2026-06-26T03:47:28Z", "tool_name": "write_to_file", "action": "write"}

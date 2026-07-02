@@ -1,0 +1,4 @@
+session_note_path,expected_parent_node_id
+knowledge/ai/coretext.session1.md,coretext
+knowledge/ai/coretext.backend.db.postgres.session2.md,coretext.backend.db.postgres
+knowledge/ai/coretext.backend.db.mysql.session3.md,coretext.backend

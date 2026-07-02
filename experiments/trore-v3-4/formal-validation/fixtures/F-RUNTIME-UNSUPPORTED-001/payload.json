@@ -1,0 +1,8 @@
+{
+  "runtime": "unsupported",
+  "tool_name": "run_command",
+  "tool_input": {
+    "CommandLine": "echo hello"
+  },
+  "session_id": "session-unsupported-123"
+}

@@ -1,0 +1,9 @@
+{"source": "src/api/auth.py", "target": "docs/rules/auth_read.md", "type": "hint", "description": "Auth read rule", "hook": "read"}
+{"source": "src/api/auth.py", "target": "docs/rules/auth_write.md", "type": "full", "description": "Auth write rule", "hook": "write"}
+{"source": "src/utils/*.py", "target": "docs/rules/utils_glob.md", "type": "hint", "description": "Utils glob * rule", "hook": "both"}
+{"source": "src/db/conn?.py", "target": "docs/rules/db_glob.md", "type": "hint", "description": "DB glob ? rule", "hook": "both"}
+{"source": "src/services/", "target": "docs/rules/services_dir_slash.md", "type": "hint", "description": "Services trailing slash rule", "hook": "both"}
+{"source": "src/models", "target": "docs/rules/models_dir.md", "type": "hint", "description": "Models dir rule", "hook": "both"}
+{"source": "src/api/auth.py", "target": "docs/rules/auth_general.md", "type": "hint", "description": "Auth general rule", "hook": "both"}
+{"source": "src/legacy/old.py", "target": "docs/rules/nonexistent.md", "type": "full", "description": "Stale rule", "hook": "both"}
+{"source": "src/legacy/bin.py", "target": "docs/rules/binary_rule.bin", "type": "full", "description": "Binary rule", "hook": "both"}

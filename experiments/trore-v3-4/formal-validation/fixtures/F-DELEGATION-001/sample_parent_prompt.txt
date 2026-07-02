@@ -1,0 +1,3 @@
+Role assignment: You are a worker agent for sub-scope `coretext.backend.db.postgres`.
+Your workspace session is `knowledge/ai/coretext.backend.db.postgres.session-delegated-1.md`.
+Please strictly operate within your assigned namespace.

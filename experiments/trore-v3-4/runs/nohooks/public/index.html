@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trore Lodging Marketplace & Controls</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <style>
+    .icon {
+      display: inline-block;
+      width: 1.25em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header style="margin-bottom: 1.5rem;">
+      <div class="brand-wrapper">
+        <div class="logo-badge">T</div>
+        <div>
+          <h1 class="brand-title">Trore Marketplace</h1>
+          <div class="brand-subtitle">Lodging Marketplace v3-4</div>
+        </div>
+      </div>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>Local Backend Online</span>
+      </div>
+    </header>
+
+    <!-- Top Navigation Bar -->
+    <div class="navbar">
+      <div class="nav-links">
+        <button class="nav-item active" id="nav-renter">
+          <span class="icon">🔍</span> Find Lodging
+        </button>
+        <button class="nav-item" id="nav-host">
+          <span class="icon">🏨</span> Host Dashboard
+        </button>
+        <button class="nav-item" id="nav-admin">
+          <span class="icon">🛠️</span> Admin Control Panel
+        </button>
+      </div>
+      <div class="user-selector">
+        <span style="color: var(--text-secondary); font-weight: 600;">Active Actor:</span>
+        <select class="user-select" id="active-actor-select">
+          <option value="1">Charlie (Renter)</option>
+          <option value="2">Dave (Renter)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- MAIN VIEW: Renter Marketplace -->
+    <div id="renter-view" class="renter-container">
+      <!-- Search & Filters Sidebar -->
+      <div class="search-sidebar">
+        <div class="card">
+          <h2 class="card-title" style="font-size: 1.2rem; margin-bottom: 1rem;"><span class="icon">⚙️</span> Filters</h2>
+          
+          <!-- Text Query -->
+          <div class="filter-group">
+            <span class="filter-label">Search Keywords</span>
+            <input type="text" id="filter-q" class="input-field" placeholder="Search loft, cabin, studio...">
+          </div>
+
+          <!-- District -->
+          <div class="filter-group">
+            <span class="filter-label">District</span>
+            <select id="filter-district" class="input-field">
+              <option value="">All Districts</option>
+              <option value="Downtown">Downtown</option>
+              <option value="Beachside">Beachside</option>
+              <option value="Westside">Westside</option>
+              <option value="Northside">Northside</option>
+            </select>
+          </div>
+
+          <!-- Price Range -->
+          <div class="filter-group">
+            <span class="filter-label">Nightly Price</span>
+            <div class="price-range-inputs">
+              <input type="number" id="filter-min-price" class="input-field" placeholder="Min $">
+              <input type="number" id="filter-max-price" class="input-field" placeholder="Max $">
+            </div>
+          </div>
+
+          <!-- Bedrooms -->
+          <div class="filter-group">
+            <span class="filter-label">Bedrooms</span>
+            <select id="filter-bedrooms" class="input-field">
+              <option value="">Any Bedrooms</option>
+              <option value="1">1+ Bedroom</option>
+              <option value="2">2+ Bedrooms</option>
+              <option value="3">3+ Bedrooms</option>
+            </select>
+          </div>
+
+          <!-- Availability dates -->
+          <div class="filter-group">
+            <span class="filter-label">Availability Range</span>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <input type="date" id="filter-start-date" class="input-field" style="font-size:0.85rem;">
+              <input type="date" id="filter-end-date" class="input-field" style="font-size:0.85rem;">
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="filter-group">
+            <span class="filter-label">Amenities</span>
+            <div class="checkbox-grid">
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-amenity" value="air conditioning">
+                <span>Air Conditioning</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-amenity" value="pool">
+                <span>Private Pool</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-amenity" value="balcony">
+                <span>Balcony</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-amenity" value="parking">
+                <span>Parking Space</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-amenity" value="workspace">
+                <span>Dedicated Workspace</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" class="filter-amenity" value="pet friendly">
+                <span>Pet Friendly</span>
+              </label>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 1.5rem;">
+            <button class="btn btn-primary" id="btn-apply-filters">
+              <span class="icon">🔍</span> Apply Filters
+            </button>
+            <button class="btn" id="btn-clear-filters">
+              <span class="icon">🧹</span> Clear All
+            </button>
+          </div>
+        </div>
+
+        <!-- Saved Searches Card -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--glass-border); padding-bottom:0.5rem; margin-bottom:1rem;">
+            <h2 style="font-size:1.1rem; margin-bottom:0; display:flex; align-items:center; gap:8px;"><span class="icon">💾</span> Saved Searches</h2>
+            <button class="btn btn-accent" id="btn-save-search" style="padding: 4px 10px; font-size: 0.75rem; border-radius:4px;">
+              Save Current
+            </button>
+          </div>
+          <div class="saved-searches-list" id="saved-searches-container">
+            <!-- Populated via javascript -->
+            <div style="color:var(--text-muted); font-size:0.85rem; text-align:center;">No saved searches loaded.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Results Column -->
+      <div class="search-results-wrapper">
+        <div class="results-header">
+          <div class="results-count" id="results-count-text">Finding lodging properties...</div>
+          <div class="results-controls">
+            <select id="sort-select" class="user-select" style="padding: 8px 12px;">
+              <option value="relevance">Sort: Relevance</option>
+              <option value="price">Sort: Price (Low to High)</option>
+              <option value="rating">Sort: Rating</option>
+              <option value="newest">Sort: Newest</option>
+            </select>
+            <div class="view-toggle">
+              <button class="toggle-btn active" id="btn-view-grid">Grid</button>
+              <button class="toggle-btn" id="btn-view-map">Map</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid View -->
+        <div class="listings-grid" id="listings-grid-container">
+          <!-- Cards populated via JS -->
+        </div>
+
+        <!-- Map View Placeholder -->
+        <div class="map-view-container" id="map-view-container">
+          <div class="map-grid-bg" id="map-grid-bg">
+            <div class="map-water"></div>
+            <!-- Mock pins populated via JS -->
+          </div>
+          <div class="map-info-toast" id="map-info-toast" style="display:none;">
+            Selected property location
+          </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-controls">
+          <button class="pagination-btn" id="btn-prev-page" disabled>Previous</button>
+          <span class="pagination-info" id="pagination-info-text">Page 1 of 1</span>
+          <button class="pagination-btn" id="btn-next-page" disabled>Next</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN VIEW: Admin Control Panel (The Original Layout) -->
+    <div id="admin-view" class="dashboard-grid" style="display: none;">
+      <!-- Left Column: Controls & Verification Console -->
+      <div class="control-group">
+        <div class="card">
+          <h2 class="card-title"><span class="icon">⚡</span> API Verification Controls</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+            Test the Express server API endpoints and verify that the authentication middleware blocks unauthorized requests.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn" id="btn-health">
+              <span class="icon">💚</span> Call Public Health Check
+            </button>
+            <button class="btn btn-danger" id="btn-unauthorized">
+              <span class="icon">🔒</span> Call Protected API (Without Header)
+            </button>
+            <button class="btn btn-accent" id="btn-authorized">
+              <span class="icon">🔑</span> Call Protected API (With API Client)
+            </button>
+            <button class="btn btn-primary" id="btn-reset" style="margin-top: 10px;">
+              <span class="icon">🔄</span> Reset & Re-Seed Database
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title"><span class="icon">🖥️</span> Execution Log</h2>
+          <div class="console-wrapper">
+            <div class="console-header">
+              <span>Status Console</span>
+              <span id="console-status" style="font-weight: 700;">Idle</span>
+            </div>
+            <div class="console" id="console-output">Ready to execute requests...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Database State Inspector -->
+      <div class="card" style="display: flex; flex-direction: column; height: 100%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 class="card-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
+            <span class="icon">📊</span> Database Explorer
+          </h2>
+          <button class="btn" id="btn-refresh" style="padding: 6px 12px; font-size: 0.8rem;">
+            <span class="icon">♻️</span> Refresh Data
+          </button>
+        </div>
+
+        <div class="tab-nav">
+          <button class="tab-btn active" data-tab="tab-listings">Listings</button>
+          <button class="tab-btn" data-tab="tab-actors">Hosts & Renters</button>
+          <button class="tab-btn" data-tab="tab-audits">Audit Trail</button>
+        </div>
+
+        <!-- Listings Tab -->
+        <div class="tab-content active" id="tab-listings">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Seeded rental properties available for search.
+          </p>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>District</th>
+                  <th>Price/Night</th>
+                  <th>Beds</th>
+                  <th>Amenities</th>
+                  <th>Rating</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="listings-table-body">
+                <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No data loaded. Click Refresh.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Actors Tab -->
+        <div class="tab-content" id="tab-actors">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Hosts and Renters registered in the system.
+          </p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-primary);">Hosts</h3>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hosts-table-body">
+                    <tr><td colspan="2" style="text-align: center; color: var(--text-muted);">No data.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-secondary);">Renters</h3>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody id="renters-table-body">
+                    <tr><td colspan="2" style="text-align: center; color: var(--text-muted);">No data.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audits Tab -->
+        <div class="tab-content" id="tab-audits">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Live audit logs capture all state-mutating actions.
+          </p>
+          <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Actor</th>
+                  <th>Action</th>
+                  <th>Entity</th>
+                  <th>Summary</th>
+                </tr>
+              </thead>
+              <tbody id="audits-table-body">
+                <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No logs loaded.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN VIEW: Host Operations -->
+    <div id="host-view" class="dashboard-grid" style="display: none;">
+      <!-- Left Column: Listings and Blackouts management -->
+      <div class="control-group" style="grid-column: span 2;">
+        
+        <!-- Host Header / Selector Card -->
+        <div class="card" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <h2 class="card-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
+              <span class="icon">🏨</span> Host Operations Dashboard
+            </h2>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="color: var(--text-secondary); font-weight: 600; font-size: 0.95rem;">Active Host:</span>
+              <select class="user-select" id="active-host-select" style="padding: 6px 12px; font-size: 0.9rem;">
+                <option value="1">Alice (Host)</option>
+                <option value="2">Bob (Host)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-success" id="btn-create-listing-modal">
+            <span class="icon">➕</span> Create New Listing
+          </button>
+        </div>
+
+        <!-- Listings List -->
+        <div class="card">
+          <h2 class="card-title"><span class="icon">📋</span> Your Listings</h2>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>District</th>
+                  <th>Price/Night</th>
+                  <th>Beds</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="host-listings-table-body">
+                <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Select active host to load listings.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Incoming Booking Requests -->
+      <div class="card" style="display: flex; flex-direction: column; height: 100%;">
+        <h2 class="card-title"><span class="icon">📥</span> Booking Requests</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+          Requests from renters for your listings.
+        </p>
+        <div class="table-container" style="flex: 1; min-height: 300px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Listing</th>
+                <th>Renter</th>
+                <th>Dates</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="host-bookings-table-body">
+              <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No booking requests found.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATE/EDIT LISTING MODAL -->
+    <div class="modal-overlay" id="host-listing-modal">
+      <div class="modal-container">
+        <button class="modal-close" id="host-listing-modal-close-btn">&times;</button>
+        <div class="modal-hero">🏡</div>
+        <div class="modal-content">
+          <h2 id="host-listing-modal-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">Create New Listing</h2>
+          <form id="host-listing-form">
+            <input type="hidden" id="host-listing-id">
+            <div class="filter-group" style="margin-bottom: 1rem;">
+              <label class="filter-label" for="host-listing-title-input">Listing Title</label>
+              <input type="text" id="host-listing-title-input" class="input-field" placeholder="e.g. Charming Beachside Loft" required>
+            </div>
+            <div class="filter-group" style="margin-bottom: 1rem;">
+              <label class="filter-label" for="host-listing-district-input">District</label>
+              <select id="host-listing-district-input" class="input-field" required>
+                <option value="Downtown">Downtown</option>
+                <option value="Beachside">Beachside</option>
+                <option value="Westside">Westside</option>
+                <option value="Northside">Northside</option>
+              </select>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div class="filter-group">
+                <label class="filter-label" for="host-listing-price-input">Nightly Price ($)</label>
+                <input type="number" id="host-listing-price-input" class="input-field" min="1" placeholder="e.g. 150" required>
+              </div>
+              <div class="filter-group">
+                <label class="filter-label" for="host-listing-beds-input">Bedrooms</label>
+                <input type="number" id="host-listing-beds-input" class="input-field" min="1" max="10" placeholder="e.g. 2" required>
+              </div>
+            </div>
+            <div class="filter-group" style="margin-bottom: 1rem;">
+              <label class="filter-label">Amenities</label>
+              <div class="checkbox-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                <label class="checkbox-label">
+                  <input type="checkbox" class="host-listing-amenity" value="air conditioning">
+                  <span>Air Con</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="host-listing-amenity" value="pool">
+                  <span>Pool</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="host-listing-amenity" value="balcony">
+                  <span>Balcony</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="host-listing-amenity" value="parking">
+                  <span>Parking</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="host-listing-amenity" value="workspace">
+                  <span>Workspace</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" class="host-listing-amenity" value="pet friendly">
+                  <span>Pet Friendly</span>
+                </label>
+              </div>
+            </div>
+            <div class="filter-group" style="margin-bottom: 1.5rem;">
+              <label class="filter-label" for="host-listing-description-input">Description</label>
+              <textarea id="host-listing-description-input" class="input-field" rows="3" placeholder="Describe your property..." style="resize: vertical; font-family: inherit;"></textarea>
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+              <button type="button" class="btn" id="host-listing-modal-cancel-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary" id="host-listing-modal-submit-btn">Save Listing</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLACKOUT DATE MANAGEMENT MODAL -->
+    <div class="modal-overlay" id="host-blackouts-modal">
+      <div class="modal-container" style="max-width: 500px;">
+        <button class="modal-close" id="host-blackouts-modal-close-btn">&times;</button>
+        <div class="modal-hero">📅</div>
+        <div class="modal-content">
+          <h2 id="host-blackouts-modal-title" style="font-size: 1.4rem; margin-bottom: 0.5rem;">Blackout Calendar</h2>
+          <p id="host-blackouts-modal-subtitle" style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;"></p>
+          
+          <div class="card" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 1rem; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--accent-primary);">Add Blackout Period</h3>
+            <form id="host-blackout-form" style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="filter-group">
+                  <label class="filter-label" style="font-size: 0.75rem;">Start Date</label>
+                  <input type="date" id="host-blackout-start-input" class="input-field" required>
+                </div>
+                <div class="filter-group">
+                  <label class="filter-label" style="font-size: 0.75rem;">End Date</label>
+                  <input type="date" id="host-blackout-end-input" class="input-field" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-accent" style="align-self: flex-end; padding: 6px 16px; font-size: 0.85rem;">
+                Block Calendar
+              </button>
+            </form>
+          </div>
+
+          <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary);">Active Blocks</h3>
+          <div class="table-container" style="max-height: 200px; overflow-y: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="host-blackouts-table-body">
+                <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No blocks active.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTING DETAIL MODAL -->
+    <div class="modal-overlay" id="detail-modal">
+      <div class="modal-container">
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+        <div class="modal-hero" id="modal-hero-icon">🏡</div>
+        <div class="modal-content">
+          <div style="border-bottom:1px solid var(--glass-border); padding-bottom:1rem;">
+            <h2 id="modal-title" style="font-size: 1.8rem; margin-bottom: 0.25rem;">Listing Title</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="badge badge-info" id="modal-district">Downtown</span>
+              <span style="color:var(--accent-warning); font-weight:700;" id="modal-rating">★ 4.8</span>
+            </div>
+          </div>
+          
+          <div class="modal-grid">
+            <!-- Info Column -->
+            <div class="modal-info-side">
+              <div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-primary);">Description</h3>
+                <p id="modal-description" style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;">Full description...</p>
+              </div>
+              <div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-primary);">Amenities</h3>
+                <div class="card-meta" id="modal-beds-count" style="margin-bottom: 0.5rem; font-weight:600;"></div>
+                <div class="card-amenities" id="modal-amenities" style="gap:6px;"></div>
+              </div>
+              <div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-primary);">Host Info</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Hosted by <strong id="modal-host-name">Alice</strong></p>
+              </div>
+              <div>
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-danger);">Blackout & Booked Dates</h3>
+                <div class="blackout-list" id="modal-blackout-list">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Action Column (Pricing & Booking Form) -->
+            <div class="modal-action-side">
+              <!-- Quote Estimator -->
+              <div class="quote-card">
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem; border-bottom:1px solid var(--glass-border); padding-bottom:0.5rem;">Estimated Price</h3>
+                <div class="quote-calculator-inputs">
+                  <div class="filter-group" style="margin-bottom:0;">
+                    <span class="filter-label">Check-in</span>
+                    <input type="date" id="booking-start-date" class="input-field" style="padding: 8px 10px; font-size:0.85rem;">
+                  </div>
+                  <div class="filter-group" style="margin-bottom:0;">
+                    <span class="filter-label">Check-out</span>
+                    <input type="date" id="booking-end-date" class="input-field" style="padding: 8px 10px; font-size:0.85rem;">
+                  </div>
+                </div>
+                
+                <div id="quote-error-msg" class="alert-message alert-danger" style="display:none; margin-top: 10px; margin-bottom:0;"></div>
+                
+                <div class="quote-result-box" id="quote-result-box" style="display:none; margin-top: 10px;">
+                  <div class="quote-row">
+                    <span id="quote-nights-text">0 nights * $0.00</span>
+                    <span id="quote-subtotal-text">$0.00</span>
+                  </div>
+                  <div class="quote-row quote-total">
+                    <span>Total Price</span>
+                    <span id="quote-total-price-text">$0.00</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Booking Request Form -->
+              <div class="quote-card" style="background-color: transparent; border-style: dashed;">
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Request Booking</h3>
+                <div id="booking-alert-msg" class="alert-message" style="display:none;"></div>
+                <form id="booking-submission-form" onsubmit="return false;">
+                  <div class="filter-group">
+                    <span class="filter-label">Guest Name</span>
+                    <input type="text" id="booking-guest-name" class="input-field" required placeholder="Your full name">
+                  </div>
+                  <div class="filter-group">
+                    <span class="filter-label">Guest Email</span>
+                    <input type="email" id="booking-guest-email" class="input-field" required placeholder="your.email@example.com">
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="btn-submit-booking" style="width:100%;" disabled>
+                    <span class="icon">📅</span> Submit Booking Request
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>Trore Lodging Marketplace Case Study &bull; Built with Express & SQLite</p>
+    </footer>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script>
+    // Front-end Quote Calculator logic
+    function calculateQuoteClient(nightlyPrice, startDateStr, endDateStr) {
+      if (!startDateStr || !endDateStr) {
+        return { error: 'Select check-in and check-out dates' };
+      }
+      const start = new Date(startDateStr);
+      const end = new Date(endDateStr);
+      
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        return { error: 'Invalid dates selected' };
+      }
+      
+      const dStart = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+      const dEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+      
+      if (dStart >= dEnd) {
+        return { error: 'Check-out must be after check-in' };
+      }
+      
+      const diffTime = dEnd - dStart;
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+      const totalPrice = diffDays * nightlyPrice;
+      
+      return {
+        nights: diffDays,
+        nightlyPrice,
+        totalPrice: parseFloat(totalPrice.toFixed(2))
+      };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Views toggling
+      const navRenter = document.getElementById('nav-renter');
+      const navHost = document.getElementById('nav-host');
+      const navAdmin = document.getElementById('nav-admin');
+      const renterView = document.getElementById('renter-view');
+      const hostView = document.getElementById('host-view');
+      const adminView = document.getElementById('admin-view');
+
+      navRenter.addEventListener('click', () => {
+        navRenter.classList.add('active');
+        navHost.classList.remove('active');
+        navAdmin.classList.remove('active');
+        renterView.style.display = 'grid';
+        hostView.style.display = 'none';
+        adminView.style.display = 'none';
+      });
+
+      navHost.addEventListener('click', () => {
+        navHost.classList.add('active');
+        navRenter.classList.remove('active');
+        navAdmin.classList.remove('active');
+        hostView.style.display = 'grid';
+        renterView.style.display = 'none';
+        adminView.style.display = 'none';
+        refreshHostData();
+      });
+
+      navAdmin.addEventListener('click', () => {
+        navAdmin.classList.add('active');
+        navRenter.classList.remove('active');
+        navHost.classList.remove('active');
+        adminView.style.display = 'grid';
+        renterView.style.display = 'none';
+        hostView.style.display = 'none';
+        refreshAdminData();
+      });
+
+      // Host state management
+      let currentHostId = 1;
+      let hostListings = [];
+      let activeBlackoutListingId = null;
+
+      const activeHostSelect = document.getElementById('active-host-select');
+      activeHostSelect.addEventListener('change', (e) => {
+        currentHostId = parseInt(e.target.value, 10);
+        refreshHostData();
+      });
+
+      async function refreshHostData() {
+        if (hostView.style.display === 'none') return;
+        try {
+          // Load listings
+          hostListings = await TroreAPI.get(`/host/listings?host_id=${currentHostId}`);
+          renderHostListings(hostListings);
+
+          // Load bookings
+          const bookings = await fetchHostBookings();
+          renderHostBookings(bookings);
+        } catch (err) {
+          console.error('Error refreshing host data:', err);
+        }
+      }
+
+      async function fetchHostBookings() {
+        return TroreAPI.get(`/host/bookings?host_id=${currentHostId}`, {
+          headers: {
+            'X-Trore-Actor-Id': currentHostId.toString()
+          }
+        });
+      }
+
+      function renderHostListings(listings) {
+        const tbody = document.getElementById('host-listings-table-body');
+        if (!listings || listings.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No listings found. Click Create New Listing to add one.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = listings.map(l => `
+          <tr>
+            <td>${l.id}</td>
+            <td style="font-weight: 600;">${escapeHtml(l.title)}</td>
+            <td><span class="badge badge-info">${escapeHtml(l.district)}</span></td>
+            <td style="font-family: monospace; font-weight: 700;">$${l.nightly_price.toFixed(2)}</td>
+            <td>${l.bedrooms}</td>
+            <td>
+              <span class="badge ${l.is_active ? 'badge-success' : 'badge-danger'}">
+                ${l.is_active ? 'Active' : 'Inactive'}
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn" style="padding: 4px 8px; font-size: 0.75rem;" onclick="toggleListingStatus(${l.id}, ${l.is_active ? 0 : 1})">
+                  ${l.is_active ? 'Unpublish' : 'Publish'}
+                </button>
+                <button class="btn btn-accent" style="padding: 4px 8px; font-size: 0.75rem;" onclick="openEditListingModal(${l.id})">
+                  Edit
+                </button>
+                <button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.75rem;" onclick="openBlackoutModal(${l.id})">
+                  Calendar
+                </button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function renderHostBookings(bookings) {
+        const tbody = document.getElementById('host-bookings-table-body');
+        if (!bookings || bookings.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No booking requests found.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = bookings.map(b => {
+          let statusBadge = 'badge-primary';
+          if (b.status === 'approved') statusBadge = 'badge-success';
+          if (b.status === 'declined') statusBadge = 'badge-danger';
+
+          let actionsHtml = '';
+          if (b.status === 'pending') {
+            actionsHtml = `
+              <div style="display: flex; gap: 4px;">
+                <button class="btn btn-success" style="padding: 3px 6px; font-size: 0.7rem;" onclick="reviewBooking(${b.id}, 'approved')">Approve</button>
+                <button class="btn btn-danger" style="padding: 3px 6px; font-size: 0.7rem;" onclick="reviewBooking(${b.id}, 'declined')">Decline</button>
+              </div>
+            `;
+          } else {
+            actionsHtml = `<span style="color: var(--text-muted); font-size: 0.8rem;">Reviewed</span>`;
+          }
+
+          return `
+            <tr>
+              <td>#${b.id}</td>
+              <td style="font-weight: 500; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(b.listing_title)}</td>
+              <td>
+                <div style="font-size:0.85rem; font-weight:600;">${escapeHtml(b.guest_name)}</div>
+                <div style="font-size:0.75rem; color:var(--text-secondary);">${escapeHtml(b.guest_email)}</div>
+              </td>
+              <td style="font-size: 0.8rem;">
+                <div>${b.start_date}</div>
+                <div style="color: var(--text-muted);">to ${b.end_date}</div>
+              </td>
+              <td style="font-family: monospace; font-weight: 700;">$${b.total_price.toFixed(2)}</td>
+              <td><span class="badge ${statusBadge}">${b.status}</span></td>
+              <td>${actionsHtml}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      window.toggleListingStatus = async function(id, newStatus) {
+        try {
+          await TroreAPI.post(`/host/listings/${id}/status`, { is_active: newStatus }, {
+            headers: {
+              'X-Trore-Actor-Id': currentHostId.toString()
+            }
+          });
+          refreshHostData();
+          refreshAdminData();
+          fetchListings();
+        } catch (err) {
+          alert('Error toggling status: ' + err.message);
+        }
+      };
+
+      const hostListingModal = document.getElementById('host-listing-modal');
+      const hostListingForm = document.getElementById('host-listing-form');
+      const hostListingIdInput = document.getElementById('host-listing-id');
+      const hostListingTitleInput = document.getElementById('host-listing-title-input');
+      const hostListingDistrictInput = document.getElementById('host-listing-district-input');
+      const hostListingPriceInput = document.getElementById('host-listing-price-input');
+      const hostListingBedsInput = document.getElementById('host-listing-beds-input');
+      const hostListingDescriptionInput = document.getElementById('host-listing-description-input');
+
+      document.getElementById('btn-create-listing-modal').addEventListener('click', () => {
+        hostListingForm.reset();
+        hostListingIdInput.value = '';
+        document.getElementById('host-listing-modal-title').textContent = 'Create New Listing';
+        hostListingModal.classList.add('active');
+      });
+
+      window.openEditListingModal = function(id) {
+        const listing = hostListings.find(l => l.id === id);
+        if (!listing) return;
+
+        hostListingForm.reset();
+        hostListingIdInput.value = listing.id;
+        hostListingTitleInput.value = listing.title;
+        hostListingDistrictInput.value = listing.district;
+        hostListingPriceInput.value = listing.nightly_price;
+        hostListingBedsInput.value = listing.bedrooms;
+        hostListingDescriptionInput.value = listing.description || '';
+
+        const amenities = listing.amenities || [];
+        document.querySelectorAll('.host-listing-amenity').forEach(cb => {
+          cb.checked = amenities.includes(cb.value);
+        });
+
+        document.getElementById('host-listing-modal-title').textContent = 'Edit Listing';
+        hostListingModal.classList.add('active');
+      };
+
+      const closeHostListingModal = () => {
+        hostListingModal.classList.remove('active');
+      };
+      document.getElementById('host-listing-modal-close-btn').addEventListener('click', closeHostListingModal);
+      document.getElementById('host-listing-modal-cancel-btn').addEventListener('click', closeHostListingModal);
+
+      hostListingForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = hostListingIdInput.value;
+        const title = hostListingTitleInput.value;
+        const district = hostListingDistrictInput.value;
+        const price = parseFloat(hostListingPriceInput.value);
+        const beds = parseInt(hostListingBedsInput.value, 10);
+        const description = hostListingDescriptionInput.value;
+
+        const amenities = Array.from(document.querySelectorAll('.host-listing-amenity:checked')).map(cb => cb.value);
+        const payload = { title, district, nightly_price: price, bedrooms: beds, amenities, description };
+
+        try {
+          let endpoint = '/host/listings';
+          let method = 'POST';
+          if (id) {
+            endpoint = `/host/listings/${id}`;
+            method = 'PUT';
+          }
+
+          await TroreAPI.request(endpoint, {
+            method,
+            headers: {
+              'X-Trore-Actor-Id': currentHostId.toString()
+            },
+            body: payload
+          });
+
+          closeHostListingModal();
+          refreshHostData();
+          refreshAdminData();
+          fetchListings();
+        } catch (err) {
+          alert('Error saving listing: ' + err.message);
+        }
+      });
+
+      const hostBlackoutsModal = document.getElementById('host-blackouts-modal');
+      const hostBlackoutForm = document.getElementById('host-blackout-form');
+      const hostBlackoutStartInput = document.getElementById('host-blackout-start-input');
+      const hostBlackoutEndInput = document.getElementById('host-blackout-end-input');
+
+      window.openBlackoutModal = async function(id) {
+        const listing = hostListings.find(l => l.id === id);
+        if (!listing) return;
+
+        activeBlackoutListingId = id;
+        document.getElementById('host-blackouts-modal-subtitle').textContent = `Manage availability blocks for "${listing.title}"`;
+        hostBlackoutForm.reset();
+        
+        await refreshBlackoutList(id);
+        hostBlackoutsModal.classList.add('active');
+      };
+
+      async function refreshBlackoutList(listingId) {
+        try {
+          const listing = await TroreAPI.get(`/listings/${listingId}`);
+          const tbody = document.getElementById('host-blackouts-table-body');
+          const blocks = listing.availability || [];
+
+          if (blocks.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No blocks active.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = blocks.map(b => {
+            const isBooked = b.type === 'booked';
+            const actionButton = isBooked 
+              ? `<span style="color:var(--text-muted); font-size:0.8rem;">N/A (Booked)</span>`
+              : `<button class="btn btn-danger" style="padding: 2px 6px; font-size: 0.75rem;" onclick="deleteBlackout(${listingId}, ${b.id})">Remove</button>`;
+
+            return `
+              <tr>
+                <td>${b.start_date}</td>
+                <td>${b.end_date}</td>
+                <td><span class="badge ${isBooked ? 'badge-success' : 'badge-warning'}">${b.type}</span></td>
+                <td>${actionButton}</td>
+              </tr>
+            `;
+          }).join('');
+        } catch (err) {
+          console.error('Error refreshing blackouts list:', err);
+        }
+      }
+
+      window.deleteBlackout = async function(listingId, blockId) {
+        if (!confirm('Are you sure you want to remove this blackout block?')) return;
+        try {
+          await TroreAPI.delete(`/host/listings/${listingId}/blackouts/${blockId}`, {
+            headers: {
+              'X-Trore-Actor-Id': currentHostId.toString()
+            }
+          });
+          await refreshBlackoutList(listingId);
+          refreshAdminData();
+        } catch (err) {
+          alert('Error: ' + err.message);
+        }
+      };
+
+      hostBlackoutForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const start_date = hostBlackoutStartInput.value;
+        const end_date = hostBlackoutEndInput.value;
+
+        try {
+          await TroreAPI.post(`/host/listings/${activeBlackoutListingId}/blackouts`, { start_date, end_date }, {
+            headers: {
+              'X-Trore-Actor-Id': currentHostId.toString()
+            }
+          });
+
+          hostBlackoutForm.reset();
+          await refreshBlackoutList(activeBlackoutListingId);
+          refreshAdminData();
+        } catch (err) {
+          alert('Error: ' + err.message);
+        }
+      });
+
+      document.getElementById('host-blackouts-modal-close-btn').addEventListener('click', () => {
+        hostBlackoutsModal.classList.remove('active');
+      });
+
+      window.reviewBooking = async function(bookingId, status) {
+        if (!confirm(`Are you sure you want to mark this booking request as ${status}?`)) return;
+        try {
+          await TroreAPI.post(`/host/bookings/${bookingId}/review`, { status }, {
+            headers: {
+              'X-Trore-Actor-Id': currentHostId.toString()
+            }
+          });
+          refreshHostData();
+          refreshAdminData();
+        } catch (err) {
+          alert('Error: ' + err.message);
+        }
+      };
+
+      // Renter state management
+      let currentRenterId = 1;
+      let activeViewMode = 'grid'; // 'grid' or 'map'
+      let currentPage = 1;
+      let totalPages = 1;
+      let activeListingDetails = null; // Stores current opened details
+
+      const activeActorSelect = document.getElementById('active-actor-select');
+      activeActorSelect.addEventListener('change', (e) => {
+        currentRenterId = parseInt(e.target.value, 10);
+        // Refresh saved searches list
+        loadSavedSearches();
+      });
+
+      // Filter Inputs selectors
+      const inputQ = document.getElementById('filter-q');
+      const inputDistrict = document.getElementById('filter-district');
+      const inputMinPrice = document.getElementById('filter-min-price');
+      const inputMaxPrice = document.getElementById('filter-max-price');
+      const inputBedrooms = document.getElementById('filter-bedrooms');
+      const inputStartDate = document.getElementById('filter-start-date');
+      const inputEndDate = document.getElementById('filter-end-date');
+      const sortSelect = document.getElementById('sort-select');
+
+      // Helper to gather amenities array
+      function getSelectedAmenities() {
+        const checkboxes = document.querySelectorAll('.filter-amenity:checked');
+        return Array.from(checkboxes).map(c => c.value);
+      }
+
+      // Restore inputs from URL
+      function restoreStateFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        
+        if (params.has('q')) inputQ.value = params.get('q');
+        if (params.has('district')) inputDistrict.value = params.get('district');
+        if (params.has('min_price')) inputMinPrice.value = params.get('min_price');
+        if (params.has('max_price')) inputMaxPrice.value = params.get('max_price');
+        if (params.has('bedrooms')) inputBedrooms.value = params.get('bedrooms');
+        if (params.has('start_date')) inputStartDate.value = params.get('start_date');
+        if (params.has('end_date')) inputEndDate.value = params.get('end_date');
+        if (params.has('sort')) sortSelect.value = params.get('sort');
+        
+        if (params.has('page')) {
+          currentPage = parseInt(params.get('page'), 10) || 1;
+        } else {
+          currentPage = 1;
+        }
+
+        if (params.has('view')) {
+          activeViewMode = params.get('view');
+        } else {
+          activeViewMode = 'grid';
+        }
+
+        // Amenities restore
+        const amenitiesFromUrl = params.get('amenities');
+        document.querySelectorAll('.filter-amenity').forEach(c => {
+          c.checked = false;
+        });
+        if (amenitiesFromUrl) {
+          const amns = amenitiesFromUrl.split(',');
+          amns.forEach(val => {
+            const cb = document.querySelector(`.filter-amenity[value="${val}"]`);
+            if (cb) cb.checked = true;
+          });
+        }
+
+        // Update Toggle buttons
+        if (activeViewMode === 'map') {
+          document.getElementById('btn-view-map').classList.add('active');
+          document.getElementById('btn-view-grid').classList.remove('active');
+          document.getElementById('listings-grid-container').style.display = 'none';
+          document.getElementById('map-view-container').style.display = 'block';
+        } else {
+          document.getElementById('btn-view-grid').classList.add('active');
+          document.getElementById('btn-view-map').classList.remove('active');
+          document.getElementById('listings-grid-container').style.display = 'grid';
+          document.getElementById('map-view-container').style.display = 'none';
+        }
+      }
+
+      // Sync State to URL
+      function updateURLFromState() {
+        const queryParams = new URLSearchParams();
+        
+        if (inputQ.value.trim()) queryParams.set('q', inputQ.value.trim());
+        if (inputDistrict.value) queryParams.set('district', inputDistrict.value);
+        if (inputMinPrice.value) queryParams.set('min_price', inputMinPrice.value);
+        if (inputMaxPrice.value) queryParams.set('max_price', inputMaxPrice.value);
+        if (inputBedrooms.value) queryParams.set('bedrooms', inputBedrooms.value);
+        if (inputStartDate.value) queryParams.set('start_date', inputStartDate.value);
+        if (inputEndDate.value) queryParams.set('end_date', inputEndDate.value);
+        if (sortSelect.value && sortSelect.value !== 'relevance') queryParams.set('sort', sortSelect.value);
+        
+        const selectedAmns = getSelectedAmenities();
+        if (selectedAmns.length > 0) queryParams.set('amenities', selectedAmns.join(','));
+        
+        if (currentPage > 1) queryParams.set('page', currentPage);
+        if (activeViewMode !== 'grid') queryParams.set('view', activeViewMode);
+
+        const newURL = queryParams.toString() ? `?${queryParams.toString()}` : window.location.pathname;
+        window.history.pushState(null, '', newURL);
+      }
+
+      // Fetch active listings
+      async function fetchListings() {
+        document.getElementById('results-count-text').textContent = 'Loading properties...';
+        
+        // Build query endpoints
+        const queryParams = new URLSearchParams();
+        if (inputQ.value.trim()) queryParams.set('q', inputQ.value.trim());
+        if (inputDistrict.value) queryParams.set('district', inputDistrict.value);
+        if (inputMinPrice.value) queryParams.set('min_price', inputMinPrice.value);
+        if (inputMaxPrice.value) queryParams.set('max_price', inputMaxPrice.value);
+        if (inputBedrooms.value) queryParams.set('bedrooms', inputBedrooms.value);
+        if (inputStartDate.value) queryParams.set('start_date', inputStartDate.value);
+        if (inputEndDate.value) queryParams.set('end_date', inputEndDate.value);
+        if (sortSelect.value) queryParams.set('sort', sortSelect.value);
+        
+        const selectedAmns = getSelectedAmenities();
+        if (selectedAmns.length > 0) queryParams.set('amenities', selectedAmns.join(','));
+        
+        queryParams.set('page', currentPage);
+        queryParams.set('limit', 6); // Set a reasonable page limit for UI
+
+        try {
+          const resData = await TroreAPI.get(`/listings/search?${queryParams.toString()}`);
+          renderListingsView(resData.listings);
+          updatePaginationUI(resData.pagination);
+        } catch (err) {
+          console.error('Error searching listings:', err);
+          document.getElementById('results-count-text').textContent = 'Error loading listings.';
+        }
+      }
+
+      function renderListingsView(listings) {
+        const grid = document.getElementById('listings-grid-container');
+        const countText = document.getElementById('results-count-text');
+        
+        countText.textContent = `Showing ${listings.length} active lodging properties`;
+
+        if (listings.length === 0) {
+          grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No lodging matches found. Try modifying your filters.</div>';
+          renderMapPins([]);
+          return;
+        }
+
+        // Render Grid cards
+        grid.innerHTML = listings.map(l => {
+          let icon = '🏡';
+          if (l.title.toLowerCase().includes('loft')) icon = '🏢';
+          if (l.title.toLowerCase().includes('villa')) icon = '🏰';
+          if (l.title.toLowerCase().includes('cabin')) icon = '🌲';
+
+          return `
+            <div class="listing-card" onclick="openDetailsModal(${l.id})">
+              <div class="card-img-placeholder">
+                ${icon}
+                <span class="badge badge-success availability-badge">Available</span>
+                <span class="price-tag">$${l.nightly_price.toFixed(0)} / night</span>
+              </div>
+              <div class="card-body">
+                <div class="card-header-row">
+                  <h3 class="card-listing-title">${escapeHtml(l.title)}</h3>
+                  <span class="card-rating">★ ${l.rating.toFixed(1)}</span>
+                </div>
+                <div class="card-meta">
+                  <span>📍 ${escapeHtml(l.district)}</span>
+                  <span>🛌 ${l.bedrooms} Bed${l.bedrooms > 1 ? 's' : ''}</span>
+                </div>
+                <p class="card-desc">${escapeHtml(l.description)}</p>
+                <div class="card-amenities">
+                  ${l.amenities ? l.amenities.map(a => `<span class="badge" style="background-color:rgba(255,255,255,0.06); font-size:0.7rem;">${escapeHtml(a)}</span>`).join('') : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Also render pins on map view
+        renderMapPins(listings);
+      }
+
+      // Mock Map pins placement
+      function renderMapPins(listings) {
+        const mapBg = document.getElementById('map-grid-bg');
+        // Clear previous pins (keep water)
+        const pins = mapBg.querySelectorAll('.map-marker');
+        pins.forEach(p => p.remove());
+
+        if (listings.length === 0) return;
+
+        // Position coordinates based on district to make it consistent
+        const coordinates = {
+          'Downtown': { top: '35%', left: '50%' },
+          'Beachside': { top: '65%', left: '25%' },
+          'Westside': { top: '45%', left: '75%' },
+          'Northside': { top: '15%', left: '35%' }
+        };
+
+        listings.forEach((l, idx) => {
+          const marker = document.createElement('div');
+          marker.className = 'map-marker';
+          
+          // Spread pins slightly if they are in the same district
+          const baseCoord = coordinates[l.district] || { top: '50%', left: '50%' };
+          const topVal = parseFloat(baseCoord.top) + (idx * 3 - 5);
+          const leftVal = parseFloat(baseCoord.left) + (idx * 5 - 10);
+          
+          marker.style.top = `${topVal}%`;
+          marker.style.left = `${leftVal}%`;
+          marker.textContent = `$${l.nightly_price.toFixed(0)}`;
+          marker.onclick = (e) => {
+            e.stopPropagation();
+            openDetailsModal(l.id);
+          };
+
+          marker.onmouseenter = () => {
+            const toast = document.getElementById('map-info-toast');
+            toast.textContent = `${l.title} - $${l.nightly_price}/night`;
+            toast.style.display = 'block';
+          };
+
+          marker.onmouseleave = () => {
+            document.getElementById('map-info-toast').style.display = 'none';
+          };
+
+          mapBg.appendChild(marker);
+        });
+      }
+
+      function updatePaginationUI(pageInfo) {
+        currentPage = pageInfo.page;
+        totalPages = pageInfo.pages || 1;
+
+        document.getElementById('pagination-info-text').textContent = `Page ${currentPage} of ${totalPages}`;
+        document.getElementById('btn-prev-page').disabled = currentPage <= 1;
+        document.getElementById('btn-next-page').disabled = currentPage >= totalPages;
+      }
+
+      // Filter trigger handlers
+      document.getElementById('btn-apply-filters').addEventListener('click', () => {
+        currentPage = 1;
+        updateURLFromState();
+        fetchListings();
+      });
+
+      document.getElementById('btn-clear-filters').addEventListener('click', () => {
+        inputQ.value = '';
+        inputDistrict.value = '';
+        inputMinPrice.value = '';
+        inputMaxPrice.value = '';
+        inputBedrooms.value = '';
+        inputStartDate.value = '';
+        inputEndDate.value = '';
+        document.querySelectorAll('.filter-amenity').forEach(c => c.checked = false);
+        currentPage = 1;
+        updateURLFromState();
+        fetchListings();
+      });
+
+      sortSelect.addEventListener('change', () => {
+        updateURLFromState();
+        fetchListings();
+      });
+
+      // View Mode Toggle button events
+      document.getElementById('btn-view-grid').addEventListener('click', () => {
+        activeViewMode = 'grid';
+        document.getElementById('btn-view-grid').classList.add('active');
+        document.getElementById('btn-view-map').classList.remove('active');
+        document.getElementById('listings-grid-container').style.display = 'grid';
+        document.getElementById('map-view-container').style.display = 'none';
+        updateURLFromState();
+      });
+
+      document.getElementById('btn-view-map').addEventListener('click', () => {
+        activeViewMode = 'map';
+        document.getElementById('btn-view-map').classList.add('active');
+        document.getElementById('btn-view-grid').classList.remove('active');
+        document.getElementById('listings-grid-container').style.display = 'none';
+        document.getElementById('map-view-container').style.display = 'block';
+        updateURLFromState();
+      });
+
+      // Pagination clicks
+      document.getElementById('btn-prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          updateURLFromState();
+          fetchListings();
+        }
+      });
+
+      document.getElementById('btn-next-page').addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          updateURLFromState();
+          fetchListings();
+        }
+      });
+
+      // Reopen search parameters when history pops
+      window.addEventListener('popstate', () => {
+        restoreStateFromURL();
+        fetchListings();
+      });
+
+
+      // --- LISTING DETAIL MODAL FLOW ---
+      const detailModal = document.getElementById('detail-modal');
+      const closeBtn = document.getElementById('modal-close-btn');
+      
+      closeBtn.addEventListener('click', () => {
+        detailModal.classList.remove('active');
+        activeListingDetails = null;
+      });
+
+      // Global function bound to window so onclick works
+      window.openDetailsModal = async function(id) {
+        try {
+          const listing = await TroreAPI.get(`/listings/${id}`);
+          activeListingDetails = listing;
+          
+          // Populate details
+          document.getElementById('modal-title').textContent = listing.title;
+          document.getElementById('modal-district').textContent = listing.district;
+          document.getElementById('modal-rating').textContent = `★ ${listing.rating.toFixed(1)}`;
+          document.getElementById('modal-description').textContent = listing.description;
+          document.getElementById('modal-host-name').textContent = listing.host_name;
+          document.getElementById('modal-beds-count').textContent = `🛌 ${listing.bedrooms} Bedroom${listing.bedrooms > 1 ? 's' : ''} &bull; $${listing.nightly_price.toFixed(0)}/night`;
+
+          // Hero icon change
+          let icon = '🏡';
+          if (listing.title.toLowerCase().includes('loft')) icon = '🏢';
+          if (listing.title.toLowerCase().includes('villa')) icon = '🏰';
+          if (listing.title.toLowerCase().includes('cabin')) icon = '🌲';
+          document.getElementById('modal-hero-icon').textContent = icon;
+
+          // Amenities
+          const amnsDiv = document.getElementById('modal-amenities');
+          amnsDiv.innerHTML = listing.amenities.map(a => `<span class="badge badge-primary">${escapeHtml(a)}</span>`).join('');
+
+          // Blackouts list
+          const blist = document.getElementById('modal-blackout-list');
+          if (!listing.availability || listing.availability.length === 0) {
+            blist.innerHTML = '<div style="color:var(--text-muted); font-size:0.8rem;">Fully open calendar - No blackout ranges.</div>';
+          } else {
+            blist.innerHTML = listing.availability.map(b => `
+              <div class="blackout-item">
+                <span>📅 ${b.start_date} to ${b.end_date}</span>
+                <span class="badge ${b.type === 'blackout' ? 'badge-danger' : 'badge-warning'} blackout-tag">${escapeHtml(b.type)}</span>
+              </div>
+            `).join('');
+          }
+
+          // Reset quote and booking outputs
+          document.getElementById('booking-start-date').value = '';
+          document.getElementById('booking-end-date').value = '';
+          document.getElementById('quote-error-msg').style.display = 'none';
+          document.getElementById('quote-result-box').style.display = 'none';
+          document.getElementById('booking-alert-msg').style.display = 'none';
+          document.getElementById('btn-submit-booking').disabled = true;
+
+          // Open Modal
+          detailModal.classList.add('active');
+        } catch (err) {
+          console.error('Error fetching listing details:', err);
+          alert('Could not retrieve listing details.');
+        }
+      };
+
+      // Quote Calculator inputs
+      const bookingStartInput = document.getElementById('booking-start-date');
+      const bookingEndInput = document.getElementById('booking-end-date');
+      const quoteError = document.getElementById('quote-error-msg');
+      const quoteResult = document.getElementById('quote-result-box');
+      const btnBook = document.getElementById('btn-submit-booking');
+
+      function updateEstimatedQuote() {
+        if (!activeListingDetails) return;
+        
+        const startVal = bookingStartInput.value;
+        const endVal = bookingEndInput.value;
+        
+        if (!startVal || !endVal) {
+          quoteError.style.display = 'none';
+          quoteResult.style.display = 'none';
+          btnBook.disabled = true;
+          return;
+        }
+
+        // Calculate nights and price
+        const quote = calculateQuoteClient(activeListingDetails.nightly_price, startVal, endVal);
+        
+        if (quote.error) {
+          quoteError.textContent = quote.error;
+          quoteError.style.display = 'block';
+          quoteResult.style.display = 'none';
+          btnBook.disabled = true;
+          return;
+        }
+
+        // Check availability block overlaps locally
+        let isOverlapped = false;
+        if (activeListingDetails.availability) {
+          for (const block of activeListingDetails.availability) {
+            // Overlap logic: startVal < block.end_date AND endVal > block.start_date
+            if (startVal < block.end_date && endVal > block.start_date) {
+              isOverlapped = true;
+              break;
+            }
+          }
+        }
+
+        if (isOverlapped) {
+          quoteError.textContent = 'Selected dates are unavailable (overlaps with blackout/booking)';
+          quoteError.style.display = 'block';
+          quoteResult.style.display = 'none';
+          btnBook.disabled = true;
+          return;
+        }
+
+        // Valid Quote!
+        quoteError.style.display = 'none';
+        
+        document.getElementById('quote-nights-text').textContent = `${quote.nights} night${quote.nights > 1 ? 's' : ''} * $${quote.nightlyPrice.toFixed(2)}`;
+        document.getElementById('quote-subtotal-text').textContent = `$${quote.totalPrice.toFixed(2)}`;
+        document.getElementById('quote-total-price-text').textContent = `$${quote.totalPrice.toFixed(2)}`;
+        
+        quoteResult.style.display = 'block';
+        btnBook.disabled = false;
+      }
+
+      bookingStartInput.addEventListener('change', updateEstimatedQuote);
+      bookingEndInput.addEventListener('change', updateEstimatedQuote);
+
+      // Submit Booking Form
+      const bookingForm = document.getElementById('booking-submission-form');
+      bookingForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        if (!activeListingDetails) return;
+
+        const bookingAlert = document.getElementById('booking-alert-msg');
+        bookingAlert.style.display = 'none';
+
+        const payload = {
+          listing_id: activeListingDetails.id,
+          renter_id: currentRenterId,
+          start_date: bookingStartInput.value,
+          end_date: bookingEndInput.value,
+          guest_name: document.getElementById('booking-guest-name').value,
+          guest_email: document.getElementById('booking-guest-email').value
+        };
+
+        try {
+          const res = await TroreAPI.post('/bookings', payload);
+          
+          bookingAlert.className = 'alert-message alert-success';
+          bookingAlert.textContent = `Success! Booking request #${res.id} submitted for approval.`;
+          bookingAlert.style.display = 'block';
+          
+          // Disable booking fields
+          btnBook.disabled = true;
+          
+          // Refresh listing details (so new booked slot is displayed if it blocks calendar)
+          // Wait! For pending booking request it doesn't block calendar yet, only approved bookings block it. But let's refresh admin audit logs!
+          refreshAdminData();
+        } catch (err) {
+          bookingAlert.className = 'alert-message alert-danger';
+          bookingAlert.textContent = err.message || 'Booking submission failed.';
+          bookingAlert.style.display = 'block';
+        }
+      });
+
+
+      // --- SAVED SEARCHES MANAGEMENT ---
+      async function loadSavedSearches() {
+        const container = document.getElementById('saved-searches-container');
+        try {
+          const list = await TroreAPI.get(`/saved-searches?renter_id=${currentRenterId}`);
+          
+          if (list.length === 0) {
+            container.innerHTML = '<div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding: 10px 0;">No saved searches.</div>';
+            return;
+          }
+
+          container.innerHTML = list.map(s => {
+            const dateStr = new Date(s.created_at).toLocaleDateString();
+            return `
+              <div class="saved-search-item" onclick="restoreSavedSearch(${escapeHtml(JSON.stringify(s.query_params))})">
+                <div>
+                  <div class="saved-search-name">${escapeHtml(s.name)}</div>
+                  <div class="saved-search-date">Saved on ${dateStr}</div>
+                </div>
+                <span class="icon" style="color:var(--accent-secondary); font-size:0.8rem;">⚡ Apply</span>
+              </div>
+            `;
+          }).join('');
+        } catch (err) {
+          console.error('Error fetching saved searches:', err);
+        }
+      }
+
+      window.restoreSavedSearch = function(queryParams) {
+        // Reset filter inputs
+        inputQ.value = queryParams.q || '';
+        inputDistrict.value = queryParams.district || '';
+        inputMinPrice.value = queryParams.min_price || '';
+        inputMaxPrice.value = queryParams.max_price || '';
+        inputBedrooms.value = queryParams.bedrooms || '';
+        inputStartDate.value = queryParams.start_date || '';
+        inputEndDate.value = queryParams.end_date || '';
+        
+        // Reset amenities checkboxes
+        const urlAmns = queryParams.amenities || [];
+        document.querySelectorAll('.filter-amenity').forEach(c => {
+          c.checked = urlAmns.includes(c.value);
+        });
+
+        currentPage = 1;
+        updateURLFromState();
+        fetchListings();
+      };
+
+      document.getElementById('btn-save-search').addEventListener('click', async () => {
+        const searchName = prompt('Enter a name for this search configuration:', `Search - ${new Date().toLocaleDateString()}`);
+        if (searchName === null) return; // cancelled
+
+        const activeFilters = {};
+        if (inputQ.value.trim()) activeFilters.q = inputQ.value.trim();
+        if (inputDistrict.value) activeFilters.district = inputDistrict.value;
+        if (inputMinPrice.value) activeFilters.min_price = parseFloat(inputMinPrice.value);
+        if (inputMaxPrice.value) activeFilters.max_price = parseFloat(inputMaxPrice.value);
+        if (inputBedrooms.value) activeFilters.bedrooms = parseInt(inputBedrooms.value, 10);
+        if (inputStartDate.value) activeFilters.start_date = inputStartDate.value;
+        if (inputEndDate.value) activeFilters.end_date = inputEndDate.value;
+        
+        const selectedAmns = getSelectedAmenities();
+        if (selectedAmns.length > 0) activeFilters.amenities = selectedAmns;
+
+        const payload = {
+          renter_id: currentRenterId,
+          name: searchName || `Search`,
+          query_params: activeFilters
+        };
+
+        try {
+          await TroreAPI.post('/saved-searches', payload);
+          loadSavedSearches();
+          refreshAdminData();
+          alert('Search configuration saved successfully!');
+        } catch (err) {
+          alert('Failed to save search configuration.');
+        }
+      });
+
+
+      // --- ADMIN PANEL CONTROLS & EXPLORER ---
+      const consoleOutput = document.getElementById('console-output');
+      const consoleStatus = document.getElementById('console-status');
+
+      function logToConsole(message, type = 'info', statusText = 'Done') {
+        consoleOutput.textContent = typeof message === 'object' 
+          ? JSON.stringify(message, null, 2) 
+          : message;
+        
+        consoleOutput.className = 'console ' + type;
+        consoleStatus.textContent = statusText;
+        consoleStatus.style.color = type === 'error' ? 'var(--accent-danger)' : (type === 'success' ? 'var(--accent-success)' : 'var(--text-secondary)');
+      }
+
+      // Tab Switcher Logic inside Admin Explorer
+      const tabs = document.querySelectorAll('.tab-btn');
+      const contents = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+      });
+
+      // API Call buttons
+      document.getElementById('btn-health').addEventListener('click', async () => {
+        logToConsole('Requesting GET /api/health...', 'info', 'Loading');
+        try {
+          const res = await fetch('/api/health');
+          const data = await res.json();
+          logToConsole({
+            url: res.url,
+            status: res.status,
+            statusText: res.statusText,
+            headers: [...res.headers.entries()],
+            body: data
+          }, 'success', '200 OK');
+        } catch (err) {
+          logToConsole(err.message, 'error', 'Error');
+        }
+      });
+
+      document.getElementById('btn-unauthorized').addEventListener('click', async () => {
+        logToConsole('Requesting GET /api/protected/listings (WITHOUT X-Trore-Auth header)...', 'info', 'Loading');
+        try {
+          const res = await fetch('/api/protected/listings');
+          let data;
+          try {
+            data = await res.json();
+          } catch (_) {
+            data = await res.text();
+          }
+          
+          if (res.status === 401) {
+            logToConsole({
+              url: res.url,
+              status: res.status,
+              statusText: res.statusText,
+              message: 'Blocked successfully by middleware!',
+              response: data
+            }, 'error', '401 Unauthorized');
+          } else {
+            logToConsole({
+              url: res.url,
+              status: res.status,
+              statusText: res.statusText,
+              body: data
+            }, 'info', res.status + ' OK');
+          }
+        } catch (err) {
+          logToConsole(err.message, 'error', 'Error');
+        }
+      });
+
+      document.getElementById('btn-authorized').addEventListener('click', async () => {
+        logToConsole('Requesting GET /api/protected/listings (WITH TroreAPI Client)...', 'info', 'Loading');
+        try {
+          const data = await TroreAPI.get('/protected/listings');
+          logToConsole({
+            client: 'TroreAPI',
+            method: 'GET',
+            endpoint: '/protected/listings',
+            header_attached: 'X-Trore-Auth: v3-4-case-study',
+            response: data
+          }, 'success', '200 OK');
+        } catch (err) {
+          logToConsole({
+            message: err.message,
+            status: err.status,
+            details: err.details
+          }, 'error', err.status ? `${err.status} Error` : 'Error');
+        }
+      });
+
+      document.getElementById('btn-reset').addEventListener('click', async () => {
+        if (!confirm('Are you sure you want to reset and re-seed the SQLite database?')) return;
+        logToConsole('Requesting POST /api/protected/reset-db...', 'info', 'Loading');
+        try {
+          const res = await TroreAPI.post('/protected/reset-db');
+          logToConsole(res, 'success', '200 OK');
+          refreshAdminData();
+          fetchListings();
+        } catch (err) {
+          logToConsole({
+            message: err.message,
+            status: err.status,
+            details: err.details
+          }, 'error', err.status ? `${err.status} Error` : 'Error');
+        }
+      });
+
+      document.getElementById('btn-refresh').addEventListener('click', () => {
+        refreshAdminData();
+      });
+
+      async function refreshAdminData() {
+        try {
+          const listings = await TroreAPI.get('/protected/listings');
+          renderAdminListings(listings);
+
+          const hosts = await TroreAPI.get('/protected/hosts');
+          renderAdminHosts(hosts);
+
+          const audits = await TroreAPI.get('/protected/audit-logs');
+          renderAdminAudits(audits);
+
+          const renters = await TroreAPI.get('/protected/renters');
+          renderAdminRenters(renters);
+        } catch (err) {
+          console.error('Error refreshing admin dashboard:', err);
+        }
+      }
+
+      function renderAdminListings(listings) {
+        const tbody = document.getElementById('listings-table-body');
+        if (!listings || listings.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No listings.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = listings.map(l => `
+          <tr>
+            <td>${l.id}</td>
+            <td style="font-weight: 600;">${escapeHtml(l.title)}</td>
+            <td><span class="badge badge-info">${escapeHtml(l.district)}</span></td>
+            <td style="font-family: monospace; font-weight: 700;">$${l.nightly_price.toFixed(2)}</td>
+            <td>${l.bedrooms}</td>
+            <td>${l.amenities ? l.amenities.map(a => `<span class="badge" style="background-color:rgba(255,255,255,0.05); margin-right:4px;">${escapeHtml(a)}</span>`).join('') : ''}</td>
+            <td style="color: var(--accent-warning); font-weight: 700;">★ ${l.rating.toFixed(1)}</td>
+            <td>
+              <span class="badge ${l.is_active ? 'badge-success' : 'badge-danger'}">
+                ${l.is_active ? 'Active' : 'Inactive'}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function renderAdminHosts(hosts) {
+        const tbody = document.getElementById('hosts-table-body');
+        if (!hosts || hosts.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: var(--text-muted);">No hosts.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = hosts.map(h => `
+          <tr>
+            <td>${h.id}</td>
+            <td style="font-weight: 600;">${escapeHtml(h.name)}</td>
+          </tr>
+        `).join('');
+      }
+
+      function renderAdminRenters(renters) {
+        const tbody = document.getElementById('renters-table-body');
+        if (!renters || renters.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: var(--text-muted);">No renters.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = renters.map(r => `
+          <tr>
+            <td>${r.id}</td>
+            <td style="font-weight: 600;">${escapeHtml(r.name)}</td>
+          </tr>
+        `).join('');
+      }
+
+      function renderAdminAudits(audits) {
+        const tbody = document.getElementById('audits-table-body');
+        if (!audits || audits.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No audit logs.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = audits.map(a => {
+          let badgeClass = 'badge-primary';
+          if (a.action_type.includes('create')) badgeClass = 'badge-success';
+          if (a.action_type.includes('approve')) badgeClass = 'badge-success';
+          if (a.action_type.includes('decline') || a.action_type.includes('delete')) badgeClass = 'badge-danger';
+          if (a.action_type.includes('update') || a.action_type.includes('edit')) badgeClass = 'badge-warning';
+          
+          return `
+            <tr>
+              <td style="font-family: monospace; font-size: 0.8rem; white-space: nowrap;">${new Date(a.timestamp).toLocaleTimeString()}</td>
+              <td><span class="badge" style="background-color: rgba(255,255,255,0.05);">${escapeHtml(a.actor_name)} (${escapeHtml(a.actor_type)})</span></td>
+              <td><span class="badge ${badgeClass}">${escapeHtml(a.action_type)}</span></td>
+              <td><span class="badge badge-info">${escapeHtml(a.entity_type)} #${a.entity_id}</span></td>
+              <td>${escapeHtml(a.summary)}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        if (typeof str !== 'string') return String(str);
+        return str.replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;')
+                  .replace(/'/g, '&#039;');
+      }
+
+      // Initialize page
+      restoreStateFromURL();
+      fetchListings();
+      loadSavedSearches();
+    });
+  </script>
+</body>
+</html>

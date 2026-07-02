@@ -1,0 +1,13 @@
+{
+  "runtime": "antigravity",
+  "event": "PreToolUse",
+  "tool_name": "write_to_file",
+  "tool_input": {
+    "TargetFile": "src/api/auth.py"
+  },
+  "action": "write",
+  "session_id": "session-xyz-789",
+  "file_paths": [
+    "src/api/auth.py"
+  ]
+}

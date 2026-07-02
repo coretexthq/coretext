@@ -1,0 +1,5 @@
+audit_criterion,status,details
+role-to-namespace-mapping,Pass,Child role coretext.backend.db.postgres maps directly to scope namespace
+write-boundary-enforcement,Pass,Subagent only modifies files in its namespace
+parent-read-child-summary,Pass,Parent summary reviews child summaries before promotion
+no-hierarchy-skipping,Pass,All parent-child links do not skip intermediate scopes

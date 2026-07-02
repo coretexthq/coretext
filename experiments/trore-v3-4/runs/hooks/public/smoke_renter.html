@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trore - Renter Portal Smoke Test & Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: #fff;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #10b981, #6366f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: #9ca3af;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .test-suite-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+    .test-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .test-status {
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .status-pending { background: #fbbf24; color: #78350f; }
+    .status-pass { background: #10b981; color: #064e3b; }
+    .status-fail { background: #ef4444; color: #7f1d1d; }
+    
+    .step-content h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .step-content p {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+    
+    .btn {
+      background: #10b981;
+      border: none;
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #059669;
+    }
+    
+    ol, ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #d1d5db;
+      line-height: 1.6;
+    }
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #6366f1;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Renter Portal Smoke Test & Verification</h1>
+  <p class="subtitle">This page contains automated frontend API checks and documented manual steps to verify that all renter functionalities conform to the Trore v3.4 specification.</p>
+
+  <div class="card">
+    <div class="test-suite-header">
+      <h2>Automated Frontend API Verification</h2>
+      <button class="btn" onclick="runAutomatedTests()">Run Automated Checks</button>
+    </div>
+    
+    <div id="testStepsContainer">
+      <div class="test-step" id="step-1">
+        <span class="test-status status-pending" id="status-1">Pending</span>
+        <div class="step-content">
+          <h4>1. Database Schema and Server Connection</h4>
+          <p>Sends request to <code>/api/health</code> to ensure SQLite and Express server are listening and connected.</p>
+        </div>
+      </div>
+      
+      <div class="test-step" id="step-2">
+        <span class="test-status status-pending" id="status-2">Pending</span>
+        <div class="step-content">
+          <h4>2. Trore Authentication Headers Verification</h4>
+          <p>Verifies backend rejects calls without the <code>X-Trore-Auth: v3-4-case-study</code> header, and succeeds with it.</p>
+        </div>
+      </div>
+
+      <div class="test-step" id="step-3">
+        <span class="test-status status-pending" id="status-3">Pending</span>
+        <div class="step-content">
+          <h4>3. Listing Filtering, Sorting & URL Param Sync</h4>
+          <p>Verifies listing search returns filtered results and synchronizes correctly with the search queries.</p>
+        </div>
+      </div>
+
+      <div class="test-step" id="step-4">
+        <span class="test-status status-pending" id="status-4">Pending</span>
+        <div class="step-content">
+          <h4>4. Saved Searches Lifecycle</h4>
+          <p>Verifies creating, persisting, and retrieving saved searches for the active actor renter via the database.</p>
+        </div>
+      </div>
+
+      <div class="test-step" id="step-5">
+        <span class="test-status status-pending" id="status-5">Pending</span>
+        <div class="step-content">
+          <h4>5. Booking Calendar Conflicts & Validation</h4>
+          <p>Verifies that booking requests validate date overlap conflicts (blackouts and approved bookings) and reject invalid date ranges.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Manual Verification Walkthrough</h2>
+    <p class="subtitle" style="margin-bottom: 1rem;">To verify the interactive user experience in the main portal, follow these manual test cases:</p>
+    
+    <ol>
+      <li>
+        <strong>URL-Driven Filter State:</strong>
+        <ul>
+          <li>Go to the <a href="/" class="back-link" style="margin-top:0;">Main Portal Page</a>.</li>
+          <li>Enter a query in text search, choose a district (e.g. <em>Downtown</em>), check some amenities, and click a sorting option.</li>
+          <li>Look at your browser's address bar. Notice that the URL query parameters automatically update (e.g., <code>?q=Modern&amp;district=Downtown&amp;amenities=pool...</code>).</li>
+          <li>Copy the URL, open a new browser tab, and paste it. Verify that the filters are pre-populated and the exact same listings are loaded.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Saved Searches Integration:</strong>
+        <ul>
+          <li>Select a renter (e.g., <em>Dave Jones</em>) in the renter selector dropdown.</li>
+          <li>Modify filters, then click the <strong>Save Search</strong> button. Verify a success toast notification appears.</li>
+          <li>Look in the <strong>Saved Searches</strong> panel. Verify your saved search is now listed under Dave Jones' searches.</li>
+          <li>Change all filter values or reset filters, then click the <strong>Load</strong> button on the saved search. Verify the URL updates and the search filters are fully restored.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Price Quote Calculator & Booking Validation:</strong>
+        <ul>
+          <li>Click a listing card (e.g., <em>Sleek Modern Loft in Downtown</em>) to open the details modal.</li>
+          <li>Notice the list of blackout dates (e.g., July 10 to July 15) and approved bookings (e.g., July 1 to July 5).</li>
+          <li>Enter arrival as <code>2026-07-06</code> and departure as <code>2026-07-09</code>. Verify the price quote calculator appears showing 3 nights and calculating the total price.</li>
+          <li>Fill in name/email and click <strong>Submit Booking Request</strong>. Verify a green success alert shows with your request ID.</li>
+          <li>Now close the modal and click it again. Verify the new dates now appear under "Confirmed Bookings".</li>
+          <li>Try submitting a booking for overlapping dates (e.g. July 2 to July 4). Verify the submission fails with a clear validation error about overlapping bookings.</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <a href="/" class="back-link">← Back to Trore Lodgings Renter Portal</a>
+
+  <script>
+    const AUTH_HEADER = 'v3-4-case-study';
+
+    function setStepStatus(stepNum, status, message = '') {
+      const el = document.getElementById(`status-${stepNum}`);
+      el.className = `test-status status-${status}`;
+      el.textContent = status === 'pass' ? 'Passed' : status === 'fail' ? 'Failed' : 'Pending';
+      if (message) {
+        const step = document.getElementById(`step-${stepNum}`);
+        const p = step.querySelector('p');
+        p.innerHTML = message;
+      }
+    }
+
+    async function runAutomatedTests() {
+      // RESET ALL
+      for (let i = 1; i <= 5; i++) {
+        setStepStatus(i, 'pending');
+      }
+
+      // Step 1: Health Check
+      try {
+        const res = await fetch('/api/health');
+        const data = await res.json();
+        if (res.ok && data.status === 'ok') {
+          setStepStatus(1, 'pass', `✅ Server connection is healthy. Database status: <strong>${data.database}</strong>.`);
+        } else {
+          setStepStatus(1, 'fail', `❌ Health check returned error: ${data.message || 'Unknown'}`);
+          return;
+        }
+      } catch (err) {
+        setStepStatus(1, 'fail', `❌ Failed connecting to health endpoint: ${err.message}`);
+        return;
+      }
+
+      // Step 2: Auth Check
+      try {
+        const noAuth = await fetch('/api/listings');
+        const wrongAuth = await fetch('/api/listings', { headers: { 'X-Trore-Auth': 'bad-token' } });
+        const goodAuth = await fetch('/api/listings', { headers: { 'X-Trore-Auth': AUTH_HEADER } });
+
+        if (noAuth.status === 401 && wrongAuth.status === 401 && goodAuth.status === 200) {
+          setStepStatus(2, 'pass', `✅ Correctly rejects missing (status <strong>${noAuth.status}</strong>) or bad credentials (status <strong>${wrongAuth.status}</strong>), and accepts authentic requests.`);
+        } else {
+          setStepStatus(2, 'fail', `❌ Authentication middleware not enforcing header correctly.`);
+        }
+      } catch (err) {
+        setStepStatus(2, 'fail', `❌ Auth check failed: ${err.message}`);
+      }
+
+      // Step 3: Listings Filtering & URL Param
+      try {
+        const url = `/api/listings?district=Downtown&bedrooms=2&minPrice=100`;
+        const res = await fetch(url, { headers: { 'X-Trore-Auth': AUTH_HEADER } });
+        const data = await res.json();
+        
+        if (res.ok && data.listings.length === 1 && data.listings[0].district === 'Downtown') {
+          setStepStatus(3, 'pass', `✅ Successfully filtered active listings by district, bedrooms, price. Found: <strong>${data.listings[0].title}</strong>.`);
+        } else {
+          setStepStatus(3, 'fail', `❌ Filtering failed. Expected 1 Downtown loft, got: ${data.listings ? data.listings.length : 0}`);
+        }
+      } catch (err) {
+        setStepStatus(3, 'fail', `❌ Filter verification failed: ${err.message}`);
+      }
+
+      // Step 4: Saved Searches
+      try {
+        const renter = 'Smoke Renter ' + Date.now();
+        const payload = {
+          renter_name: renter,
+          filters: { q: 'loft', district: 'Downtown' }
+        };
+
+        const postRes = await fetch('/api/saved-searches', {
+          method: 'POST',
+          headers: { 'X-Trore-Auth': AUTH_HEADER, 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const getRes = await fetch(`/api/saved-searches?renter_name=${encodeURIComponent(renter)}`, {
+          headers: { 'X-Trore-Auth': AUTH_HEADER }
+        });
+        const getJson = await getRes.json();
+
+        if (postRes.status === 201 && getJson.length === 1 && getJson[0].filters.district === 'Downtown') {
+          setStepStatus(4, 'pass', `✅ Saved search successfully created (status <strong>201</strong>) and retrieved for <em>${renter}</em>.`);
+        } else {
+          setStepStatus(4, 'fail', `❌ Saved search persistence did not work as expected.`);
+        }
+      } catch (err) {
+        setStepStatus(4, 'fail', `❌ Saved search failed: ${err.message}`);
+      }
+
+      // Step 5: Booking availability validation
+      try {
+        // Attempt booking range that overlaps with approved booking for Loft (July 1 to 5)
+        const overlapRes = await fetch('/api/booking-requests', {
+          method: 'POST',
+          headers: { 'X-Trore-Auth': AUTH_HEADER, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            listing_id: 1, // Loft ID
+            renter_name: 'Smoke tester',
+            renter_email: 'smoke@test.com',
+            start_date: '2026-07-02',
+            end_date: '2026-07-04'
+          })
+        });
+
+        const overlapData = await overlapRes.json();
+
+        if (overlapRes.status === 400 && overlapData.message.includes('already booked')) {
+          setStepStatus(5, 'pass', `✅ Booking request overlapping approved bookings correctly rejected (status <strong>400</strong>) with message: <em>"${overlapData.message}"</em>.`);
+        } else {
+          setStepStatus(5, 'fail', `❌ Calendar booking conflict verification failed (status: ${overlapRes.status}).`);
+        }
+      } catch (err) {
+        setStepStatus(5, 'fail', `❌ Booking validation failed: ${err.message}`);
+      }
+    }
+  </script>
+</body>
+</html>

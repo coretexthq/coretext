@@ -1,0 +1,4 @@
+criterion,status,details
+telemetry-file-creation,Pass,Telemetry file session_conv-session1.jsonl created
+node-id-mapping,Pass,Every record maps to known repository node: True
+timestamp-presence,Pass,All records have valid ISO timestamps

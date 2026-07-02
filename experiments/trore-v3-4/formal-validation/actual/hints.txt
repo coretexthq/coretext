@@ -1,0 +1,3 @@
+Auth read rule: docs/rules/auth_read.md
+Auth general rule: docs/rules/auth_general.md
+Not Found: docs/rules/auth_general.md

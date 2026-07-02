@@ -1,0 +1,21 @@
+{
+  "name": "trore-lodging-marketplace",
+  "version": "1.0.0",
+  "description": "Trore lodging marketplace full-stack case study application.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node scripts/seed.js",
+    "test": "node tests/run_all_tests.js",
+    "test:foundation": "node tests/test_foundation.js",
+    "test:booking": "node tests/test_booking.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "sqlite3": "^6.0.1"
+  }
+}

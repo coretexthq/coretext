@@ -1,0 +1,11 @@
+{
+  "runtime": "codex",
+  "event": "PreToolUse",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "*** Update File: src/api/auth.py\n*** Add File: src/utils/helpers.py"
+  },
+  "action": "write",
+  "session_id": "session_abc_123_invalid",
+  "file_paths": ["src/api/auth.py", "src/utils/helpers.py"]
+}

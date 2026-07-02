@@ -5,13 +5,19 @@
       "source": "bnmbanhmi/skills",
       "sourceType": "github",
       "skillPath": "coretext/.agents/skills/coretext/SKILL.md",
-      "computedHash": "7b4ca0634a81515160a838ed088015f9f306cc871747e24fbfe98dfadfc3a29f"
+      "computedHash": "7c748d9b38a871d6ce79983e0eed3b95eabc897d0c02a850b080c994676f9e01"
     },
-    "summary": {
+    "knowledge": {
       "source": "bnmbanhmi/skills",
       "sourceType": "github",
-      "skillPath": "knowledge/.agents/skills/summary/SKILL.md",
-      "computedHash": "74bcc9ad5b435f6d9df1d69e8035d1f2d94fa21d844515c32cd0500a6119bd6a"
+      "skillPath": "knowledge/.agents/skills/knowledge/SKILL.md",
+      "computedHash": "1464d993384ec0f980520dc75e0d1995565ac392f8e1ac06662444676917e013"
+    },
+    "vercel-cli-with-tokens": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-cli-with-tokens/SKILL.md",
+      "computedHash": "eb16b20dcbe6ce51e0372083d624e0847af1b09487ec99249227d5a8eddebfc0"
     }
   }
 }

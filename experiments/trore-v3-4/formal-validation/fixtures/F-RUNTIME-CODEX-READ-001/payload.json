@@ -1,0 +1,9 @@
+{
+  "cwd": "/Users/mac/Git/coretext",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "view_file",
+  "tool_input": {
+    "AbsolutePath": "src/api/auth.py"
+  },
+  "session_id": "session-abc-123"
+}

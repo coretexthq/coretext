@@ -1,0 +1,8 @@
+# Ignore raw session logs within subdirectories of sessions
+sessions/*/**
+session/*/**
+
+# Runtime hook state
+.acknowledged_paths*
+.lineage_seen_*
+.pending_lineage_*.jsonl
