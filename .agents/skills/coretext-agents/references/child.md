@@ -1,8 +1,10 @@
-# Coretext Unified Agent Instruction
+# Coretext Unified Agent Instruction (Child Contract)
 
 This instruction is the portable operating contract for any Coretext agent working in a normal software development repository, at any depth: project, scope, sub-scope, or nested sub-scope. It packages the repository-level rules, knowledge-note workflow, hierarchy ownership model, and recursive subagent protocol into one file.
 
 Use this file as the first instruction for any Coretext software development session or delegated Coretext work session. The agent does not need experiment-specific context to follow this protocol. Do not require the agent to read `AGENTS.md`, the `knowledge` skill, the `coretext` skill, or `docs/coretext_subagents.md` to understand the operating protocol; those files are provenance for this consolidated contract.
+
+---
 
 ## 1. Authority and Boundaries
 
@@ -38,6 +40,8 @@ Use dots for hierarchy and hyphens inside multi-word filename segments:
 - `knowledge/<project>.<scope-1>.<scope-2>.md`
 - `knowledge/ai/<project>.<scope-1>.<scope-2>.<session-name>.md`
 
+---
+
 ## 2. Assigned Scope Model
 
 Every Coretext agent has one assigned dotted namespace:
@@ -59,6 +63,8 @@ The namespace maps to files:
 - parent chain: `knowledge/<project>.md` -> `knowledge/<project>.<scope-1>.md` -> `knowledge/<project>.<scope-1>.<scope-2>.md` -> `...` -> `knowledge/<namespace>.md`
 
 If no namespace is provided, infer the most specific existing `knowledge/` note from the user request and touched files. Ask one short clarifying question only if multiple scopes are equally plausible and choosing one would risk writing to the wrong durable owner.
+
+---
 
 ## 3. Mandatory Start: Analyze the Assigned Scope
 
@@ -87,6 +93,8 @@ This orientation step applies recursively at every depth. A child agent must sti
 
 When resuming or integrating delegated work, an agent must read the direct child session summaries it intends to integrate before changing durable scope notes. Do not update stable state from a child chat report alone.
 
+---
+
 ## 4. Explore, Plan, and Work
 
 Use progressive disclosure:
@@ -98,6 +106,8 @@ Use progressive disclosure:
 5. Verify with the available tests, linters, builds, scripts, or focused review. If verification cannot be run, explain why in the session summary and final handoff.
 
 Do not create transient coordination files such as `progress.md`, `tasks.md`, `ORIGINAL_REQUEST.md`, or scratch plans in the repository root, `.agents/`, or other shared directories. Working evidence belongs in `knowledge/ai/` session logs.
+
+---
 
 ## 5. Hierarchy and Recursive Subagent Protocol
 
@@ -186,6 +196,8 @@ After a child finishes:
 
 This protocol scales to any nesting depth. Each level repeats the same orientation, execution, session evidence, parent review, and durable distillation loop.
 
+---
+
 ## 6. Session Summary Requirements
 
 Every meaningful Coretext work session must end with a session note under `knowledge/ai/`. Session notes are append-only evidence logs.
@@ -240,6 +252,8 @@ Session notes may use multiple Level 1 body sections instead of one `# Summary` 
 
 Include all original user prompts available in the active context as blockquotes in `# Resource` or at the top of the relevant body section. Do not paraphrase the prompts when recording them as evidence.
 
+---
+
 ## 7. Durable Note Requirements
 
 Durable notes outside `knowledge/ai/` hold current state, strategy, and stable deltas. They are not transcripts.
@@ -279,6 +293,8 @@ Short durable summary of the child scope.
 Do not list grandchild notes when an intermediate child note exists.
 
 Apply the smallest stable delta. Do not normalize or rewrite an entire durable note unless the task explicitly asks for normalization.
+
+---
 
 ## 8. Rule Escalation & Context Routing
 
@@ -364,6 +380,8 @@ Because the CLI helper `add_rules.py` only supports adding rules, removing or de
 3. Delete that line from the file.
 4. Save the file.
 
+---
+
 ## 9. Completion Handoff
 
 When finishing a task or reporting back to a parent, include:
@@ -378,6 +396,8 @@ When finishing a task or reporting back to a parent, include:
 - open risks or exact next action, if any.
 
 If no durable note update or rule escalation was appropriate, say so explicitly.
+
+---
 
 ## 10. Teamwork Audit Checklist
 

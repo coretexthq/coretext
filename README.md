@@ -155,7 +155,20 @@ Coretext hooks run passively behind the scenes. They intercept agent tools and n
 - **Antigravity Hook Configuration:** Configured under `.agents/hooks.json`. Enables lineage-injections, write-guards, and telemetry hooks on the platform.
 - **Codex Hook Configuration:** Configured under `.codex/hooks.json` and enabled via `.codex/config.toml` (`[features].hooks = true`).
 
+> [!WARNING]
+> **Sandbox Execution Warning:** When agents run inside a secure sandbox (such as Antigravity's default environment), calling `uv run` in your hook configuration may crash silently because `uv` attempts to access its global cache (`~/.cache/uv`), which is blocked by the sandbox.
+> 
+> To ensure your hooks run reliably inside sandboxed environments without triggering security blocks, invoke the virtual environment's Python binary directly using relative paths from the hook's execution directory. For example, in `.agents/hooks.json`, use:
+> `"command": "../.venv/bin/python ../.coretext/inject_context.py"`
+
 *Note: Execution requires that you trust the project-local hook configurations within your respective agent runtime environment.*
+
+### Validating Hook Injections (The Echo Test)
+Because `PreInvocation` context injections are dynamically inserted into the agent's live memory, they are not saved in persistent conversation logs. You can validate that the hooks are enabled and successfully injecting context using the "Echo Test".
+
+1. **Check the local state files:** Whenever an agent reads a mapped note (e.g., `knowledge/coretext.scope.md`), the `PreToolUse` hook queues it, and the `PreInvocation` hook delivers it. If successful, you will see the path appended to the `.coretext-data/.lineage_seen_{session_id}` file.
+2. **Prompt the agent to echo:** You can verify the agent received the context by explicitly prompting it in a new conversation: 
+   *"Please use `view_file` to read `knowledge/coretext.scope.md`. Immediately after you read it, check your internal system context. You should receive a hidden ephemeral message starting with 'Note lineage:'. Please print the exact contents of that message back to me."*
 
 ### Git Subtree Sync
 To run the bidirectional subtree sync pipeline:
