@@ -45,7 +45,9 @@ Coretext defines:
 - `coretext-context-injector-write`: `PreToolUse` write guard for `write_to_file`, `replace_file_content`, and `multi_replace_file_content`.
 - `coretext-visual-feedback`: `PreToolUse` telemetry for file reads and writes.
 
-For the current workspace, hooks are enabled (`"enabled": true`). During package setup, the `.agents/hooks.json` configuration file is enabled by default. However, users on the platform must trust the project-local hook configuration manually before they will fire. Note lineage uses the path available before `view_file`; graph-edge read context remains skipped because the documented `PostToolUse` payload does not include the completed tool call path.
+For the current workspace, hooks are enabled (`"enabled": true`). During package setup, the `.agents/hooks.json` configuration file is enabled by default. However, users on the platform must trust the project-local hook configuration manually before they will fire.
+
+**Note lineage** works on Antigravity because it only needs the file path *before* the read: `PreToolUse` provides the path via `toolCall.args.AbsolutePath`, the hook queues the rendered lineage, and `PreInvocation` delivers it as an `ephemeralMessage` before the next model call. **Graph-edge read context** remains skipped because it was designed as a post-read annotation: Antigravity's documented `PostToolUse` payload provides only `stepIdx` and `error` (no file path), and its output schema is `{}` (no `additionalContext` field). A queue-and-deliver alternative matching the lineage pattern was considered but bypassed to avoid token bloat from full rule file injection and context association loss (rules arriving detached from the file that triggered them). Write-gating remains the primary enforcement mechanism on Antigravity.
 
 ### Codex
 

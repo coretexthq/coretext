@@ -1,0 +1,726 @@
+{
+    "nodes": [
+        {
+            "id": "f2a370a0a517c000",
+            "type": "group",
+            "x": 0,
+            "y": 0,
+            "width": 1600,
+            "height": 1000,
+            "color": "1",
+            "label": "Slide 1: Title & Overview"
+        },
+        {
+            "id": "5c547fb4e109a57b",
+            "type": "group",
+            "x": 2000,
+            "y": 2800,
+            "width": 1600,
+            "height": 1000,
+            "color": "2",
+            "label": "Slide 10: Experiment & Evaluation Setup"
+        },
+        {
+            "id": "177a0fc81bdaab02",
+            "type": "group",
+            "x": 2000,
+            "y": 0,
+            "width": 1600,
+            "height": 1000,
+            "color": "2",
+            "label": "Slide 2: Introduction & Motivation"
+        },
+        {
+            "id": "0e6f6c641efebd7d",
+            "type": "group",
+            "x": 4000,
+            "y": 0,
+            "width": 1600,
+            "height": 1000,
+            "color": "3",
+            "label": "Slide 5: Methodology & Session-First Lifecycle"
+        },
+        {
+            "id": "09eb50b7c7bfe43e",
+            "type": "group",
+            "x": 0,
+            "y": 1400,
+            "width": 1600,
+            "height": 1000,
+            "color": "4",
+            "label": "Slide 6: System Overview & Architecture"
+        },
+        {
+            "id": "fc132340e2ba6b1c",
+            "type": "group",
+            "x": 2000,
+            "y": 1400,
+            "width": 1600,
+            "height": 1000,
+            "color": "5",
+            "label": "Slide 7: Delegation Protocol Layer"
+        },
+        {
+            "id": "63c119d83407d3e5",
+            "type": "group",
+            "x": 4000,
+            "y": 1400,
+            "width": 1600,
+            "height": 1000,
+            "color": "6",
+            "label": "Slide 8: Runtime & Routing Engine"
+        },
+        {
+            "id": "1d756a7c7d13f0a9",
+            "type": "group",
+            "x": 0,
+            "y": 2800,
+            "width": 1600,
+            "height": 1000,
+            "color": "1",
+            "label": "Slide 9: Inspection & Observability"
+        },
+        {
+            "id": "198632e4b794113e",
+            "type": "group",
+            "x": 4000,
+            "y": 2800,
+            "width": 1600,
+            "height": 1000,
+            "color": "3",
+            "label": "Slide 11: Case Study Results"
+        },
+        {
+            "id": "d7400f39bc27f2dd",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/Session_First_Lifecycle.pdf",
+            "x": 4759,
+            "y": 220,
+            "width": 781,
+            "height": 720
+        },
+        {
+            "id": "2e3215f487d14174",
+            "type": "text",
+            "text": "# Runtime & Routing Engine",
+            "x": 4040,
+            "y": 1480,
+            "width": 720,
+            "height": 128,
+            "color": "3"
+        },
+        {
+            "id": "53afe7166f13931c",
+            "type": "text",
+            "text": "**Deterministic Resolution**\nIntercepts file events and uses a JSONL route ledger to map dependencies\u2014without relying on the LLM.",
+            "x": 4040,
+            "y": 1628,
+            "width": 720,
+            "height": 128,
+            "color": "1"
+        },
+        {
+            "id": "53780c4f39d06c44",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/Delegation_And_Distillation.pdf",
+            "x": 2759,
+            "y": 1620,
+            "width": 781,
+            "height": 720
+        },
+        {
+            "id": "b69199c2d1004848",
+            "type": "text",
+            "text": "# Delegation Protocol Layer",
+            "x": 2040,
+            "y": 1480,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "b2b8a4d3b2514787",
+            "type": "text",
+            "text": "**Scope-Aligned Delegation**\nParent agents spawn subagents using roles mapped directly to durable scope notes, ensuring strict hierarchical boundaries.",
+            "x": 2040,
+            "y": 1658,
+            "width": 720,
+            "height": 158,
+            "color": "6"
+        },
+        {
+            "id": "60aea6df63f64f64",
+            "type": "text",
+            "text": "**Session-First Execution**\nChild agents orient via assigned scopes, execute tasks, and log all evidence into append-only session notes (`knowledge/ai/*.md`).",
+            "x": 2040,
+            "y": 1836,
+            "width": 720,
+            "height": 158,
+            "color": "6"
+        },
+        {
+            "id": "8d091e60dcc6e407",
+            "type": "text",
+            "text": "**Knowledge Distillation**\nParent agents review session evidence, extracting stable, future-facing lessons to update durable project notes.",
+            "x": 2040,
+            "y": 2014,
+            "width": 720,
+            "height": 158,
+            "color": "6"
+        },
+        {
+            "id": "5ebbfdf3ee071dc8",
+            "type": "text",
+            "text": "**Deterministic Routing**\nNew architectural constraints are registered as routing edges in the JSONL ledger and validated by automated graph linting.",
+            "x": 2040,
+            "y": 2192,
+            "width": 720,
+            "height": 158,
+            "color": "6"
+        },
+        {
+            "id": "169ebf81b4f353f9",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/Runtime_Routing_Lifecycle.pdf",
+            "x": 4759,
+            "y": 1620,
+            "width": 781,
+            "height": 720
+        },
+        {
+            "id": "2211198e61dd4c8b",
+            "type": "text",
+            "text": "**Case Study: Trore MVP**\nEvaluated the Session-Structured Knowledge Lifecycle (SSKL) by building a lodging marketplace MVP across five checkpoints using Gemini 3.5 Flash.",
+            "x": 2040,
+            "y": 3176,
+            "width": 720,
+            "height": 128,
+            "color": "3"
+        },
+        {
+            "id": "1db437a0fd35fe7e",
+            "type": "text",
+            "text": "**Three-Arm Study Design**\nCompared a flat native baseline against two Coretext-assisted workflows: one without hooks, and one with active runtime context injection.",
+            "x": 2040,
+            "y": 3324,
+            "width": 720,
+            "height": 128,
+            "color": "3"
+        },
+        {
+            "id": "3fca0b2d4153255f",
+            "type": "text",
+            "text": "**Multi-Agent Orchestration**\nDriven by the Antigravity app. Baseline used 5 sequential workers, while Coretext arms leveraged a nested SSKL hierarchy with a 5-spawn cap and Adaptive Depth Scheduling.",
+            "x": 2040,
+            "y": 3472,
+            "width": 720,
+            "height": 128,
+            "color": "3"
+        },
+        {
+            "id": "753fbf739c0c4e66",
+            "type": "text",
+            "text": "# Experiment & Evaluation Setup",
+            "x": 2040,
+            "y": 2880,
+            "width": 720,
+            "height": 128,
+            "color": "5"
+        },
+        {
+            "id": "df01e7bcfc4bf288",
+            "type": "text",
+            "text": "**Automated Validation Pipeline**\nTested deterministic mechanisms via a 3-stage pipeline: workspace sandboxing, mocked payload execution, and artifact verification.",
+            "x": 2040,
+            "y": 3028,
+            "width": 720,
+            "height": 128,
+            "color": "3"
+        },
+        {
+            "id": "94db57f2721045c4",
+            "type": "text",
+            "text": "# Inspection & Observability",
+            "x": 40,
+            "y": 2880,
+            "width": 720,
+            "height": 158,
+            "color": "4"
+        },
+        {
+            "id": "24ee6f898be46d55",
+            "type": "text",
+            "text": "**File-Backed Telemetry**\nCaptures live agent activity in a lightweight, append-only JSONL format. No dedicated database required.",
+            "x": 40,
+            "y": 3058,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "474024636a6e412e",
+            "type": "text",
+            "text": "# Introduction & Motivation",
+            "x": 2040,
+            "y": 80,
+            "width": 720,
+            "height": 158,
+            "color": "5"
+        },
+        {
+            "id": "d304c78b24ab568b",
+            "type": "text",
+            "text": "**Rapid Adoption & Ecosystem Bloat**\nAutonomous coding agents (Codex, Claude Code, Antigravity) are seeing surging adoption. The ecosystem has scaled rapidly\u2014with over 698k registered Agent Skills and 2.0M+ installs for standard utilities. \n\nHowever, it is developing poorly. It is dominated by bloated context files (found in 90.6% of repos) and probabilistic, static instructions (like `bmad` or `superpowers`) that lack project-specific intelligence. Advanced mechanisms like executable skills and subagents remain severely underutilized. Agents now edit multiple files autonomously, but developer trust remains a bottleneck.",
+            "x": 2040,
+            "y": 258,
+            "width": 720,
+            "height": 158,
+            "color": "3"
+        },
+        {
+            "id": "d51ddd72dfb11b8c",
+            "type": "text",
+            "text": "**The \"Activation Gap\"**\nProject guidance is fragmented and passive. Existing tools lack deterministic rules to guarantee the right context is loaded at the exact moment it is needed.",
+            "x": 2040,
+            "y": 614,
+            "width": 720,
+            "height": 158,
+            "color": "3"
+        },
+        {
+            "id": "648b28d9e510d459",
+            "type": "text",
+            "text": "**The \"Continuity Gap\"**\nCrucial architectural decisions and problem-solving evidence are trapped in provider-specific logs or permanently lost to opaque, lossy memory compaction.",
+            "x": 2040,
+            "y": 436,
+            "width": 720,
+            "height": 158,
+            "color": "3"
+        },
+        {
+            "id": "95bcd2d76ce187cc",
+            "type": "text",
+            "text": "**Endless Context Reconstruction**\nLacking a portable, version-controlled project memory, agents are forced to constantly rediscover state and rebuild context across separate sessions and runtimes.",
+            "x": 2040,
+            "y": 792,
+            "width": 720,
+            "height": 158,
+            "color": "3"
+        },
+        {
+            "id": "3d139bf7e81044ba",
+            "type": "text",
+            "text": "### \ud83d\udcc9 The \"Activation Gap\" (n=2,853 Repositories)\n\n<div style=\"display:flex; flex-direction:column; gap:20px; font-family:sans-serif; width:100%; margin-top:16px;\">\n\n  <!-- Context Files -->\n  <div>\n    <div style=\"display:flex; align-items:center;\">\n      <div style=\"width: 110px; font-size:14px; font-weight:bold; color:#d4d4d8;\">Context Files</div>\n      <div style=\"background-color: #3b82f6; width: 70%; height: 24px; border-radius: 4px;\"></div>\n      <div style=\"margin-left: 12px; font-size:14px; font-weight:bold; color:#60a5fa;\">90.6%</div>\n    </div>\n    <div style=\"font-size:12px; color:#a1a1aa; margin-top:6px;\">(Passive text instructions like AGENTS.md or CLAUDE.md)</div>\n  </div>\n\n  <!-- Agent Skills -->\n  <div>\n    <div style=\"display:flex; align-items:center;\">\n      <div style=\"width: 110px; font-size:14px; font-weight:bold; color:#d4d4d8;\">Agent Skills</div>\n      <div style=\"background-color: #ef4444; width: 5.5%; height: 24px; border-radius: 4px;\"></div>\n      <div style=\"margin-left: 12px; font-size:14px; font-weight:bold; color:#f87171;\">5.5%</div>\n    </div>\n    <div style=\"font-size:12px; color:#a1a1aa; margin-top:6px;\">(Executable repository-scoped tools)</div>\n  </div>\n\n  <!-- Subagents -->\n  <div>\n    <div style=\"display:flex; align-items:center;\">\n      <div style=\"width: 110px; font-size:14px; font-weight:bold; color:#d4d4d8;\">Subagents</div>\n      <div style=\"background-color: #ef4444; width: 4.6%; height: 24px; border-radius: 4px;\"></div>\n      <div style=\"margin-left: 12px; font-size:14px; font-weight:bold; color:#f87171;\">4.6%</div>\n    </div>\n    <div style=\"font-size:12px; color:#a1a1aa; margin-top:6px;\">(Nested hierarchical delegation configurations)</div>\n  </div>\n\n</div>\n",
+            "x": 2800,
+            "y": 80,
+            "width": 720,
+            "height": 800,
+            "color": "5"
+        },
+        {
+            "id": "e7b62caafdc6bba8",
+            "type": "text",
+            "text": "**Stateless Visual Inspection**\nA read-only UI continuously polls local artifacts, dynamically highlighting read and write activities on the project graph.",
+            "x": 40,
+            "y": 3236,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "0d8d363dff5c2e73",
+            "type": "text",
+            "text": "**Decoupled Graph Linting**\nAsynchronous linter scripts clean the ledger without impacting the agent's runtime speed.",
+            "x": 40,
+            "y": 3414,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "38932fccc779a05d",
+            "type": "text",
+            "text": "**Fault-Tolerant Execution**\nThe routing engine safely bypasses malformed records, ensuring temporary corruption never interrupts the AI reasoning loop.",
+            "x": 40,
+            "y": 3592,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "fd6a3199a8f54021",
+            "type": "text",
+            "text": "# System Overview & Architecture",
+            "x": 40,
+            "y": 1480,
+            "width": 720,
+            "height": 128,
+            "color": "1"
+        },
+        {
+            "id": "b74a199b096a478a",
+            "type": "text",
+            "text": "# Title & Overview",
+            "x": 40,
+            "y": 80,
+            "width": 720,
+            "height": 158,
+            "color": "4"
+        },
+        {
+            "id": "8b68c4cae6a7a76f",
+            "type": "text",
+            "text": "**Coretext Overview**\nLightweight repository infrastructure for deterministic context routing and session-oriented knowledge reuse.\n*Graduation Thesis Presentation | By [Author Name]*",
+            "x": 40,
+            "y": 258,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "8180d64bc25c8d89",
+            "type": "text",
+            "text": "**Methodology & Design**\n\u2022 **SSKL Workflow:** Treats tasks as scoped sessions, preserving evidence and distilling lessons into durable rules.\n\u2022 **Philosophy:** Focuses on robust, deterministic system design instead of probabilistic text generation.",
+            "x": 40,
+            "y": 792,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "b8515c0b8c5a0170",
+            "type": "text",
+            "text": "**Local-First Architecture**\nRuns directly in the host repository using a lightweight Python kernel. Avoids external databases to stay strictly synced with project files.",
+            "x": 40,
+            "y": 1628,
+            "width": 720,
+            "height": 128,
+            "color": "5"
+        },
+        {
+            "id": "2fde162734c7bd5e",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/System_Overview.pdf",
+            "x": 759,
+            "y": 1620,
+            "width": 781,
+            "height": 720
+        },
+        {
+            "id": "9785c1536f724719",
+            "type": "text",
+            "text": "# Case Study Results",
+            "x": 4040,
+            "y": 2880,
+            "width": 720,
+            "height": 158,
+            "color": "6"
+        },
+        {
+            "id": "80c9f352654a4729",
+            "type": "text",
+            "text": "```mermaid\nflowchart TD\n    User([Developer]) -->|Writes Code| IDE\n    IDE -->|Triggers Hook| Coretext[Coretext Engine]\n    Coretext -->|Resolves Context| Graph[(JSONL Route Ledger)]\n    Coretext -->|Injects Constraints| Agent{Coding Agent}\n    Agent -->|Autonomous Edits| Workspace\n```",
+            "x": 800,
+            "y": 80,
+            "width": 720,
+            "height": 800,
+            "color": "5"
+        },
+        {
+            "id": "97127b8127841686",
+            "type": "text",
+            "text": "**Faster Orientation**\nThe Hooks-Enabled arm slashed mean orientation steps from 15.5 to 10.0 for pure workers.",
+            "x": 4040,
+            "y": 3058,
+            "width": 720,
+            "height": 158,
+            "color": "4"
+        },
+        {
+            "id": "aa66e79645b7e41d",
+            "type": "text",
+            "text": "**Efficient Navigation**\nAutomatic context injection offset orientation costs, enabling subagents to smoothly navigate a wider 35-file surface.",
+            "x": 4040,
+            "y": 3414,
+            "width": 720,
+            "height": 158,
+            "color": "4"
+        },
+        {
+            "id": "5b884df0b3884c35",
+            "type": "text",
+            "text": "**Strong Adherence**\nRedundant read rates were minimal; subagents only explicitly re-read 2 out of 7 injected contexts.",
+            "x": 4040,
+            "y": 3236,
+            "width": 720,
+            "height": 158,
+            "color": "4"
+        },
+        {
+            "id": "8ab1dfc931bea9e6",
+            "type": "text",
+            "text": "**Robust Write-Gating**\nIntercepted 100% of write denials. Subagents reliably caught errors, read the rules, and self-corrected.",
+            "x": 4040,
+            "y": 3592,
+            "width": 720,
+            "height": 158,
+            "color": "4"
+        },
+        {
+            "id": "44afcc583e2f4383",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/Subagent_Hierarchy.pdf",
+            "x": 4800,
+            "y": 2880,
+            "width": 695,
+            "height": 450,
+            "color": "5"
+        },
+        {
+            "id": "fc2bbc508f69ad34",
+            "type": "text",
+            "text": "**Automated Injection**\nAutomatically delivers critical hints and constraints directly into the prompt to reduce agent orientation overhead.",
+            "x": 4040,
+            "y": 1776,
+            "width": 720,
+            "height": 128,
+            "color": "1"
+        },
+        {
+            "id": "2d7d591f25cad2db",
+            "type": "text",
+            "text": "**First-Write Gating**\nDeterministically blocks unacknowledged first-time writes, delivering mandated context before allowing modifications.",
+            "x": 4040,
+            "y": 1924,
+            "width": 720,
+            "height": 128,
+            "color": "1"
+        },
+        {
+            "id": "2c9164de07727500",
+            "type": "text",
+            "text": "**Self-Correcting Adherence**\nTracks session state so agents can seamlessly ingest the required rules and successfully retry their operations.",
+            "x": 4040,
+            "y": 2072,
+            "width": 720,
+            "height": 128,
+            "color": "1"
+        },
+        {
+            "id": "1c274c4df8b04b0e",
+            "type": "text",
+            "text": "**Edge/Ledger Specifics**\nThe JSONL ledger explicitly defines edges with `read/write/both` events and `hint/full` context properties.",
+            "x": 4040,
+            "y": 2220,
+            "width": 720,
+            "height": 128,
+            "color": "1"
+        },
+        {
+            "id": "3fd40c97c037462e",
+            "type": "text",
+            "text": "### \ud83d\udcca Metrics Comparison per Arm\n\n<div style=\"display:flex; flex-direction:column; gap:16px; font-family:sans-serif; width:100%; margin-top:12px;\">\n\n  <!-- Baseline -->\n  <div>\n    <strong style=\"color: #a1a1aa;\">Baseline (Flat native workers)</strong>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#d4d4d8;\">Steps (11.0)</div>\n      <div style=\"background-color: #ef4444; width: 27.5%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#d4d4d8;\">Files (27)</div>\n      <div style=\"background-color: #3b82f6; width: 67.5%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#d4d4d8;\">kLOC (27.1)</div>\n      <div style=\"background-color: #10b981; width: 67.75%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n  </div>\n\n  <!-- No-Hooks -->\n  <div>\n    <strong style=\"color: #a1a1aa;\">No-Hooks (SSKL hierarchy)</strong>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#d4d4d8;\">Steps (15.5)</div>\n      <div style=\"background-color: #ef4444; width: 38.75%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#d4d4d8;\">Files (32)</div>\n      <div style=\"background-color: #3b82f6; width: 80.0%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#d4d4d8;\">kLOC (6.9)</div>\n      <div style=\"background-color: #10b981; width: 17.25%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n  </div>\n\n  <!-- Hooks-Enabled -->\n  <div style=\"background-color: rgba(59, 130, 246, 0.1); padding: 8px; border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.3);\">\n    <strong style=\"color: #60a5fa;\">Hooks-Enabled (Coretext)</strong>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#fff;\">Steps (10.0)</div>\n      <div style=\"background-color: #ef4444; width: 25.0%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#fff;\">Files (35)</div>\n      <div style=\"background-color: #3b82f6; width: 87.5%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n    <div style=\"display:flex; align-items:center; margin-top:4px;\">\n      <div style=\"width: 100px; font-size:13px; color:#fff;\">kLOC (12.8)</div>\n      <div style=\"background-color: #10b981; width: 32.0%; height: 12px; border-radius: 4px;\"></div>\n    </div>\n  </div>\n\n</div>\n\n*(Legend: <span style=\"color:#ef4444\">\u25a0 Red = Steps</span> | <span style=\"color:#3b82f6\">\u25a0 Blue = Files</span> | <span style=\"color:#10b981\">\u25a0 Green = kLOC</span>)*\n",
+            "x": 4800,
+            "y": 3350,
+            "width": 720,
+            "height": 400,
+            "color": "5"
+        },
+        {
+            "id": "1774b1875cd4475b",
+            "type": "text",
+            "text": "**Specific Evaluation Metrics**\nIncludes total execution time, volume of content reread, bugs per run, and total bugs throughout the project.",
+            "x": 2040,
+            "y": 3620,
+            "width": 720,
+            "height": 128,
+            "color": "3"
+        },
+        {
+            "id": "23fec567c8d75ff9",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/Validation_Harness.pdf",
+            "x": 2759,
+            "y": 3020,
+            "width": 781,
+            "height": 720
+        },
+        {
+            "id": "ab772b78a28aa21d",
+            "type": "text",
+            "text": "**File-Backed Memory**\nRelies on standard Git artifacts: Markdown for knowledge and JSONL for routing. Ensures the system's memory never diverges from Git truth.",
+            "x": 40,
+            "y": 1776,
+            "width": 720,
+            "height": 128,
+            "color": "5"
+        },
+        {
+            "id": "79a9a2cfe9b4c1a9",
+            "type": "text",
+            "text": "**Unified Routing Engine**\nEvent-driven adapters normalize provider payloads. A deterministic engine actively manages context injection and enforces first-write gating.",
+            "x": 40,
+            "y": 1924,
+            "width": 720,
+            "height": 128,
+            "color": "5"
+        },
+        {
+            "id": "ac74527e58969f3f",
+            "type": "text",
+            "text": "**Stateless Observability**\nA local React dashboard and CLI scripts offer read-only auditing of virtual scope trees and graphs, without mutating authoritative data.",
+            "x": 40,
+            "y": 2072,
+            "width": 720,
+            "height": 128,
+            "color": "5"
+        },
+        {
+            "id": "17aa1de5a69d4dee",
+            "type": "text",
+            "text": "**Agent Interaction Details**\nAgents do not read the graph directly. They use standard CLI tools (e.g., `rg`) guided by summaries and automated system logic.",
+            "x": 40,
+            "y": 2220,
+            "width": 720,
+            "height": 128,
+            "color": "5"
+        },
+        {
+            "id": "4789e4f6532a856d",
+            "type": "file",
+            "file": "graduation-thesis/coretext-md/Figure/Coretext_Dashboard.png",
+            "x": 759,
+            "y": 3020,
+            "width": 781,
+            "height": 488
+        },
+        {
+            "id": "2a709768f0240c4b",
+            "type": "text",
+            "text": "**The Core Problem**\nAI coding tools face two critical hurdles:\n\u2022 **Activation Gap:** Passive markdown instructions are often ignored.\n\u2022 **Continuity Gap:** Lossy context compaction causes amnesia between sessions.",
+            "x": 40,
+            "y": 614,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "25ddf7eba2675ae0",
+            "type": "text",
+            "text": "**The Coretext Solution**\nA file-native, agent-agnostic infrastructure. It uses a JSONL route ledger to deterministically match events to context files, bridging passive instructions with active runtime hooks.",
+            "x": 40,
+            "y": 436,
+            "width": 720,
+            "height": 158,
+            "color": "2"
+        },
+        {
+            "id": "9c3f43e71eb44e43",
+            "type": "text",
+            "x": 4020,
+            "y": 40,
+            "width": 760,
+            "height": 210,
+            "text": "**Evidence vs. Durable State**\nIsolate temporary work logs from permanent project rules to prevent long-context bloat.",
+            "color": "2"
+        },
+        {
+            "id": "a6f050d401ee4655",
+            "type": "text",
+            "x": 4020,
+            "y": 270,
+            "width": 760,
+            "height": 210,
+            "text": "**The Distillation Ladder**\nKnowledge promotes upward: *Trace \u2192 Summary \u2192 Scope Note \u2192 Route Edge*. Each step requires parent review.",
+            "color": "2"
+        },
+        {
+            "id": "344f46496c38468d",
+            "type": "text",
+            "x": 4020,
+            "y": 500,
+            "width": 760,
+            "height": 210,
+            "text": "**Hierarchical Delegation**\nChild agents execute tasks in strict namespaces and append evidence. Parent agents distill this into durable notes.",
+            "color": "2"
+        },
+        {
+            "id": "2fa418e419fd4116",
+            "type": "text",
+            "x": 4020,
+            "y": 730,
+            "width": 760,
+            "height": 210,
+            "text": "**Role-Based Session Modes**\nPlanning, execution, and review operate as distinct modes over a unified, file-native state (Markdown & Git).",
+            "color": "2"
+        },
+        {
+            "id": "2619d016217a4079",
+            "type": "text",
+            "x": 4800,
+            "y": 40,
+            "width": 760,
+            "height": 440,
+            "text": "> [!NOTE] Figure Placeholder\n> Insert a high-level conceptual diagram representing the Coretext system boundary or a striking visual of an agent interacting with a codebase.",
+            "color": "3"
+        }
+    ],
+    "edges": [
+        {
+            "id": "602380f4f2332f91",
+            "fromNode": "f2a370a0a517c000",
+            "fromSide": "right",
+            "toNode": "177a0fc81bdaab02",
+            "toSide": "left",
+            "color": "6"
+        },
+        {
+            "id": "c88c6f96048e43ea",
+            "fromNode": "0e6f6c641efebd7d",
+            "fromSide": "bottom",
+            "toNode": "09eb50b7c7bfe43e",
+            "toSide": "top",
+            "color": "6"
+        },
+        {
+            "id": "adcab20dd63ca203",
+            "fromNode": "09eb50b7c7bfe43e",
+            "fromSide": "right",
+            "toNode": "fc132340e2ba6b1c",
+            "toSide": "left",
+            "color": "6"
+        },
+        {
+            "id": "aa642b3a04d009a4",
+            "fromNode": "fc132340e2ba6b1c",
+            "fromSide": "right",
+            "toNode": "63c119d83407d3e5",
+            "toSide": "left",
+            "color": "6"
+        },
+        {
+            "id": "cd29f924da90a4b4",
+            "fromNode": "63c119d83407d3e5",
+            "fromSide": "right",
+            "toNode": "1d756a7c7d13f0a9",
+            "toSide": "left",
+            "color": "6"
+        },
+        {
+            "id": "20ff47be2ed765e0",
+            "fromNode": "1d756a7c7d13f0a9",
+            "fromSide": "right",
+            "toNode": "5c547fb4e109a57b",
+            "toSide": "left",
+            "color": "6"
+        },
+        {
+            "id": "033a02db52068273",
+            "fromNode": "5c547fb4e109a57b",
+            "fromSide": "bottom",
+            "toNode": "198632e4b794113e",
+            "toSide": "top",
+            "color": "6"
+        }
+    ]
+}

@@ -608,6 +608,199 @@ class RuntimeHookTests(unittest.TestCase):
                 for command in codex_pretool_commands
             )
         )
+    def test_codex_read_context_deduplicates(self):
+        temp_dir, workspace = self.make_workspace()
+        self.addCleanup(temp_dir.cleanup)
+        (workspace / "src" / "api.py").write_text("def run(): pass\n", encoding="utf-8")
+        (workspace / "docs" / "rules" / "api.md").write_text("API rules\n", encoding="utf-8")
+        self.write_graph(
+            workspace,
+            [
+                {
+                    "source": "src/api.py",
+                    "target": "docs/rules/api.md",
+                    "type": "hint",
+                    "description": "check api rules",
+                    "hook": "read",
+                }
+            ],
+        )
+
+        payload = {
+            "session_id": "codex-read-dedup",
+            "cwd": str(workspace),
+            "hook_event_name": "PostToolUse",
+            "tool_name": "mcp__filesystem__read_file",
+            "tool_input": {"path": str(workspace / "src" / "api.py")},
+        }
+
+        # First read: returns context
+        first = self.run_hook(workspace, "inject_context.py", payload)
+        self.assertIn("hookSpecificOutput", first)
+        self.assertIn("check api rules: docs/rules/api.md", first["hookSpecificOutput"]["additionalContext"])
+
+        # Second read: returns allow / empty context response
+        second = self.run_hook(workspace, "inject_context.py", payload)
+        self.assertEqual(second, {})
+
+    def test_antigravity_read_context_queues_and_delivers_deduplicated(self):
+        temp_dir, workspace = self.make_workspace()
+        self.addCleanup(temp_dir.cleanup)
+        (workspace / "src" / "api.py").write_text("def run(): pass\n", encoding="utf-8")
+        (workspace / "docs" / "rules" / "api.md").write_text("API rules\n", encoding="utf-8")
+        self.write_graph(
+            workspace,
+            [
+                {
+                    "source": "src/api.py",
+                    "target": "docs/rules/api.md",
+                    "type": "hint",
+                    "description": "check api rules",
+                    "hook": "read",
+                }
+            ],
+        )
+
+        session_id = "antigravity-read-dedup"
+        read_payload = {
+            "toolCall": {
+                "name": "view_file",
+                "args": {"AbsolutePath": str(workspace / "src" / "api.py")},
+            },
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+
+        # PreToolUse queues the read context
+        res = self.run_hook(workspace, "inject_context.py", read_payload)
+        self.assertEqual(res, {"decision": "allow"})
+
+        # Call view_file again: should not queue duplicate
+        res2 = self.run_hook(workspace, "inject_context.py", read_payload)
+        self.assertEqual(res2, {"decision": "allow"})
+
+        # PreInvocation delivers it
+        invocation_payload = {
+            "invocationNum": 2,
+            "initialNumSteps": 10,
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        delivered = self.run_hook(workspace, "inject_context.py", invocation_payload)
+        self.assertEqual(len(delivered["injectSteps"]), 1)
+        self.assertIn(
+            "check api rules: docs/rules/api.md",
+            delivered["injectSteps"][0]["ephemeralMessage"],
+        )
+
+        # PreInvocation again: should be empty
+        delivered2 = self.run_hook(workspace, "inject_context.py", invocation_payload)
+        self.assertEqual(delivered2, {"injectSteps": []})
+
+    def test_cross_hook_deduplication_read_then_write(self):
+        temp_dir, workspace = self.make_workspace()
+        self.addCleanup(temp_dir.cleanup)
+        (workspace / "src" / "api.py").write_text("def run(): pass\n", encoding="utf-8")
+        (workspace / "docs" / "rules" / "api.md").write_text("API rules\n", encoding="utf-8")
+        # Edge mapped to BOTH hooks
+        self.write_graph(
+            workspace,
+            [
+                {
+                    "source": "src/api.py",
+                    "target": "docs/rules/api.md",
+                    "type": "hint",
+                    "description": "check api rules",
+                    "hook": "both",
+                }
+            ],
+        )
+
+        session_id = "cross-dedup-1"
+
+        # 1. Read first (for Antigravity)
+        read_payload = {
+            "toolCall": {
+                "name": "view_file",
+                "args": {"AbsolutePath": str(workspace / "src" / "api.py")},
+            },
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        self.run_hook(workspace, "inject_context.py", read_payload)
+
+        # Deliver context
+        invocation_payload = {
+            "invocationNum": 2,
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        self.run_hook(workspace, "inject_context.py", invocation_payload)
+
+        # 2. Write should NOT block now, because context was already seen!
+        write_payload = {
+            "toolCall": {
+                "name": "replace_file_content",
+                "args": {"TargetFile": str(workspace / "src" / "api.py")},
+            },
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        write_res = self.run_hook(workspace, "inject_context.py", write_payload)
+        self.assertEqual(write_res, {"decision": "allow"})
+
+    def test_cross_hook_deduplication_write_then_read(self):
+        temp_dir, workspace = self.make_workspace()
+        self.addCleanup(temp_dir.cleanup)
+        (workspace / "src" / "api.py").write_text("def run(): pass\n", encoding="utf-8")
+        (workspace / "docs" / "rules" / "api.md").write_text("API rules\n", encoding="utf-8")
+        # Edge mapped to BOTH hooks
+        self.write_graph(
+            workspace,
+            [
+                {
+                    "source": "src/api.py",
+                    "target": "docs/rules/api.md",
+                    "type": "hint",
+                    "description": "check api rules",
+                    "hook": "both",
+                }
+            ],
+        )
+
+        session_id = "cross-dedup-2"
+
+        # 1. Write blocks first
+        write_payload = {
+            "toolCall": {
+                "name": "replace_file_content",
+                "args": {"TargetFile": str(workspace / "src" / "api.py")},
+            },
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        write_res = self.run_hook(workspace, "inject_context.py", write_payload)
+        self.assertEqual(write_res["decision"], "deny")
+
+        # 2. Read should NOT queue/inject context now, because it was shown in the block reason!
+        read_payload = {
+            "toolCall": {
+                "name": "view_file",
+                "args": {"AbsolutePath": str(workspace / "src" / "api.py")},
+            },
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        read_res = self.run_hook(workspace, "inject_context.py", read_payload)
+        self.assertEqual(read_res, {"decision": "allow"})
+
+        invocation_payload = {
+            "invocationNum": 2,
+            "conversationId": session_id,
+            "workspacePaths": [str(workspace)],
+        }
+        delivered = self.run_hook(workspace, "inject_context.py", invocation_payload)
+        self.assertEqual(delivered, {"injectSteps": []})
 
 
 if __name__ == "__main__":

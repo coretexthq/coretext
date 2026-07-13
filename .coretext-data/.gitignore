@@ -6,3 +6,5 @@ session/*/**
 .acknowledged_paths*
 .lineage_seen_*
 .pending_lineage_*.jsonl
+.context_seen_*
+.pending_context_*.jsonl
